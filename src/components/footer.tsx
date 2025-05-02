@@ -362,11 +362,21 @@ Quedo atento a los siguientes pasos. Gracias.
         </div>
       </div>
 
-      {/* Copyright - Update year */}
-      <div className="border-t border-border/20 mt-12">
-        <div className="container mx-auto py-6 text-center text-sm text-muted"> {/* Changed text-muted-foreground to text-muted */}
-          © 2025 TapMenu. Todos los derechos reservados.
-        </div>
+      {/* Credits Section - Replaces the original copyright */}
+      <div className="border-t border-border/20 mt-12 py-6 text-center text-xs text-muted space-y-2">
+        © 2025 TapMenu. Todos los derechos reservados.<br />
+        Diseñado con ❤️ para la industria gastronómica.<br />
+        Creado y mantenido por{' '}
+        <a
+          href="https://linktr.ee/jseramn"
+          target="_blank"
+          rel="noopener noreferrer"
+          // Adjusted class for better contrast and consistency with footer link style
+          className="text-primary hover:underline"
+          aria-label="Visitar perfil de José Ramón en Linktree"
+        >
+          José Ramón
+        </a>
       </div>
     </motion.footer>
   );
