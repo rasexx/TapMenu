@@ -2,28 +2,29 @@
 "use client";
 import React, { useRef } from "react"; // Removed useEffect, useState as Framer Motion handles visibility
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react";
+import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react"; // Keep icons
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion"; // Import motion
 
+// Updated steps data
 const stepsData = [
   {
     icon: <Smartphone className="h-10 w-10 text-primary" aria-hidden="true" />,
     title: "1. Acerca tu teléfono",
-    description: "El cliente simplemente acerca su smartphone al tag NFC en la mesa.",
-     ariaLabel: "Paso 1: Acerca tu teléfono al tag NFC",
+    description: "Detecta automáticamente la tarjeta NFC (o escanea el QR de respaldo).",
+    ariaLabel: "Paso 1: Acerca tu teléfono para detectar la tarjeta NFC o escanear QR",
   },
   {
     icon: <ScanLine className="h-10 w-10 text-primary" aria-hidden="true" />,
     title: "2. Ve el menú",
-    description: "El menú digital se abre instantáneamente en el navegador del móvil.",
-    ariaLabel: "Paso 2: Visualiza el menú digital",
+    description: "Se abre una web responsiva con categorías, fotos y descripciones.",
+    ariaLabel: "Paso 2: Visualiza el menú web responsivo",
   },
   {
     icon: <UtensilsCrossed className="h-10 w-10 text-primary" aria-hidden="true" />,
     title: "3. Haz tu pedido",
-    description: "Explora los platos, decide y ordena fácilmente (integración opcional).",
-    ariaLabel: "Paso 3: Explora y haz tu pedido",
+    description: "Selecciona platos, comparte tu selección con el mesero o envía tu orden digitalmente.",
+    ariaLabel: "Paso 3: Selecciona platos y haz tu pedido",
   },
 ];
 
@@ -35,14 +36,14 @@ interface StepCardProps {
   index: number; // Index for staggering animation
 }
 
-// Define animation variants
+// Define animation variants - Keep sequential delay
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: (index: number) => ({ // Pass index to stagger
     opacity: 1,
     y: 0,
     transition: {
-      delay: index * 0.2, // Sequential delay
+      delay: index * 0.2, // Sequential delay of 0.2s
       duration: 0.5,
       ease: "easeInOut",
     },
@@ -62,6 +63,7 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, ariaLabel
         className="text-center shadow-lg h-full flex flex-col" // Ensure card takes full height and uses flex column
         aria-labelledby={`step-title-${index + 1}`}
         aria-describedby={`step-desc-${index + 1}`}
+        aria-label={ariaLabel} // Add overall aria-label for the step
         >
         <CardHeader className="flex flex-col items-center gap-4 pb-4">
            <div className="bg-primary/10 p-4 rounded-full">

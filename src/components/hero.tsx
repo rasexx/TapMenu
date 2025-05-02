@@ -15,7 +15,7 @@ export function Hero() {
       className="relative min-h-[60vh] md:min-h-screen flex items-center justify-center text-center overflow-hidden" // Adjusted min-height
       // Apply gradient background directly
       style={{
-          background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.8), hsl(var(--secondary)))', // Subtle gradient from primary to secondary
+          background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.8), hsl(var(--secondary)))', // Subtle gradient from primary to secondary #FF6B5E to #F8EDEB
       }}
     >
         {/* Background Image - Lower opacity */}
@@ -38,19 +38,22 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <h1 className="font-bold tracking-tight text-foreground mb-6 text-2xl md:text-3xl lg:text-4xl"> {/* Responsive text sizes */}
-                Menú digital al instante con solo un <span className="text-background">tap</span> {/* Highlight 'tap' with background color for contrast */}
+             {/* Updated heading - Ensure 'tap' has same style */}
+            <h1 className="font-bold tracking-tight text-foreground mb-6 text-2xl md:text-3xl lg:text-4xl">
+                Menú digital al instante con solo un tap
             </h1>
-            <p className="max-w-2xl text-lg text-foreground/80 md:text-xl lg:text-xl mb-10 leading-relaxed"> {/* Adjusted size, color, and leading */}
-                Transforma la experiencia de tus clientes con menús interactivos, actualizables y accesibles desde cualquier smartphone.
+             {/* Updated subtitle */}
+            <p className="max-w-2xl text-lg text-foreground/80 md:text-xl lg:text-xl mb-10 leading-relaxed">
+                Olvídate de los códigos QR y las cartas físicas. Con nuestras tarjetas NFC tus clientes acceden al menú en un segundo, sin apps ni descargas.
             </p>
             <motion.div // Add motion to button
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
             >
                 <Button size="lg" asChild className="rounded-2xl">
-                    <Link href="#paquetes" className="flex items-center gap-2" aria-label="Descubrir los paquetes de TapMenu">
-                        Descubre los Paquetes
+                     {/* Updated button text */}
+                    <Link href="#paquetes" className="flex items-center gap-2" aria-label="Ver paquetes y precios de TapMenu">
+                        Ver paquetes y precios
                         <ArrowDown className="h-5 w-5" aria-hidden="true" />
                     </Link>
                 </Button>

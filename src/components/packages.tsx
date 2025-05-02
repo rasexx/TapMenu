@@ -8,67 +8,21 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion"; // Import motion
-import { collection, getDocs, query, orderBy, Firestore, getFirestore } from "firebase/firestore"; // Import Firestore functions
-import { firebaseApp } from "@/lib/firebase"; // Assume firebaseApp is initialized here
+// import { collection, getDocs, query, orderBy, Firestore, getFirestore } from "firebase/firestore"; // Firestore imports commented out for now
+// import { firebaseApp } from "@/lib/firebase";
 
-
-// Define the structure of a package document in Firestore
+// Define the structure of a package based on the new requirements
 interface PackageData {
-  id: string; // Document ID
-  name: string;
-  range: string;
-  price: number;
-  features: string[];
-  ctaText: string;
-  recommended?: boolean;
+  id: string; // Document ID (starter, pyme, premium)
+  name: string; // Package Name
+  range: string; // Range of cards
+  price: number; // Price per card
+  features: string[]; // List of features
+  ctaText: string; // Call to action text
+  recommended?: boolean; // Optional recommended flag (keep for potential future use)
 }
 
-// --- Firestore Hook (Simulated for now, replace with actual implementation) ---
-// const usePackages = () => {
-//   const [packages, setPackages] = useState<PackageData[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     const fetchPackages = async () => {
-//       setLoading(true);
-//       setError(null);
-//       try {
-//         // TODO: Initialize Firestore properly
-//         // const db: Firestore = getFirestore(firebaseApp); // Get Firestore instance
-//         // const packagesCol = collection(db, "packages");
-//         // const q = query(packagesCol, orderBy("price", "asc")); // Order by price ASCENDING as per common practice
-//         // const packageSnapshot = await getDocs(q);
-//         // const packageList = packageSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PackageData));
-//         // setPackages(packageList);
-
-//         // --- MOCK DATA (Remove when Firestore is connected) ---
-//         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
-//         const mockPackagesData: PackageData[] = [
-//            { id: "starter", name: "Starter", range: "Hasta 10 Mesas", price: 60000, features: ["Menú digital ilimitado", "Actualizaciones en tiempo real", "Diseño estándar", "Soporte por email"], ctaText: "Seleccionar Starter" },
-//            { id: "pyme", name: "Pyme", range: "Hasta 30 Mesas", price: 120000, features: ["Todo lo del Starter", "Diseño personalizable", "Estadísticas básicas", "Soporte prioritario"], ctaText: "Seleccionar Pyme", recommended: true },
-//            { id: "premium", name: "Premium", range: "Mesas Ilimitadas", price: 200000, features: ["Todo lo del Pyme", "Integración con pedidos", "Estadísticas avanzadas", "Soporte dedicado"], ctaText: "Seleccionar Premium" },
-//         ];
-//         setPackages(mockPackagesData);
-//          // --- END MOCK DATA ---
-
-//       } catch (err) {
-//         console.error("Error fetching packages:", err);
-//         setError("No se pudieron cargar los paquetes. Inténtalo de nuevo.");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchPackages();
-//   }, []); // Fetch only once on mount
-
-//   return { packages, loading, error };
-// };
-// --- End Firestore Hook ---
-
-
-// --- Temporary Mock Hook (Replace with above Firestore hook later) ---
+// --- Temporary Mock Hook (Using new data structure) ---
 const usePackages = () => {
   const [packages, setPackages] = useState<PackageData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,31 +30,82 @@ const usePackages = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+        // Updated mock data based on the provided table
         const mockPackagesData: PackageData[] = [
-           { id: "starter", name: "Starter", range: "Hasta 10 Mesas", price: 60000, features: ["Menú digital ilimitado", "Actualizaciones en tiempo real", "Diseño estándar", "Soporte por email"], ctaText: "Seleccionar Starter" },
-           { id: "pyme", name: "Pyme", range: "Hasta 30 Mesas", price: 120000, features: ["Todo lo del Starter", "Diseño personalizable", "Estadísticas básicas", "Soporte prioritario"], ctaText: "Seleccionar Pyme", recommended: true },
-           { id: "premium", name: "Premium", range: "Mesas Ilimitadas", price: 200000, features: ["Todo lo del Pyme", "Integración con pedidos", "Estadísticas avanzadas", "Soporte dedicado"], ctaText: "Seleccionar Premium" },
+           {
+             id: "starter",
+             name: "Starter",
+             range: "1 – 3 tarjetas NFC",
+             price: 70000, // Price per card
+             features: ["Programación básica del enlace (PDF o web simple)", "Código QR de respaldo"],
+             ctaText: "Seleccionar Starter",
+             recommended: false, // Example: Starter is not recommended
+           },
+           {
+             id: "pyme",
+             name: "Pyme",
+             range: "5 – 15 tarjetas NFC",
+             price: 65000, // Price per card
+             features: ["Todo lo de Starter", "Diseño personalizado (logo y colores)", "Menú web responsivo"],
+             ctaText: "Seleccionar Pyme",
+             recommended: true, // Example: Pyme is recommended
+           },
+           {
+             id: "premium",
+             name: "Premium",
+             range: "Más de 15 tarjetas",
+             price: 60000, // Price per card
+             features: ["Todo lo de Pyme", "Desarrollo de web app de menú con panel administrador", "Actualizaciones ilimitadas"],
+             ctaText: "Seleccionar Premium",
+             recommended: false, // Example: Premium is not recommended
+           },
         ];
-      setPackages(mockPackagesData);
+      // TODO: When using Firestore, order by price *descending* if needed (as per original request which contradicts standard practice)
+      // const sortedPackages = mockPackagesData.sort((a, b) => b.price - a.price);
+      setPackages(mockPackagesData); // Using the defined order for now
       setLoading(false);
-    }, 1000);
+    }, 1000); // Simulate loading
     return () => clearTimeout(timer);
   }, []);
+
+  // TODO: Implement Firestore fetching logic here when ready
+  /*
+  useEffect(() => {
+    const fetchPackages = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        // const db: Firestore = getFirestore(firebaseApp);
+        // const packagesCol = collection(db, "packages");
+        // const q = query(packagesCol, orderBy("price", "desc")); // Order by price DESC as requested
+        // const packageSnapshot = await getDocs(q);
+        // const packageList = packageSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PackageData));
+        // setPackages(packageList);
+      } catch (err) {
+        console.error("Error fetching packages:", err);
+        setError("No se pudieron cargar los paquetes. Inténtalo de nuevo.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPackages();
+  }, []);
+  */
 
   return { packages, loading, error };
 };
 // --- End Temporary Mock Hook ---
 
 
-// Format price without currency symbol
+// Format price as $XX.XXX
 const formatPrice = (price: number): string => {
   try {
-    // Format with COP, then remove the currency symbol part
-    const formatted = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(price);
-    return formatted.replace('COP', '').trim(); // Remove 'COP' and trim whitespace
+    // Format with es-CO locale for dot separators, no decimals
+    const formatted = new Intl.NumberFormat('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
+    return `$${formatted}`; // Prepend $ sign
   } catch (error) {
     console.error("Error formatting price:", error);
-    return `$${price.toLocaleString('es-CO', {minimumFractionDigits: 0})}`; // Fallback with '$'
+    return `$${price.toString()}`; // Fallback
   }
 };
 
@@ -121,18 +126,21 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
         )}
         <CardHeader className="pb-4">
         <CardTitle className="text-2xl font-bold text-center">{name}</CardTitle>
+        {/* Updated range to show per card price */}
         <CardDescription className="text-center text-muted-foreground">{range}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
+        {/* Updated price display */}
         <div className="text-center mb-6">
             <span className="text-4xl font-extrabold text-primary">{formatPrice(price)}</span>
-            <span className="text-muted-foreground">/mes</span>
+            <span className="text-muted-foreground">/tarjeta</span>
         </div>
         <ul className="space-y-2">
             {features.map((feature, index) => (
-            <li key={index} className="flex items-center gap-2 text-sm">
-                <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" aria-hidden="true" />
-                <span>{feature}</span>
+            // Use dangerouslySetInnerHTML to render <br> tags from the feature strings
+            <li key={index} className="flex items-start gap-2 text-sm">
+                <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-1" aria-hidden="true" />
+                <span dangerouslySetInnerHTML={{ __html: feature }} />
             </li>
             ))}
         </ul>
@@ -140,11 +148,12 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
         <CardFooter>
            <motion.div // Add motion to button container
                 className="w-full"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
+                whileHover={{ scale: 1.05 }} // Scale on hover
+                transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }} // Smooth animation
             >
                 <Button asChild className="w-full rounded-2xl" variant={recommended ? 'default' : 'outline'}>
-                    <Link href={`/#contacto?paquete=${id}`} aria-label={`Seleccionar paquete ${name}`}>{ctaText}</Link>
+                    {/* Updated CTA Link */}
+                    <Link href={`/#contacto?paquete=${id}`} aria-label={`${ctaText} paquete`}>{ctaText}</Link>
                 </Button>
             </motion.div>
         </CardFooter>
@@ -189,13 +198,14 @@ export function Packages() {
     >
       <div className="container mx-auto"> {/* Use container padding */}
         <h2 className="text-3xl font-bold tracking-tight text-center text-foreground sm:text-4xl mb-4">
-          Planes Flexibles para tu Negocio
+           Menú de Paquetes {/* Updated section title */}
         </h2>
          <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-12 leading-relaxed">
            Elige el plan que mejor se adapte a tus necesidades y empieza a digitalizar tu menú hoy mismo.
          </p>
          {error && <p className="text-center text-destructive mb-8">{error}</p>}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"> {/* Responsive grid */}
+         {/* Responsive grid: 1 col mobile, 2 tablet, 3 desktop */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
            {loading ? (
             <>
               <PackageSkeleton />

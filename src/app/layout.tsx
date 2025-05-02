@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -10,7 +11,8 @@ const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
 const APP_NAME = "TapMenu";
 const APP_DEFAULT_TITLE = "TapMenu - Menú Digital NFC Instantáneo";
 const APP_TITLE_TEMPLATE = "%s | TapMenu";
-const APP_DESCRIPTION = "TapMenu: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium."; // Updated description
+// Updated description meta tag
+const APP_DESCRIPTION = "TapMenu: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
-  manifest: "/manifest.json",
+  manifest: "/manifest.json", // Assuming manifest exists or will be added
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -37,9 +39,9 @@ export const metadata: Metadata = {
     },
     description: APP_DESCRIPTION,
     // url: "YOUR_APP_URL", // Replace with your actual URL
-    images: [ // Added OG image
+    images: [ // Keep OG image
       {
-        url: "/og-image.png", // Relative path assuming image is in public folder
+        url: "/og-image.png", // Assuming image is in public folder
         width: 1200,
         height: 630,
         alt: "TapMenu Open Graph Image",
@@ -59,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FF6B5E", // Updated theme color to primary coral
+  themeColor: "#FF6B5E", // Keep theme color
 };
 
 
