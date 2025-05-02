@@ -152,7 +152,7 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }} // Smooth animation
             >
                 <Button asChild className="w-full rounded-2xl" variant={recommended ? 'default' : 'outline'}>
-                    {/* Updated CTA Link */}
+                    {/* Updated CTA Link: Navigates to /#contacto and adds package query param */}
                     <Link href={`/#contacto?paquete=${id}`} aria-label={`${ctaText} paquete`}>{ctaText}</Link>
                 </Button>
             </motion.div>
@@ -189,7 +189,7 @@ export function Packages() {
 
   return (
     <motion.section // Add motion to section
-        id="paquetes"
+        id="paquetes" // Keep ID for navigation if needed
         className="bg-secondary"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}

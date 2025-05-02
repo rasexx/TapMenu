@@ -9,11 +9,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Logo Component using Next/Image
+// Logo Component using Next/Image - Updated path and alt text
 const Logo = () => (
     <Image
-        src="/logo.svg" // Path to the logo in the public folder
-        alt="TapMenu Logo"
+        src="/logo-restaurant.svg" // Path to the new logo in the public folder
+        alt="TapMenu Restaurante Logo" // Updated alt text
         width={32} // Set desired width (adjust as needed)
         height={32} // Set desired height (adjust as needed)
         className="h-8 w-auto" // Use Tailwind for height, width auto
@@ -89,14 +89,16 @@ export function Header() {
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
                  <Button asChild className="mt-4 rounded-2xl">
-                     <Link href="#paquetes" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
+                     {/* Update link to include hash for scrolling */}
+                     <Link href="/#paquetes" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
                  </Button>
                </div>
             </SheetContent>
           </Sheet>
         </div>
          <Button asChild className="hidden md:inline-flex rounded-2xl">
-            <Link href="#paquetes" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
+             {/* Update link to include hash for scrolling */}
+            <Link href="/#paquetes" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
           </Button>
       </div>
     </header>

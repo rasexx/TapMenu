@@ -18,13 +18,14 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
 
 // Updated schema to include quantity, phone, city and use specific package IDs
+// Ensure package enum matches the IDs used in Packages component ('starter', 'pyme', 'premium')
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }).max(50, { message: "El nombre no puede exceder los 50 caracteres." }),
   email: z.string().email({ message: "Por favor, introduce un correo electrónico válido." }),
   phone: z.string().min(7, { message: "El teléfono debe tener al menos 7 dígitos." }).regex(/^\d+$/, { message: "El teléfono solo debe contener números." }), // Added phone validation
   city: z.string().min(2, { message: "La ciudad debe tener al menos 2 caracteres." }), // Added city validation
   restaurant: z.string().min(2, { message: "El nombre del restaurante debe tener al menos 2 caracteres." }).max(100, { message: "El nombre del restaurante no puede exceder los 100 caracteres." }),
-  // Use specific package IDs
+  // Use specific package IDs and ensure they match <Packages/> component link params
   package: z.enum(['starter', 'pyme', 'premium'], {
      errorMap: () => ({ message: "Selecciona un paquete válido." })
    }),
@@ -38,7 +39,7 @@ const contactFormSchema = z.object({
 
 type ContactFormSchema = z.infer<typeof contactFormSchema>;
 
-// Use new package IDs
+// Use new package IDs consistent with schema and links
 const availablePackages = [
   { id: 'starter', name: 'Starter' },
   { id: 'pyme', name: 'Pyme' },
@@ -48,7 +49,7 @@ const availablePackages = [
 export function Footer() {
   // Removed isSubmitting state as we are opening WhatsApp directly
   const searchParams = useSearchParams();
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null); // Ref for scrolling
 
   const selectedPackageFromUrl = searchParams?.get('paquete') || '';
 
@@ -61,60 +62,73 @@ export function Footer() {
       phone: "", // Added phone default
       city: "", // Added city default
       restaurant: "",
-      // Pre-select package from URL if valid, otherwise default to 'starter' or undefined if no specific package is required as default.
-      // Forcing a selection for WhatsApp message makes sense, let's default to starter if no URL param
-      package: availablePackages.find(p => p.id === selectedPackageFromUrl)?.id as 'starter' | 'pyme' | 'premium' ?? 'starter',
+      // Pre-select package from URL if valid and exists in availablePackages
+      package: availablePackages.find(p => p.id === selectedPackageFromUrl)?.id as 'starter' | 'pyme' | 'premium' | undefined,
       quantity: 1, // Default quantity to 1
       message: "",
     },
     mode: "onChange", // Validate on change for better UX
   });
 
-  // Keep useEffect to update package based on URL params and scroll
+  // Effect to update package based on URL params and scroll to contact section if hash is present
   useEffect(() => {
     const packageFromUrl = searchParams?.get('paquete');
     const validPackage = availablePackages.find(p => p.id === packageFromUrl);
+
     if (validPackage) {
+        // Update the form value if the package from URL is valid
         form.setValue('package', validPackage.id as 'starter' | 'pyme' | 'premium', { shouldValidate: true });
-        if (formRef.current && window.location.hash.startsWith('#contacto')) {
-            formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Check if the hash indicates scrolling to the contact section
+        if (formRef.current && window.location.hash === '#contacto') {
+             // Delay scroll slightly to ensure layout is stable after potential package selection update
+            setTimeout(() => {
+                formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100); // 100ms delay, adjust if needed
         }
+    } else if (packageFromUrl) {
+        // If URL param exists but is invalid, reset package field or handle as needed
+         form.resetField('package', { defaultValue: undefined });
     }
-    // Removed 'no-estoy-seguro' logic as it's not in the new schema/requirements
-  }, [searchParams, form]);
+
+    // Trigger validation after setting value based on URL
+    form.trigger();
+
+  }, [searchParams, form]); // Rerun when searchParams or form instance changes
 
 
   // Handle form submission: generate WhatsApp link and open it
   const onSubmit = (data: ContactFormSchema) => {
-    const { name, email, restaurant, phone, city, package: selectedPackage, quantity, message = '' } = data;
+    // Destructure data including the new fields
+    const { name, email, restaurant, phone, city, package: selectedPackageId, quantity, message = '' } = data;
 
-    // Find package name for the message
-    const packageName = availablePackages.find(p => p.id === selectedPackage)?.name ?? selectedPackage;
+    // Find package name for the message using the ID
+    const selectedPackageName = availablePackages.find(p => p.id === selectedPackageId)?.name ?? selectedPackageId;
 
-    // Construct the WhatsApp message template using template lines
-    const templateLines = [
-        '¡Hola equipo de TapMenu! 👋',
-        '',
-        `👤 Nombre: ${name}`,
-        `🏷️ Restaurante: ${restaurant}`,
-        `📍 Ciudad: ${city}`,
-        `📱 Teléfono: ${phone}`,
-        '',
-        `📦 Paquete seleccionado: *${packageName}*`, // Use bold for package name
-        `🔢 Cantidad de tarjetas: *${quantity}*`, // Use bold for quantity
-        '',
-        `✉️ Email de contacto: ${email}`,
-        '',
-        '📝 Comentarios adicionales:',
-        message || '_No_', // Use italics if no message
-        '',
-        'Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏',
-    ];
+    // Construct the WhatsApp message template using template literals and ensure correct line breaks
+    const rawMessage = `
+¡Hola equipo de TapMenu! 👋
 
-    // Encode each line and join with %0A (newline)
-    const template = templateLines.map(line => encodeURIComponent(line)).join('%0A');
+👤 Nombre: ${name}
+🏷️ Restaurante: ${restaurant}
+📍 Ciudad: ${city}
+📱 Teléfono: ${phone}
 
-    const waUrl = `https://wa.me/573241083976?text=${template}`;
+📦 Paquete seleccionado: *${selectedPackageName}*
+🔢 Cantidad de tarjetas: *${quantity}*
+
+✉️ Email de contacto: ${email}
+
+📝 Comentarios adicionales:
+${message || '—'}
+
+Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
+`.trim(); // trim() removes leading/trailing whitespace/newlines
+
+
+    // Encode the entire message once
+    const waUrl = `https://wa.me/573241083976?text=${encodeURIComponent(rawMessage)}`;
+
 
     // Show success toast before opening link
     toast.success('WhatsApp listo para enviar. ¡Redirigiendo!');
@@ -137,6 +151,7 @@ export function Footer() {
 
 
   return (
+     // Ensure the footer has the id="contacto" for scrolling
     <motion.footer
         id="contacto"
         className="bg-foreground text-background"
@@ -165,7 +180,7 @@ export function Footer() {
         {/* Contact Form - Updated onSubmit and onError */}
         <div className="space-y-6">
           <Form {...form}>
-            {/* Pass onError handler to handleSubmit */}
+            {/* Pass onError handler to handleSubmit, attach ref to the form */}
             <form ref={formRef} onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <FormField
@@ -248,9 +263,11 @@ export function Footer() {
                     render={({ field }) => (
                         <FormItem>
                         <FormLabel htmlFor="package" className="text-background">Paquete Deseado *</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value ?? ""} required>
+                        {/* Use field.value directly. If it's undefined (e.g., initially or invalid URL param), SelectValue placeholder will show */}
+                        <Select onValueChange={field.onChange} value={field.value} required>
                             <FormControl>
                             <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-background text-foreground rounded-md">
+                                {/* Show placeholder if field.value is null/undefined */}
                                 <SelectValue placeholder="Selecciona un paquete" />
                             </SelectTrigger>
                             </FormControl>
@@ -260,7 +277,6 @@ export function Footer() {
                                 {pkg.name}
                                 </SelectItem>
                             ))}
-                            {/* Removed 'no-estoy-seguro' as it's not a valid package enum */}
                             </SelectContent>
                         </Select>
                         <FormMessage />
@@ -324,8 +340,9 @@ export function Footer() {
                  {/* Updated Button */}
                  <Button
                    type="submit"
-                   // Use formState.isValid for disabling the button based on Zod validation
-                   disabled={!form.formState.isValid}
+                   // Use formState.isDirty and formState.isValid for disabling the button
+                   // Button is enabled only if the form is valid and has been touched/modified
+                   disabled={!form.formState.isDirty || !form.formState.isValid}
                    aria-label="Enviar mensaje por WhatsApp"
                    // Apply btn-whatsapp class and other styles
                    className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3"
@@ -348,6 +365,3 @@ export function Footer() {
     </motion.footer>
   );
 }
-
-
-    
