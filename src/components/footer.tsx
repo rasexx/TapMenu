@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import toast from 'react-hot-toast'; // Use react-hot-toast
-import { Loader2, Send } from "lucide-react"; // Keep Send for potential future use, Loader2 for loading state (although not strictly needed now)
+import { Loader2 } from "lucide-react"; // Keep Loader2 for potential future use (although not strictly needed now)
 import { WhatsappIcon } from "@/components/icons/whatsapp-icon"; // Import WhatsApp icon
 import { useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
@@ -109,24 +109,24 @@ export function Footer() {
     // Find package name for the message using the ID
     const selectedPackageName = availablePackages.find(p => p.id === selectedPackageId)?.name ?? selectedPackageId;
 
-    // Construct the WhatsApp message template using template literals and ensure correct line breaks
+    // Construct the plain text WhatsApp message template using template literals
     const rawMessage = `
-¡Hola equipo de TapMenu! 👋
+Hola equipo de TapMenu,
 
-👤 Nombre: ${name}
-🏷️ Restaurante: ${restaurant}
-📍 Ciudad: ${city}
-📱 Teléfono: ${phone}
+Nombre: ${name}
+Restaurante: ${restaurant}
+Ciudad: ${city}
+Teléfono: ${phone}
 
-📦 Paquete seleccionado: *${selectedPackageName}*
-🔢 Cantidad de tarjetas: *${quantity}*
+Paquete seleccionado: ${selectedPackageName}
+Cantidad de tarjetas: ${quantity}
 
-✉️ Email de contacto: ${email}
+Email de contacto: ${email}
 
-📝 Comentarios adicionales:
-${message || '—'}
+Comentarios adicionales:
+${message || 'Ninguno'}
 
-Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
+Quedo atento a los siguientes pasos. Gracias.
 `.trim(); // trim() removes leading/trailing whitespace/newlines
 
 
@@ -371,5 +371,3 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
     </motion.footer>
   );
 }
-
-    
