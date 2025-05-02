@@ -6,19 +6,12 @@ import Link from "next/link";
 import Image from "next/image"; // Import Image component
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, UtensilsCrossed } from "lucide-react"; // Import UtensilsCrossed icon
 import { cn } from "@/lib/utils";
 
-// Logo Component using Next/Image - Updated path and alt text
+// Logo Component using lucide-react icon
 const Logo = () => (
-    <Image
-        src="/logo-restaurant.svg" // Path to the new logo in the public folder
-        alt="TapMenu Restaurante Logo" // Updated alt text
-        width={32} // Set desired width (adjust as needed)
-        height={32} // Set desired height (adjust as needed)
-        className="h-8 w-auto" // Use Tailwind for height, width auto
-        priority // Prioritize loading the logo
-    />
+    <UtensilsCrossed className="h-8 w-8 text-primary" aria-hidden="true" /> // Use UtensilsCrossed icon
 );
 
 
@@ -89,18 +82,20 @@ export function Header() {
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
                  <Button asChild className="mt-4 rounded-2xl">
-                     {/* Update link to include hash for scrolling */}
-                     <Link href="/#paquetes" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
+                     {/* Update link to scroll to contact section and set package */}
+                     <Link href="/#contacto?paquete=starter" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
                  </Button>
                </div>
             </SheetContent>
           </Sheet>
         </div>
          <Button asChild className="hidden md:inline-flex rounded-2xl">
-             {/* Update link to include hash for scrolling */}
-            <Link href="/#paquetes" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
+             {/* Update link to scroll to contact section and set package */}
+            <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
           </Button>
       </div>
     </header>
   );
 }
+
+    

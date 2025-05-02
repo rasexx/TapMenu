@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+// Removed Link import as we use button onClick for scrolling
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
@@ -109,6 +109,22 @@ const formatPrice = (price: number): string => {
   }
 };
 
+// Function to handle scrolling to the contact section
+const scrollToContact = (packageId: string) => {
+    // Update URL query parameter *without* causing a full page reload or state change here
+    // This allows the Footer component to pick up the parameter via useSearchParams
+    const newUrl = `${window.location.pathname}${window.location.search.split('?')[0]}?paquete=${packageId}${window.location.hash}`;
+    window.history.pushState({ path: newUrl }, '', newUrl); // Use pushState to avoid reload
+
+    // Find the contact section (assuming it's the footer with id="contacto")
+    const contactSection = document.getElementById('contacto');
+    if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        console.warn("Contact section with id='contacto' not found for scrolling.");
+    }
+};
+
 
 const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, ctaText, recommended = false }) => (
   <motion.div
@@ -151,9 +167,14 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
                 whileHover={{ scale: 1.05 }} // Scale on hover
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }} // Smooth animation
             >
-                <Button asChild className="w-full rounded-2xl" variant={recommended ? 'default' : 'outline'}>
-                    {/* Updated CTA Link: Navigates to /#contacto and adds package query param */}
-                    <Link href={`/#contacto?paquete=${id}`} aria-label={`${ctaText} paquete`}>{ctaText}</Link>
+                {/* Updated Button: Use onClick for scrolling and setting URL param */}
+                <Button
+                    className="w-full rounded-2xl"
+                    variant={recommended ? 'default' : 'outline'}
+                    onClick={() => scrollToContact(id)} // Call scroll function with package id
+                    aria-label={`${ctaText} paquete`}
+                >
+                    {ctaText}
                 </Button>
             </motion.div>
         </CardFooter>
@@ -186,6 +207,7 @@ const PackageSkeleton: React.FC = () => (
 
 export function Packages() {
    const { packages, loading, error } = usePackages();
+   // Removed setSelectedPackage state as prefill is handled via URL params in Footer
 
   return (
     <motion.section // Add motion to section
@@ -228,3 +250,5 @@ export function Packages() {
     </motion.section>
   );
 }
+
+    

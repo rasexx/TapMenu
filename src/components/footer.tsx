@@ -49,7 +49,8 @@ const availablePackages = [
 export function Footer() {
   // Removed isSubmitting state as we are opening WhatsApp directly
   const searchParams = useSearchParams();
-  const formRef = useRef<HTMLFormElement>(null); // Ref for scrolling
+  const formRef = useRef<HTMLFormElement>(null); // Ref for the form element itself
+  const footerRef = useRef<HTMLElement>(null); // Ref for the footer section container
 
   const selectedPackageFromUrl = searchParams?.get('paquete') || '';
 
@@ -67,34 +68,37 @@ export function Footer() {
       quantity: 1, // Default quantity to 1
       message: "",
     },
-    mode: "onChange", // Validate on change for better UX
+    mode: "onSubmit", // Change validation mode to onSubmit
+    reValidateMode: "onChange", // Revalidate on change after the first submission attempt
   });
 
-  // Effect to update package based on URL params and scroll to contact section if hash is present
+  // Effect to update package based on URL params and scroll to contact section
   useEffect(() => {
     const packageFromUrl = searchParams?.get('paquete');
     const validPackage = availablePackages.find(p => p.id === packageFromUrl);
+    let shouldScroll = false;
 
     if (validPackage) {
         // Update the form value if the package from URL is valid
         form.setValue('package', validPackage.id as 'starter' | 'pyme' | 'premium', { shouldValidate: true });
-
-        // Check if the hash indicates scrolling to the contact section
-        if (formRef.current && window.location.hash === '#contacto') {
-             // Delay scroll slightly to ensure layout is stable after potential package selection update
-            setTimeout(() => {
-                formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100); // 100ms delay, adjust if needed
-        }
+        shouldScroll = true; // Mark that we should scroll
     } else if (packageFromUrl) {
-        // If URL param exists but is invalid, reset package field or handle as needed
+        // If URL param exists but is invalid, reset package field
          form.resetField('package', { defaultValue: undefined });
     }
 
-    // Trigger validation after setting value based on URL
-    form.trigger();
+    // If a package was selected via URL, scroll to the footer/contact section
+    if (shouldScroll && footerRef.current) {
+        // Use a small timeout to ensure the DOM is updated and scroll is smooth
+        setTimeout(() => {
+            footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100); // 100ms delay, adjust if needed
+    }
 
-  }, [searchParams, form]); // Rerun when searchParams or form instance changes
+    // Initial validation trigger might not be needed with onSubmit mode
+    // form.trigger(); // Consider removing if only validating on submit
+
+  }, [searchParams, form]); // Rerun when searchParams changes
 
 
   // Handle form submission: generate WhatsApp link and open it
@@ -140,7 +144,7 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
     // form.reset(); // Consider if resetting is desired UX
   };
 
-  // Handle validation errors
+  // Handle validation errors (will be called by RHF on submit if mode is 'onSubmit')
   const onError = (errors: any) => {
      console.error("Form validation errors:", errors);
      // Check if there are errors before showing the toast
@@ -151,9 +155,10 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
 
 
   return (
-     // Ensure the footer has the id="contacto" for scrolling
+     // Ensure the footer has the id="contacto" and the ref
     <motion.footer
-        id="contacto"
+        id="contacto" // Keep ID consistent for potential direct hash links
+        ref={footerRef} // Add ref for scrolling
         className="bg-foreground text-background"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -181,6 +186,7 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
         <div className="space-y-6">
           <Form {...form}>
             {/* Pass onError handler to handleSubmit, attach ref to the form */}
+            {/* formRef is no longer strictly needed for scrolling, but can be kept if direct form manipulation is needed later */}
             <form ref={formRef} onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <FormField
@@ -192,7 +198,7 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
                       <FormControl>
                         <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-background text-foreground rounded-md"/>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage /> {/* Automatically shows based on form state and mode */}
                     </FormItem>
                   )}
                 />
@@ -340,14 +346,14 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
                  {/* Updated Button */}
                  <Button
                    type="submit"
-                   // Use formState.isDirty and formState.isValid for disabling the button
-                   // Button is enabled only if the form is valid and has been touched/modified
-                   disabled={!form.formState.isDirty || !form.formState.isValid}
+                   // Disable button if form is invalid (after first submission attempt)
+                   // isDirty is less relevant with onSubmit mode, isValid reflects current validation state
+                   disabled={!form.formState.isValid && form.formState.isSubmitted} // Disable if invalid *after* trying to submit once
                    aria-label="Enviar mensaje por WhatsApp"
                    // Apply btn-whatsapp class and other styles
                    className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3"
                   >
-                    <WhatsappIcon className="w-6 h-6" aria-hidden="true" />
+                    <WhatsappIcon className="w-6 h-6" aria-hidden="true" /> {/* Use the custom WhatsApp icon */}
                     Enviar mensaje
                  </Button>
              </motion.div>
@@ -365,3 +371,5 @@ Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏
     </motion.footer>
   );
 }
+
+    
