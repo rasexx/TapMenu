@@ -17,13 +17,12 @@ import { WhatsappIcon } from "@/components/icons/whatsapp-icon"; // Import Whats
 import { useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
 
-// Remove mock function as it's no longer needed
-// const sendContactForm = async (data: ContactFormSchema) => { ... };
-
-// Updated schema to include quantity and use specific package IDs
+// Updated schema to include quantity, phone, city and use specific package IDs
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }).max(50, { message: "El nombre no puede exceder los 50 caracteres." }),
   email: z.string().email({ message: "Por favor, introduce un correo electrónico válido." }),
+  phone: z.string().min(7, { message: "El teléfono debe tener al menos 7 dígitos." }).regex(/^\d+$/, { message: "El teléfono solo debe contener números." }), // Added phone validation
+  city: z.string().min(2, { message: "La ciudad debe tener al menos 2 caracteres." }), // Added city validation
   restaurant: z.string().min(2, { message: "El nombre del restaurante debe tener al menos 2 caracteres." }).max(100, { message: "El nombre del restaurante no puede exceder los 100 caracteres." }),
   // Use specific package IDs
   package: z.enum(['starter', 'pyme', 'premium'], {
@@ -59,6 +58,8 @@ export function Footer() {
     defaultValues: {
       name: "",
       email: "",
+      phone: "", // Added phone default
+      city: "", // Added city default
       restaurant: "",
       // Pre-select package from URL if valid, otherwise default to 'starter' or undefined if no specific package is required as default.
       // Forcing a selection for WhatsApp message makes sense, let's default to starter if no URL param
@@ -85,24 +86,33 @@ export function Footer() {
 
   // Handle form submission: generate WhatsApp link and open it
   const onSubmit = (data: ContactFormSchema) => {
-    const { name, email, restaurant, package: selectedPackage, quantity, message = '' } = data;
+    const { name, email, restaurant, phone, city, package: selectedPackage, quantity, message = '' } = data;
 
     // Find package name for the message
     const packageName = availablePackages.find(p => p.id === selectedPackage)?.name ?? selectedPackage;
 
-    // Construct the WhatsApp message template
-    const template =
-      `Nuevo cliente TapMenu:%0A` +
-      `---------------------------%0A` +
-      `Nombre: ${encodeURIComponent(name)}%0A` +
-      `Email: ${encodeURIComponent(email)}%0A` +
-      `Restaurante: ${encodeURIComponent(restaurant)}%0A` +
-      `Paquete: ${encodeURIComponent(packageName)}%0A` +
-      `Cantidad Tarjetas: ${encodeURIComponent(quantity.toString())}%0A` +
-       // Only include message if it exists
-      (message ? `Mensaje Adicional: ${encodeURIComponent(message)}%0A` : '') +
-      `---------------------------`;
+    // Construct the WhatsApp message template using template lines
+    const templateLines = [
+        '¡Hola equipo de TapMenu! 👋',
+        '',
+        `👤 Nombre: ${name}`,
+        `🏷️ Restaurante: ${restaurant}`,
+        `📍 Ciudad: ${city}`,
+        `📱 Teléfono: ${phone}`,
+        '',
+        `📦 Paquete seleccionado: *${packageName}*`, // Use bold for package name
+        `🔢 Cantidad de tarjetas: *${quantity}*`, // Use bold for quantity
+        '',
+        `✉️ Email de contacto: ${email}`,
+        '',
+        '📝 Comentarios adicionales:',
+        message || '_No_', // Use italics if no message
+        '',
+        'Quedo muy atento a los siguientes pasos. ¡Muchas gracias! 🙏',
+    ];
 
+    // Encode each line and join with %0A (newline)
+    const template = templateLines.map(line => encodeURIComponent(line)).join('%0A');
 
     const waUrl = `https://wa.me/573241083976?text=${template}`;
 
@@ -186,6 +196,37 @@ export function Footer() {
                     />
               </div>
 
+               {/* Added Phone and City Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="phone" className="text-background">Teléfono *</FormLabel>
+                        <FormControl>
+                          <Input id="phone" type="tel" aria-required="true" aria-label="Campo de entrada para número de teléfono" placeholder="Tu número de teléfono" {...field} className="bg-background text-foreground rounded-md"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="city" className="text-background">Ciudad *</FormLabel>
+                        <FormControl>
+                          <Input id="city" aria-required="true" aria-label="Campo de entrada para ciudad" placeholder="Ciudad de tu restaurante" {...field} className="bg-background text-foreground rounded-md"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+
                <FormField
                 control={form.control}
                 name="restaurant"
@@ -227,7 +268,7 @@ export function Footer() {
                     )}
                     />
 
-                {/* Added Quantity Field */}
+                {/* Quantity Field */}
                 <FormField
                   control={form.control}
                   name="quantity"
@@ -307,3 +348,6 @@ export function Footer() {
     </motion.footer>
   );
 }
+
+
+    
