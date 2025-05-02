@@ -9,41 +9,32 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label"; // Keep label if used by Form
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import toast from 'react-hot-toast'; // Use react-hot-toast
-import { Loader2, Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react"; // Keep Send for potential future use, Loader2 for loading state (although not strictly needed now)
+import { WhatsappIcon } from "@/components/icons/whatsapp-icon"; // Import WhatsApp icon
 import { useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
 
-// Mock function - replace with actual Firebase function call
-const sendContactForm = async (data: ContactFormSchema) => {
-  console.log("Sending form data:", data);
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
+// Remove mock function as it's no longer needed
+// const sendContactForm = async (data: ContactFormSchema) => { ... };
 
-  // Simulate success/failure
-  const success = true; // Always succeed for demo
-  if (success) {
-    // Assuming your Cloud Function returns a success message
-    return { success: true, message: "Mensaje enviado con éxito. ¡Pronto nos pondremos en contacto!" };
-  } else {
-    throw new Error("Hubo un problema al enviar el mensaje. Inténtalo de nuevo más tarde.");
-  }
-};
-
-
+// Updated schema to include quantity and use specific package IDs
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }).max(50, { message: "El nombre no puede exceder los 50 caracteres." }),
   email: z.string().email({ message: "Por favor, introduce un correo electrónico válido." }),
   restaurant: z.string().min(2, { message: "El nombre del restaurante debe tener al menos 2 caracteres." }).max(100, { message: "El nombre del restaurante no puede exceder los 100 caracteres." }),
-  // Update package enum to match new package IDs
-  package: z.enum(['starter', 'pyme', 'premium', 'no-estoy-seguro'], {
+  // Use specific package IDs
+  package: z.enum(['starter', 'pyme', 'premium'], {
      errorMap: () => ({ message: "Selecciona un paquete válido." })
-   }).optional(),
-  // quantity: z.number({ invalid_type_error: "La cantidad debe ser un número." }).int({ message: "La cantidad debe ser un número entero." }).positive({ message: "La cantidad debe ser mayor que 0." }).optional(), // Quantity validation removed as per latest package structure
-  message: z.string().min(10, { message: "El mensaje debe tener al menos 10 caracteres." }).max(500, { message: "El mensaje no puede exceder los 500 caracteres." }).optional(),
+   }),
+  // Add quantity validation
+  quantity: z.coerce // Use coerce for input type="number"
+    .number({ invalid_type_error: "La cantidad debe ser un número." })
+    .int({ message: "La cantidad debe ser un número entero." })
+    .positive({ message: "La cantidad debe ser mayor que 0." }),
+  message: z.string().max(500, { message: "El mensaje no puede exceder los 500 caracteres." }).optional(), // Made message optional and removed min length
 });
 
 type ContactFormSchema = z.infer<typeof contactFormSchema>;
@@ -56,26 +47,29 @@ const availablePackages = [
 ];
 
 export function Footer() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Removed isSubmitting state as we are opening WhatsApp directly
   const searchParams = useSearchParams();
   const formRef = useRef<HTMLFormElement>(null);
 
   const selectedPackageFromUrl = searchParams?.get('paquete') || '';
 
-  // Update package type in defaultValues
+  // Initialize form with zodResolver and defaultValues
   const form = useForm<ContactFormSchema>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: "",
       email: "",
       restaurant: "",
-      package: availablePackages.some(p => p.id === selectedPackageFromUrl) ? selectedPackageFromUrl as 'starter' | 'pyme' | 'premium' | 'no-estoy-seguro' : undefined,
+      // Pre-select package from URL if valid, otherwise default to 'starter' or undefined if no specific package is required as default.
+      // Forcing a selection for WhatsApp message makes sense, let's default to starter if no URL param
+      package: availablePackages.find(p => p.id === selectedPackageFromUrl)?.id as 'starter' | 'pyme' | 'premium' ?? 'starter',
+      quantity: 1, // Default quantity to 1
       message: "",
     },
-     mode: "onChange", // Validate on change for better UX
+    mode: "onChange", // Validate on change for better UX
   });
 
-   // Update package type in useEffect
+  // Keep useEffect to update package based on URL params and scroll
   useEffect(() => {
     const packageFromUrl = searchParams?.get('paquete');
     const validPackage = availablePackages.find(p => p.id === packageFromUrl);
@@ -84,39 +78,51 @@ export function Footer() {
         if (formRef.current && window.location.hash.startsWith('#contacto')) {
             formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    } else if (packageFromUrl === 'no-estoy-seguro') {
-         form.setValue('package', 'no-estoy-seguro', { shouldValidate: true });
-         if (formRef.current && window.location.hash.startsWith('#contacto')) {
-            formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
     }
+    // Removed 'no-estoy-seguro' logic as it's not in the new schema/requirements
   }, [searchParams, form]);
 
 
-  const onSubmit = async (data: ContactFormSchema) => {
-    setIsSubmitting(true);
-    const toastId = toast.loading('Enviando mensaje...'); // Loading toast
+  // Handle form submission: generate WhatsApp link and open it
+  const onSubmit = (data: ContactFormSchema) => {
+    const { name, email, restaurant, package: selectedPackage, quantity, message = '' } = data;
 
-    try {
-      const result = await sendContactForm(data);
-      toast.success(result.message, { id: toastId }); // Success toast
-      form.reset();
-      // Reset package correctly after submission, matching useEffect logic
-      const packageFromUrl = searchParams?.get('paquete');
-      const validPackage = availablePackages.find(p => p.id === packageFromUrl);
-       if (validPackage) {
-           form.setValue('package', validPackage.id as 'starter' | 'pyme' | 'premium');
-       } else if (packageFromUrl === 'no-estoy-seguro') {
-           form.setValue('package', 'no-estoy-seguro');
-       } else {
-           form.setValue('package', undefined); // Clear if no valid URL param
-       }
+    // Find package name for the message
+    const packageName = availablePackages.find(p => p.id === selectedPackage)?.name ?? selectedPackage;
 
-    } catch (error: any) {
-      toast.error(error.message || "No se pudo enviar el formulario.", { id: toastId }); // Error toast
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Construct the WhatsApp message template
+    const template =
+      `Nuevo cliente TapMenu:%0A` +
+      `---------------------------%0A` +
+      `Nombre: ${encodeURIComponent(name)}%0A` +
+      `Email: ${encodeURIComponent(email)}%0A` +
+      `Restaurante: ${encodeURIComponent(restaurant)}%0A` +
+      `Paquete: ${encodeURIComponent(packageName)}%0A` +
+      `Cantidad Tarjetas: ${encodeURIComponent(quantity.toString())}%0A` +
+       // Only include message if it exists
+      (message ? `Mensaje Adicional: ${encodeURIComponent(message)}%0A` : '') +
+      `---------------------------`;
+
+
+    const waUrl = `https://wa.me/573241083976?text=${template}`;
+
+    // Show success toast before opening link
+    toast.success('WhatsApp listo para enviar. ¡Redirigiendo!');
+
+    // Open WhatsApp link in a new tab
+    window.open(waUrl, '_blank');
+
+    // Optionally reset the form after attempting to open WhatsApp
+    // form.reset(); // Consider if resetting is desired UX
+  };
+
+  // Handle validation errors
+  const onError = (errors: any) => {
+     console.error("Form validation errors:", errors);
+     // Check if there are errors before showing the toast
+     if (Object.keys(errors).length > 0) {
+        toast.error('Por favor completa todos los campos requeridos correctamente.');
+     }
   };
 
 
@@ -133,12 +139,10 @@ export function Footer() {
         {/* Contact Info */}
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ponte en Contacto</h2>
-          <p className="text-muted max-w-md"> {/* Changed text-muted-foreground to text-muted for better contrast */}
-            ¿Tienes preguntas o estás listo para empezar? Rellena el formulario o contáctanos directamente.
+          <p className="text-muted max-w-md"> {/* Changed text-muted-foreground to text-muted */}
+            ¿Listo para empezar? Completa el formulario y te contactaremos por WhatsApp para finalizar detalles.
           </p>
            {/* Removed Social Media Links Section */}
-          {/* <div className="flex space-x-4"> ... removed ... </div> */}
-           {/* Add internal navigation links if needed, or remove this div */}
            <nav className="flex flex-wrap gap-x-6 gap-y-2">
              <Link href="/" className="text-sm text-muted hover:text-primary transition-colors" aria-label="Ir a Inicio">Inicio</Link>
              <Link href="#beneficios" className="text-sm text-muted hover:text-primary transition-colors" aria-label="Ir a Beneficios">Beneficios</Link>
@@ -148,19 +152,20 @@ export function Footer() {
            </nav>
         </div>
 
-        {/* Contact Form */}
+        {/* Contact Form - Updated onSubmit and onError */}
         <div className="space-y-6">
           <Form {...form}>
-            <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Pass onError handler to handleSubmit */}
+            <form ref={formRef} onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="name" className="text-background">Nombre</FormLabel>
+                      <FormLabel htmlFor="name" className="text-background">Nombre *</FormLabel>
                       <FormControl>
-                        <Input id="name" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-background text-foreground rounded-md"/>
+                        <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-background text-foreground rounded-md"/>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -171,9 +176,9 @@ export function Footer() {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel htmlFor="email" className="text-background">Correo Electrónico</FormLabel>
+                        <FormLabel htmlFor="email" className="text-background">Correo Electrónico *</FormLabel>
                         <FormControl>
-                            <Input id="email" type="email" aria-label="Campo de entrada para correo electrónico" placeholder="tu@email.com" {...field} className="bg-background text-foreground rounded-md"/>
+                            <Input id="email" type="email" aria-required="true" aria-label="Campo de entrada para correo electrónico" placeholder="tu@email.com" {...field} className="bg-background text-foreground rounded-md"/>
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -186,25 +191,25 @@ export function Footer() {
                 name="restaurant"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel htmlFor="restaurant" className="text-background">Nombre del Restaurante</FormLabel>
+                    <FormLabel htmlFor="restaurant" className="text-background">Nombre del Restaurante *</FormLabel>
                     <FormControl>
-                        <Input id="restaurant" aria-label="Campo de entrada para nombre del restaurante" placeholder="Nombre de tu negocio" {...field} className="bg-background text-foreground rounded-md"/>
+                        <Input id="restaurant" aria-required="true" aria-label="Campo de entrada para nombre del restaurante" placeholder="Nombre de tu negocio" {...field} className="bg-background text-foreground rounded-md"/>
                     </FormControl>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <FormField
                     control={form.control}
                     name="package"
                     render={({ field }) => (
                         <FormItem>
-                         {/* Use new package IDs and names */}
-                        <FormLabel htmlFor="package" className="text-background">Paquete Deseado (Opcional)</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value ?? ""}>
+                        <FormLabel htmlFor="package" className="text-background">Paquete Deseado *</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value ?? ""} required>
                             <FormControl>
-                            <SelectTrigger id="package" aria-label="Selector de paquete deseado" className="bg-background text-foreground rounded-md">
+                            <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-background text-foreground rounded-md">
                                 <SelectValue placeholder="Selecciona un paquete" />
                             </SelectTrigger>
                             </FormControl>
@@ -214,7 +219,7 @@ export function Footer() {
                                 {pkg.name}
                                 </SelectItem>
                             ))}
-                             <SelectItem value="no-estoy-seguro" aria-label="Opción: Aún no estoy seguro">Aún no estoy seguro</SelectItem>
+                            {/* Removed 'no-estoy-seguro' as it's not a valid package enum */}
                             </SelectContent>
                         </Select>
                         <FormMessage />
@@ -222,7 +227,32 @@ export function Footer() {
                     )}
                     />
 
-                 {/* Removed Quantity Field as it's not in the new package structure */}
+                {/* Added Quantity Field */}
+                <FormField
+                  control={form.control}
+                  name="quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor="quantity" className="text-background">Cantidad de Tarjetas *</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="quantity"
+                          type="number"
+                          min="1" // Ensure positive number in HTML validation as well
+                          aria-required="true"
+                          aria-label="Campo de entrada para cantidad de tarjetas NFC"
+                          placeholder="Ej: 5"
+                          {...field}
+                          className="bg-background text-foreground rounded-md"
+                          onChange={event => field.onChange(event.target.value === '' ? '' : Number(event.target.value))} // Handle empty input and ensure number type
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
 
                {/* Optional Message Field */}
                <FormField
@@ -235,10 +265,10 @@ export function Footer() {
                         <Textarea
                           id="message"
                           aria-label="Campo de texto para mensaje adicional"
-                          placeholder="Déjanos un mensaje o pregunta..."
+                          placeholder="¿Alguna pregunta o detalle extra?"
                           {...field}
                           className="bg-background text-foreground rounded-md"
-                          rows={4}
+                          rows={3} // Reduced rows slightly
                         />
                       </FormControl>
                       <FormMessage />
@@ -247,21 +277,20 @@ export function Footer() {
                 />
 
              <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }} // Slightly reduce hover scale for WhatsApp button
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
               >
-                 <Button type="submit" className="w-full rounded-2xl" disabled={isSubmitting} aria-label={isSubmitting ? "Enviando formulario" : "Enviar formulario de contacto"}>
-                    {isSubmitting ? (
-                        <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
-                        Enviando...
-                        </>
-                    ) : (
-                        <>
-                        Enviar Mensaje
-                        <Send className="ml-2 h-4 w-4" aria-hidden="true" />
-                        </>
-                    )}
+                 {/* Updated Button */}
+                 <Button
+                   type="submit"
+                   // Use formState.isValid for disabling the button based on Zod validation
+                   disabled={!form.formState.isValid}
+                   aria-label="Enviar mensaje por WhatsApp"
+                   // Apply btn-whatsapp class and other styles
+                   className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3"
+                  >
+                    <WhatsappIcon className="w-6 h-6" aria-hidden="true" />
+                    Enviar mensaje
                  </Button>
              </motion.div>
             </form>

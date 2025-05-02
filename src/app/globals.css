@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -105,5 +106,12 @@
     .container {
          /* Updated padding based on grid requirements */
         @apply px-4 md:px-8 lg:px-16; /* Mobile px-4, Tablet md:px-8, Desktop lg:px-16 */
+    }
+    /* WhatsApp Button Style */
+    .btn-whatsapp {
+       @apply bg-[#25D366] text-white hover:bg-green-600 focus-visible:ring-[#25D366];
+    }
+    .btn-whatsapp:disabled {
+       @apply bg-[#25D366]/50 cursor-not-allowed hover:bg-[#25D366]/50; /* Disabled style */
     }
 }
