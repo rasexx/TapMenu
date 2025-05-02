@@ -9,15 +9,20 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: { // Added container plugin configuration
+    container: {
       center: true,
-      padding: "2rem",
+      // Updated container padding based on grid requirements
+      padding: {
+          DEFAULT: '1rem', // Default padding for mobile (px-4)
+          md: '2rem',      // Medium screen padding (md:px-8)
+          lg: '4rem',      // Large screen padding (lg:px-16)
+      },
       screens: {
         "2xl": "1400px",
       },
     },
   	extend: {
-        fontFamily: { // Added font family extension
+        fontFamily: {
            sans: ["var(--font-sans)", ...fontFamily.sans],
         },
   		colors: {
@@ -75,8 +80,13 @@ export default {
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+             '2xl': 'calc(var(--radius) + 4px)', // Add 2xl radius based on base radius
+             'xl': 'calc(var(--radius) + 2px)', // Add xl radius
   		},
+        minHeight: { // Added minHeight for hero section responsiveness
+            '60vh': '60vh',
+        },
   		keyframes: {
   			'accordion-down': {
   				from: {

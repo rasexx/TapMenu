@@ -4,39 +4,40 @@
 
 @layer base {
   :root {
+    /* Coral-Beige Palette */
     --background: 0 0% 100%; /* White */
     --foreground: 240 10% 3.9%; /* Dark Gray */
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 180 100% 25%; /* Teal */
+    --primary: 4 100% 68%; /* #FF6B5E Coral */
     --primary-foreground: 0 0% 100%; /* White */
-    --secondary: 240 4.8% 95.9%; /* Light Gray */
+    --secondary: 15 67% 95%; /* #F8EDEB Beige */
     --secondary-foreground: 240 10% 3.9%; /* Dark Gray */
-    --muted: 240 4.8% 95.9%; /* Light Gray */
-    --muted-foreground: 240 3.8% 46.1%; /* Medium Gray */
-    --accent: 180 100% 45%; /* Lighter Teal for hover/active */
+    --muted: 15 67% 95%; /* Beige */
+    --muted-foreground: 240 5% 64.9%; /* Medium Gray */
+    --accent: 4 100% 75%; /* Lighter Coral for hover/active */
     --accent-foreground: 0 0% 100%; /* White */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%; /* Gray border */
     --input: 240 5.9% 90%; /* Gray input border */
-    --ring: 180 100% 25%; /* Teal ring */
-    --chart-1: 180 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 240 4.8% 95.9%; /* Light Gray */
+    --ring: 4 100% 68%; /* Coral ring */
+    --chart-1: 4 76% 61%;
+    --chart-2: 173 58% 39%; /* Kept for diversity */
+    --chart-3: 197 37% 24%; /* Kept for diversity */
+    --chart-4: 43 74% 66%; /* Kept for diversity */
+    --chart-5: 27 87% 67%; /* Kept for diversity */
+    --radius: 0.5rem; /* Default rounded corners */
+    --sidebar-background: 15 67% 95%; /* Beige */
     --sidebar-foreground: 240 10% 3.9%; /* Dark Gray */
-    --sidebar-primary: 180 100% 25%; /* Teal */
+    --sidebar-primary: 4 100% 68%; /* Coral */
     --sidebar-primary-foreground: 0 0% 100%; /* White */
-    --sidebar-accent: 180 100% 45%; /* Lighter Teal */
+    --sidebar-accent: 4 100% 75%; /* Lighter Coral */
     --sidebar-accent-foreground: 0 0% 100%; /* White */
     --sidebar-border: 240 5.9% 90%; /* Gray Border */
-    --sidebar-ring: 180 100% 25%; /* Teal */
+    --sidebar-ring: 4 100% 68%; /* Coral */
   }
   .dark {
     /* Optional: Define dark theme if needed, otherwise defaults work */
@@ -46,32 +47,32 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 180 100% 35%; /* Slightly brighter Teal for dark */
+    --primary: 4 100% 60%; /* Slightly adjusted Coral for dark */
     --primary-foreground: 0 0% 100%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 180 100% 45%; /* Keep accent teal consistent */
+    --accent: 4 100% 75%; /* Keep accent consistent */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 180 100% 35%; /* Teal ring */
-    --chart-1: 180 70% 50%;
+    --ring: 4 100% 60%; /* Coral ring */
+    --chart-1: 4 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
      --sidebar-background: 240 10% 3.9%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 180 100% 35%;
+    --sidebar-primary: 4 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 180 100% 45%;
+    --sidebar-accent: 4 100% 75%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 180 100% 35%;
+    --sidebar-ring: 4 100% 60%;
   }
 }
 
@@ -87,6 +88,20 @@
     scroll-behavior: smooth;
   }
   section {
-     @apply py-16 md:py-24 lg:py-32;
+     /* Updated padding based on grid requirements */
+     @apply py-8 md:py-16;
   }
+  h1, h2, h3, h4, h5, h6 {
+      @apply font-sans text-2xl md:text-3xl lg:text-4xl; /* Apply sans font and responsive sizes */
+  }
+  p, li, span, label, input, textarea, button, a {
+       @apply text-base leading-relaxed; /* Apply base font size and relaxed leading */
+  }
+}
+
+@layer components {
+    .container {
+         /* Updated padding based on grid requirements */
+        @apply px-4 md:px-8 lg:px-16;
+    }
 }

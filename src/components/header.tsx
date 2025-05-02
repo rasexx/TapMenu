@@ -3,35 +3,37 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image"; // Import Image component
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Logo Component using Next/Image
 const Logo = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 100 100"
-    className="h-8 w-auto text-primary"
-    fill="currentColor"
-  >
-    <path d="M50 10C27.9 10 10 27.9 10 50s17.9 40 40 40 40-17.9 40-40S72.1 10 50 10zm0 70c-16.6 0-30-13.4-30-30S33.4 20 50 20s30 13.4 30 30-13.4 30-30 30z"/>
-    <path d="M50 35c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15zm0 20c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
-  </svg>
+    <Image
+        src="/logo.svg" // Path to the logo in the public folder
+        alt="TapMenu Logo"
+        width={32} // Set desired width (adjust as needed)
+        height={32} // Set desired height (adjust as needed)
+        className="h-8 w-auto" // Use Tailwind for height, width auto
+        priority // Prioritize loading the logo
+    />
 );
+
 
 const NavLinks = ({ className, onClick }: { className?: string; onClick?: () => void }) => (
   <nav className={cn("flex flex-col md:flex-row md:items-center gap-4 md:gap-6 lg:gap-8", className)}>
-    <Link href="#beneficios" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+    <Link href="#beneficios" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Beneficios">
       Beneficios
     </Link>
-    <Link href="#como-funciona" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+    <Link href="#como-funciona" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Cómo Funciona">
       Cómo Funciona
     </Link>
-    <Link href="#paquetes" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+    <Link href="#paquetes" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Paquetes">
       Paquetes
     </Link>
-    <Link href="#contacto" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+    <Link href="#contacto" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Contacto">
       Contacto
     </Link>
   </nav>
@@ -59,7 +61,7 @@ export function Header() {
         isSticky ? "bg-background/95 shadow-md backdrop-blur-sm" : "bg-transparent"
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-16 items-center justify-between"> {/* Use container padding */}
         <Link href="/" className="flex items-center gap-2" aria-label="TapMenu Inicio">
           <Logo />
           <span className="text-lg font-semibold text-foreground">TapMenu</span>
@@ -74,8 +76,8 @@ export function Header() {
         <div className="md:hidden">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6 text-foreground" />
+              <Button variant="ghost" size="icon" aria-label="Abrir menú de navegación móvil">
+                <Menu className="h-6 w-6 text-foreground" aria-hidden="true" />
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
@@ -86,15 +88,15 @@ export function Header() {
                     <span className="text-lg font-semibold text-foreground">TapMenu</span>
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
-                 <Button asChild className="mt-4">
-                     <Link href="#paquetes" onClick={closeMobileMenu}>Ver Paquetes</Link>
+                 <Button asChild className="mt-4 rounded-2xl">
+                     <Link href="#paquetes" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
                  </Button>
                </div>
             </SheetContent>
           </Sheet>
         </div>
-         <Button asChild className="hidden md:inline-flex">
-            <Link href="#paquetes">Ver Paquetes</Link>
+         <Button asChild className="hidden md:inline-flex rounded-2xl">
+            <Link href="#paquetes" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
           </Button>
       </div>
     </header>

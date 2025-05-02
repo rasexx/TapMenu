@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -25,10 +25,23 @@ const buttonVariants = cva(
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
       },
+      // Note: Tailwind doesn't have rounded-2xl by default in base config,
+      // It relies on the theme setup in tailwind.config.js.
+      // We apply rounded-md as default and override with specific classes like `rounded-2xl` where needed.
+       rounded: { // Added rounded variant for easier application, defaults to md
+           none: "rounded-none",
+           sm: "rounded-sm",
+           md: "rounded-md",
+           lg: "rounded-lg",
+           xl: "rounded-xl",
+           '2xl': "rounded-2xl", // Allows using rounded='2xl' prop if needed, maps to rounded-2xl class
+           full: "rounded-full",
+       },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+       rounded: "md", // Default to md rounding
     },
   }
 )
@@ -40,17 +53,21 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+  ({ className, variant, size, rounded, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    // Apply rounded class based on the prop, otherwise default from variants
+    const roundedClass = rounded ? `rounded-${rounded === 'md' ? 'md' : rounded}` : ''; // Handle 'md' case explicitly if needed elsewhere or rely on default variant
+
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        // Use the generated variants and merge with explicit className and roundedClass
+        className={cn(buttonVariants({ variant, size, rounded, className }))}
         ref={ref}
         {...props}
       />
-    )
+    );
   }
-)
+);
 Button.displayName = "Button"
 
 export { Button, buttonVariants }

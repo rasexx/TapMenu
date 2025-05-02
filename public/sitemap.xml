@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://your-app-url.com/</loc> <!-- Replace with your actual domain -->
+    <lastmod>2024-07-29</lastmod> <!-- Update with actual last modification date -->
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://your-app-url.com/#contacto</loc> <!-- Replace with your actual domain -->
+    <lastmod>2024-07-29</lastmod> <!-- Update with actual last modification date -->
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Add other important pages/sections if needed -->
+</urlset>

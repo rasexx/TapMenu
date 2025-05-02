@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster as ShadToaster } from "@/components/ui/toaster"; // Renamed to avoid conflict
+import { Toaster as HotToaster } from 'react-hot-toast'; // Import react-hot-toast
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
@@ -9,7 +10,7 @@ const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
 const APP_NAME = "TapMenu";
 const APP_DEFAULT_TITLE = "TapMenu - Menú Digital NFC Instantáneo";
 const APP_TITLE_TEMPLATE = "%s | TapMenu";
-const APP_DESCRIPTION = "Crea y actualiza tu menú digital al instante con tecnología NFC. Rápido, seguro y personalizable.";
+const APP_DESCRIPTION = "TapMenu: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium."; // Updated description
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -18,12 +19,11 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
-  manifest: "/manifest.json", // Assuming you might add a manifest later
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: APP_DEFAULT_TITLE,
-    // startUpImage: [], // Add startup images if needed
   },
   formatDetection: {
     telephone: false,
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     },
     description: APP_DESCRIPTION,
     // url: "YOUR_APP_URL", // Replace with your actual URL
-    // images: [
-    //   {
-    //     url: "YOUR_OG_IMAGE_URL", // Replace with your OG image URL
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "TapMenu Open Graph Image",
-    //   },
-    // ],
+    images: [ // Added OG image
+      {
+        url: "/og-image.png", // Relative path assuming image is in public folder
+        width: 1200,
+        height: 630,
+        alt: "TapMenu Open Graph Image",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -53,15 +53,13 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    // images: ["YOUR_TWITTER_IMAGE_URL"], // Replace with your Twitter image URL
+    images: ["/og-image.png"], // Assuming same image for Twitter
     // creator: "@your_twitter_handle", // Replace with your Twitter handle
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF", // Primary color (White)
-  // width: "device-width", // Default
-  // initialScale: 1, // Default
+  themeColor: "#FF6B5E", // Updated theme color to primary coral
 };
 
 
@@ -79,7 +77,8 @@ export default function RootLayout({
         )}
       >
         {children}
-        <Toaster />
+        <ShadToaster /> {/* ShadCN Toaster */}
+        <HotToaster /> {/* React Hot Toast Toaster */}
       </body>
     </html>
   );

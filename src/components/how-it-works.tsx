@@ -1,9 +1,10 @@
 
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from "react"; // Removed useEffect, useState as Framer Motion handles visibility
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion"; // Import motion
 
 const stepsData = [
   {
@@ -31,82 +32,74 @@ interface StepCardProps {
   title: string;
   description: string;
   ariaLabel: string;
-  isVisible: boolean;
-  index: number;
+  index: number; // Index for staggering animation
 }
 
-const StepCard: React.FC<StepCardProps> = ({ icon, title, description, ariaLabel, isVisible, index }) => (
-   <Card
-    className={cn(
-        "text-center shadow-lg transition-all duration-700 ease-out transform",
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-    )}
-    style={{ transitionDelay: `${index * 150}ms` }} // Stagger animation
-    aria-labelledby={`step-title-${index + 1}`}
-    aria-describedby={`step-desc-${index + 1}`}
-    >
-    <CardHeader className="flex flex-col items-center gap-4 pb-4">
-       <div className="bg-primary/10 p-4 rounded-full">
-         {icon}
-       </div>
-      <CardTitle id={`step-title-${index + 1}`} className="text-xl font-semibold">{title}</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p id={`step-desc-${index + 1}`} className="text-muted-foreground">{description}</p>
-    </CardContent>
-  </Card>
+// Define animation variants
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: (index: number) => ({ // Pass index to stagger
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: index * 0.2, // Sequential delay
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  }),
+};
+
+const StepCard: React.FC<StepCardProps> = ({ icon, title, description, ariaLabel, index }) => (
+   <motion.div
+    custom={index} // Pass index to variants
+    initial="hidden"
+    whileInView="visible" // Trigger animation when in view
+    viewport={{ once: true, amount: 0.3 }} // Adjust viewport settings as needed
+    variants={cardVariants} // Apply variants
+    className="h-full" // Ensure motion div takes full height for layout
+   >
+       <Card
+        className="text-center shadow-lg h-full flex flex-col" // Ensure card takes full height and uses flex column
+        aria-labelledby={`step-title-${index + 1}`}
+        aria-describedby={`step-desc-${index + 1}`}
+        >
+        <CardHeader className="flex flex-col items-center gap-4 pb-4">
+           <div className="bg-primary/10 p-4 rounded-full">
+             {icon}
+           </div>
+          <CardTitle id={`step-title-${index + 1}`} className="text-xl font-semibold">{title}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex-grow"> {/* Make content grow to push footer down */}
+          <p id={`step-desc-${index + 1}`} className="text-muted-foreground">{description}</p>
+        </CardContent>
+      </Card>
+   </motion.div>
 );
 
 export function HowItWorks() {
    const sectionRef = useRef<HTMLDivElement>(null);
-   const [isVisible, setIsVisible] = useState(false);
-
-   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Optional: Unobserve after first animation
-          // observer.unobserve(entry.target);
-        }
-        // Optional: Reset animation if element leaves viewport
-        // else {
-        //   setIsVisible(false);
-        // }
-      },
-      {
-        root: null, // relative to document viewport
-        rootMargin: '0px', // margin around root
-        threshold: 0.1, // 10% of item visible triggers observer
-      }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
+   // Removed Intersection Observer logic, Framer Motion handles it
 
   return (
-    <section id="como-funciona" ref={sectionRef} className="bg-background">
-      <div className="container mx-auto px-4 md:px-6">
+    <motion.section
+      id="como-funciona"
+      ref={sectionRef}
+      className="bg-background"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      viewport={{ once: true }} // Animate section once
+    >
+      <div className="container mx-auto"> {/* Use container padding */}
         <h2 className="text-3xl font-bold tracking-tight text-center text-foreground sm:text-4xl mb-12">
           Así de fácil funciona
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {stepsData.map((step, index) => (
-            <StepCard key={step.title} {...step} isVisible={isVisible} index={index} />
+            <StepCard key={step.title} {...step} index={index} />
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
-
