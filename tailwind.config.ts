@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
@@ -12,11 +11,10 @@ export default {
   theme: {
     container: {
       center: true,
-      // Updated container padding based on grid requirements
       padding: {
-          DEFAULT: '1rem', // Default padding for mobile (px-4)
-          md: '2rem',      // Medium screen padding (md:px-8)
-          lg: '4rem',      // Large screen padding (lg:px-16)
+          DEFAULT: '1rem',
+          md: '2rem',
+          lg: '4rem',
       },
       screens: {
         "2xl": "1400px",
@@ -58,7 +56,7 @@ export default {
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
   			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
+  			input: 'hsl(var(--input))', // This will use the --input HSL variable (Teal)
   			ring: 'hsl(var(--ring))',
   			chart: {
   				'1': 'hsl(var(--chart-1))',
@@ -77,19 +75,20 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			},
-        // New custom colors from the brief
-        dark: 'hsl(var(--custom-dark))',      // Gris antracita #1C1C1C
-        contrast: 'hsl(var(--custom-contrast))', // Blanco puro #FFFFFF
+        // Custom colors map to CSS variables
+        dark: 'hsl(var(--custom-dark))',      // For elements like footer background
+        contrast: 'hsl(var(--custom-contrast))', // For text on dark backgrounds
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)',
-             '2xl': 'calc(var(--radius) + 4px)', // Add 2xl radius based on base radius
-             'xl': 'calc(var(--radius) + 2px)', // Add xl radius
+             '2xl': 'calc(var(--radius) + 4px)',
+             'xl': 'calc(var(--radius) + 2px)',
   		},
-        minHeight: { // Added minHeight for hero section responsiveness
+        minHeight: {
             '60vh': '60vh',
+            'screen': '100vh', // ensure min-h-screen is available
         },
   		keyframes: {
   			'accordion-down': {

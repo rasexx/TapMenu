@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -11,26 +10,26 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import toast from 'react-hot-toast'; 
-import { Loader2 } from "lucide-react"; 
-import { WhatsappIcon } from "@/components/icons/whatsapp-icon"; 
+import toast from 'react-hot-toast';
+import { Loader2 } from "lucide-react";
+import { WhatsappIcon } from "@/components/icons/whatsapp-icon";
 import { useSearchParams } from 'next/navigation';
 import { motion } from "framer-motion";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }).max(50, { message: "El nombre no puede exceder los 50 caracteres." }),
   email: z.string().email({ message: "Por favor, introduce un correo electrónico válido." }),
-  phone: z.string().min(7, { message: "El teléfono debe tener al menos 7 dígitos." }).regex(/^\d+$/, { message: "El teléfono solo debe contener números." }), 
-  city: z.string().min(2, { message: "La ciudad debe tener al menos 2 caracteres." }), 
+  phone: z.string().min(7, { message: "El teléfono debe tener al menos 7 dígitos." }).regex(/^\d+$/, { message: "El teléfono solo debe contener números." }),
+  city: z.string().min(2, { message: "La ciudad debe tener al menos 2 caracteres." }),
   restaurant: z.string().min(2, { message: "El nombre del restaurante debe tener al menos 2 caracteres." }).max(100, { message: "El nombre del restaurante no puede exceder los 100 caracteres." }),
   package: z.enum(['starter', 'pyme', 'premium'], {
      errorMap: () => ({ message: "Selecciona un paquete válido." })
    }),
-  quantity: z.coerce 
+  quantity: z.coerce
     .number({ invalid_type_error: "La cantidad debe ser un número." })
     .int({ message: "La cantidad debe ser un número entero." })
     .positive({ message: "La cantidad debe ser mayor que 0." }),
-  message: z.string().max(500, { message: "El mensaje no puede exceder los 500 caracteres." }).optional(), 
+  message: z.string().max(500, { message: "El mensaje no puede exceder los 500 caracteres." }).optional(),
 });
 
 type ContactFormSchema = z.infer<typeof contactFormSchema>;
@@ -43,8 +42,8 @@ const availablePackages = [
 
 export function Footer() {
   const searchParams = useSearchParams();
-  const formRef = useRef<HTMLFormElement>(null); 
-  const footerRef = useRef<HTMLElement>(null); 
+  const formRef = useRef<HTMLFormElement>(null);
+  const footerRef = useRef<HTMLElement>(null); // Used for id="contacto"
 
   const selectedPackageFromUrl = searchParams?.get('paquete') || '';
 
@@ -53,15 +52,15 @@ export function Footer() {
     defaultValues: {
       name: "",
       email: "",
-      phone: "", 
-      city: "", 
+      phone: "",
+      city: "",
       restaurant: "",
       package: availablePackages.find(p => p.id === selectedPackageFromUrl)?.id as 'starter' | 'pyme' | 'premium' | undefined,
-      quantity: 1, 
+      quantity: 1,
       message: "",
     },
-    mode: "onSubmit", 
-    reValidateMode: "onChange", 
+    mode: "onBlur", // Changed to onBlur
+    reValidateMode: "onChange", // Or 'onBlur'
   });
 
   useEffect(() => {
@@ -70,8 +69,8 @@ export function Footer() {
     let shouldScroll = false;
 
     if (validPackage) {
-        form.setValue('package', validPackage.id as 'starter' | 'pyme' | 'premium', { shouldValidate: true });
-        shouldScroll = true; 
+        form.setValue('package', validPackage.id as 'starter' | 'pyme' | 'premium', { shouldValidate: false, shouldDirty: true, shouldTouch: true });
+        shouldScroll = true;
     } else if (packageFromUrl) {
          form.resetField('package', { defaultValue: undefined });
     }
@@ -79,9 +78,9 @@ export function Footer() {
     if (shouldScroll && footerRef.current) {
         setTimeout(() => {
             footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100); 
+        }, 100);
     }
-  }, [searchParams, form]); 
+  }, [searchParams, form]);
 
 
   const onSubmit = (data: ContactFormSchema) => {
@@ -105,7 +104,7 @@ Comentarios adicionales:
 ${message || 'Ninguno'}
 
 Quedo atento a los siguientes pasos. Gracias.
-`.trim(); 
+`.trim();
 
     const waUrl = `https://wa.me/573241083976?text=${encodeURIComponent(rawMessage)}`;
     toast.success('WhatsApp listo para enviar. ¡Redirigiendo!');
@@ -115,15 +114,18 @@ Quedo atento a los siguientes pasos. Gracias.
   const onError = (errors: any) => {
      console.error("Form validation errors:", errors);
      if (Object.keys(errors).length > 0) {
-        toast.error('Por favor completa todos los campos requeridos correctamente.');
+        // Toast on error is now more selective, tied to form state and submit attempt
+        if (form.formState.isSubmitted) {
+           toast.error('Por favor completa todos los campos requeridos correctamente.');
+        }
      }
   };
 
   return (
     <motion.footer
-        id="contacto" 
-        ref={footerRef} 
-        className="bg-dark text-contrast" // Changed to bg-dark, text-contrast
+        id="contacto" // This ID is used for scrolling
+        ref={footerRef}
+        className="bg-dark text-contrast" // Footer bg Dark Gray, text White
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -131,12 +133,12 @@ Quedo atento a los siguientes pasos. Gracias.
     >
       <div className="container mx-auto py-16 md:py-24 grid md:grid-cols-2 gap-12 lg:gap-16">
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-contrast">Ponte en Contacto</h2> {/* Ensuring title is contrast */}
-          <p className="text-contrast/80 max-w-md"> {/* Changed text to contrast/80 for softer appearance */}
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-contrast">Ponte en Contacto</h2>
+          <p className="text-contrast/80 max-w-md">
             ¿Listo para empezar? Completa el formulario y te contactaremos por WhatsApp para finalizar detalles.
           </p>
            <nav className="flex flex-wrap gap-x-6 gap-y-2">
-             <Link href="/" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Inicio">Inicio</Link> {/* Links: text-contrast, hover:text-accent */}
+             <Link href="/" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Inicio">Inicio</Link>
              <Link href="#beneficios" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Beneficios">Beneficios</Link>
              <Link href="#como-funciona" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Cómo funciona">Cómo funciona</Link>
              <Link href="#paquetes" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Paquetes">Paquetes</Link>
@@ -153,12 +155,11 @@ Quedo atento a los siguientes pasos. Gracias.
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="name" className="text-contrast">Nombre *</FormLabel> {/* Label text-contrast */}
+                      <FormLabel htmlFor="name" className="text-contrast">Nombre *</FormLabel>
                       <FormControl>
-                        {/* Inputs: bg-contrast, text-foreground (dark), border-input (which is new accent) */}
                         <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-contrast text-foreground border-input rounded-md"/>
                       </FormControl>
-                      <FormMessage /> 
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -229,12 +230,10 @@ Quedo atento a los siguientes pasos. Gracias.
                         <FormLabel htmlFor="package" className="text-contrast">Paquete Deseado *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value} required>
                             <FormControl>
-                            {/* SelectTrigger also needs bg-contrast, text-foreground, border-input */}
                             <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-contrast text-foreground border-input rounded-md">
                                 <SelectValue placeholder="Selecciona un paquete" />
                             </SelectTrigger>
                             </FormControl>
-                            {/* SelectContent will use popover styles, which are already contrast bg and dark fg */}
                             <SelectContent>
                             {availablePackages.map((pkg) => (
                                 <SelectItem key={pkg.id} value={pkg.id} aria-label={`Opción de paquete ${pkg.name}`}>
@@ -258,13 +257,13 @@ Quedo atento a los siguientes pasos. Gracias.
                         <Input
                           id="quantity"
                           type="number"
-                          min="1" 
+                          min="1"
                           aria-required="true"
                           aria-label="Campo de entrada para cantidad de tarjetas NFC"
                           placeholder="Ej: 5"
                           {...field}
                           className="bg-contrast text-foreground border-input rounded-md"
-                          onChange={event => field.onChange(event.target.value === '' ? '' : Number(event.target.value))} 
+                          onChange={event => field.onChange(event.target.value === '' ? '' : Number(event.target.value))}
                         />
                       </FormControl>
                       <FormMessage />
@@ -285,8 +284,8 @@ Quedo atento a los siguientes pasos. Gracias.
                           aria-label="Campo de texto para mensaje adicional"
                           placeholder="¿Alguna pregunta o detalle extra?"
                           {...field}
-                          className="bg-contrast text-foreground border-input rounded-md" // Textarea styling
-                          rows={3} 
+                          className="bg-contrast text-foreground border-input rounded-md" 
+                          rows={3}
                         />
                       </FormControl>
                       <FormMessage />
@@ -295,16 +294,16 @@ Quedo atento a los siguientes pasos. Gracias.
                 />
 
              <motion.div
-                whileHover={{ scale: 1.02 }} 
+                whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
               >
                  <Button
                    type="submit"
-                   disabled={!form.formState.isValid && form.formState.isSubmitted} 
+                   disabled={form.formState.isSubmitting || (form.formState.isSubmitted && !form.formState.isValid)} // Adjusted disabled state
                    aria-label="Enviar mensaje por WhatsApp"
-                   className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3" // WhatsApp button keeps its green style
+                   className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3"
                   >
-                    <WhatsappIcon className="w-6 h-6" aria-hidden="true" /> 
+                    {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <WhatsappIcon className="w-6 h-6" aria-hidden="true" />}
                     Enviar mensaje
                  </Button>
              </motion.div>
@@ -313,7 +312,7 @@ Quedo atento a los siguientes pasos. Gracias.
         </div>
       </div>
 
-      <div className="border-t border-contrast/20 mt-12 py-6 text-center text-xs text-contrast/70 space-y-2"> {/* Credits text: contrast/70 */}
+      <div className="border-t border-contrast/20 mt-12 py-6 text-center text-xs text-contrast/70 space-y-2">
         © 2025 TapMenu. Todos los derechos reservados.<br />
         Diseñado con ❤️ para la industria gastronómica.<br />
         Creado y mantenido por{' '}
@@ -321,7 +320,7 @@ Quedo atento a los siguientes pasos. Gracias.
           href="https://linktr.ee/jseramn"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-accent hover:underline" // Credits link: text-accent
+          className="text-accent hover:text-accent/80 hover:underline" // Link text-accent (Teal), hover lighter teal or underline
           aria-label="Visitar perfil de José Ramón en Linktree"
         >
           José Ramón

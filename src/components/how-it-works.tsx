@@ -1,10 +1,9 @@
-
 "use client";
-import React, { useRef } from "react"; 
+import React, { useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react"; 
+import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion"; 
+import { motion } from "framer-motion";
 
 const stepsData = [
   {
@@ -32,16 +31,16 @@ interface StepCardProps {
   title: string;
   description: string;
   ariaLabel: string;
-  index: number; 
+  index: number;
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (index: number) => ({ 
+  hidden: { opacity: 0, y: 20 }, // Adjusted y to 20
+  visible: (index: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: index * 0.2, 
+      delay: index * 0.2, // Sequential delay
       duration: 0.5,
       ease: "easeInOut",
     },
@@ -50,28 +49,27 @@ const cardVariants = {
 
 const StepCard: React.FC<StepCardProps> = ({ icon, title, description, ariaLabel, index }) => (
    <motion.div
-    custom={index} 
+    custom={index}
     initial="hidden"
-    whileInView="visible" 
-    viewport={{ once: true, amount: 0.3 }} 
-    variants={cardVariants} 
-    className="h-full" 
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.3 }}
+    variants={cardVariants}
+    className="h-full"
    >
        <Card
-        className="text-center shadow-lg h-full flex flex-col bg-card" // bg-card will be contrast (white)
+        className="text-center shadow-lg h-full flex flex-col bg-card" // Card background is White
         aria-labelledby={`step-title-${index + 1}`}
         aria-describedby={`step-desc-${index + 1}`}
-        aria-label={ariaLabel} 
+        aria-label={ariaLabel}
         >
         <CardHeader className="flex flex-col items-center gap-4 pb-4">
-           {/* Icon's direct parent bg-primary/10 will use the new primary. Icon itself is text-primary. */}
-           <div className="bg-primary/10 p-4 rounded-full"> 
+           <div className="bg-primary/10 p-4 rounded-full">
              {icon}
            </div>
-          <CardTitle id={`step-title-${index + 1}`} className="text-xl font-semibold text-primary">{title}</CardTitle> {/* Title text-primary */}
+          <CardTitle id={`step-title-${index + 1}`} className="text-xl font-semibold text-primary">{title}</CardTitle> {/* Title text-primary (Teal) */}
         </CardHeader>
-        <CardContent className="flex-grow"> 
-          <p id={`step-desc-${index + 1}`} className="text-foreground">{description}</p> {/* Description text-foreground (dark) */}
+        <CardContent className="flex-grow">
+          <p id={`step-desc-${index + 1}`} className="text-foreground">{description}</p> {/* Description text-foreground (Dark Gray) */}
         </CardContent>
       </Card>
    </motion.div>
@@ -84,17 +82,17 @@ export function HowItWorks() {
     <motion.section
       id="como-funciona"
       ref={sectionRef}
-      className="bg-contrast" // Changed from bg-background to bg-contrast (white)
+      className="bg-background" // Section background is White
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      viewport={{ once: true }} 
+      viewport={{ once: true }}
     >
-      <div className="container mx-auto"> 
-        <h2 className="text-3xl font-bold tracking-tight text-center text-primary sm:text-4xl mb-12"> {/* Section title text-primary */}
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold tracking-tight text-center text-primary sm:text-4xl mb-12"> {/* Section title text-primary (Teal) */}
           Así de fácil funciona
         </h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-y-6 gap-x-8 md:grid-cols-3 md:gap-8"> {/* Adjusted gap-y-6 for mobile */}
           {stepsData.map((step, index) => (
             <StepCard key={step.title} {...step} index={index} />
           ))}

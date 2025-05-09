@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -6,24 +5,24 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { motion } from "framer-motion"; 
-// import { collection, getDocs, query, orderBy, Firestore, getFirestore } from "firebase/firestore"; 
+import { motion } from "framer-motion";
+// import { collection, getDocs, query, orderBy, Firestore, getFirestore } from "firebase/firestore";
 // import { firebaseApp } from "@/lib/firebase";
 
 interface PackageData {
-  id: string; 
-  name: string; 
-  range: string; 
-  price: number; 
-  features: string[]; 
-  ctaText: string; 
-  recommended?: boolean; 
+  id: string;
+  name: string;
+  range: string;
+  price: number;
+  features: string[];
+  ctaText: string;
+  recommended?: boolean;
 }
 
 const usePackages = () => {
   const [packages, setPackages] = useState<PackageData[]>([]);
   const [loading, setLoading] = useState(true);
-   const [error, setError] = useState<string | null>(null); 
+   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,33 +31,33 @@ const usePackages = () => {
              id: "starter",
              name: "Starter",
              range: "1 – 3 tarjetas NFC",
-             price: 70000, 
+             price: 70000,
              features: ["Programación básica del enlace (PDF o web simple)", "Código QR de respaldo"],
              ctaText: "Seleccionar Starter",
-             recommended: false, 
+             recommended: false,
            },
            {
              id: "pyme",
              name: "Pyme",
              range: "5 – 15 tarjetas NFC",
-             price: 65000, 
+             price: 65000,
              features: ["Todo lo de Starter", "Diseño personalizado (logo y colores)", "Menú web responsivo"],
              ctaText: "Seleccionar Pyme",
-             recommended: true, 
+             recommended: true,
            },
            {
              id: "premium",
              name: "Premium",
              range: "Más de 15 tarjetas",
-             price: 60000, 
+             price: 60000,
              features: ["Todo lo de Pyme", "Desarrollo de web app de menú con panel administrador", "Actualizaciones ilimitadas"],
              ctaText: "Seleccionar Premium",
-             recommended: false, 
+             recommended: false,
            },
         ];
-      setPackages(mockPackagesData); 
+      setPackages(mockPackagesData);
       setLoading(false);
-    }, 1000); 
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -67,30 +66,22 @@ const usePackages = () => {
 
 const formatPrice = (price: number): string => {
   try {
-    // Format as es-CO currency, then remove 'COP' and trailing space.
     const formattedWithCurrency = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
     return formattedWithCurrency.replace('COP', '').trim();
   } catch (error) {
     console.error("Error formatting price:", error);
-    // Fallback to simple formatting if Intl fails
     const formatted = new Intl.NumberFormat('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
-    return `$${formatted}`; 
+    return `$${formatted}`;
   }
 };
 
 const scrollToContactAndSelectPackage = (packageId: string) => {
-    const contactSection = document.getElementById('contacto'); // Ensure this ID matches the footer/contact section id
-    
-    // Update URL to include packageId, this will trigger useEffect in Footer
+    const contactSection = document.getElementById('contacto');
     const params = new URLSearchParams(window.location.search);
     params.set('paquete', packageId);
-    const newUrl = `${window.location.pathname}?${params.toString()}#contacto`; // Keep hash for potential direct nav
+    const newUrl = `${window.location.pathname}?${params.toString()}#contacto`;
     window.history.pushState({ path: newUrl }, '', newUrl);
-    
-    // Dispatch a custom event that the Footer component can listen to for re-setting the package
-    // This is an alternative to relying solely on URL, gives more direct control if needed.
-    // For now, we rely on the useEffect in Footer to pick up the URL change.
-    
+
     if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
@@ -103,28 +94,29 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
   <motion.div
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       viewport={{ once: true, amount: 0.2 }}
-      className="h-full" 
+      className="h-full"
   >
-      <Card className={`flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 h-full ${recommended ? 'border-primary border-2 relative overflow-hidden' : 'border-border'} bg-contrast`}> {/* Added bg-contrast */}
+      <Card className={`flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 h-full ${recommended ? 'border-primary border-2 relative overflow-hidden' : 'border-border'} bg-card`}> {/* Card background White */}
         {recommended && (
             <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 transform translate-x-[29%] translate-y-[29%] rotate-45 origin-center whitespace-nowrap z-10" aria-label="Paquete recomendado">
             Recomendado
             </div>
         )}
         <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-bold text-center text-primary">{name}</CardTitle> {/* Title text-primary */}
+        <CardTitle className="text-2xl font-bold text-center text-primary">{name}</CardTitle> {/* Title text-primary (Teal) */}
         <CardDescription className="text-center text-muted-foreground">{range}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
         <div className="text-center mb-6">
-            <span className="text-4xl font-extrabold text-primary">{formatPrice(price)}</span> {/* Price text-primary */}
-            <span className="text-muted-foreground">/tarjeta</span>
+            <span className="text-4xl font-extrabold text-primary">{formatPrice(price)}</span> {/* Price text-primary (Teal) */}
+            <span className="text-sm text-muted-foreground">/tarjeta</span>
         </div>
         <ul className="space-y-2">
             {features.map((feature, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-foreground"> {/* Features text-foreground (dark) */}
+            <li key={index} className="flex items-start gap-2 text-sm text-foreground"> {/* Features text-foreground (Dark Gray) */}
                 <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-1" aria-hidden="true" />
                 <span dangerouslySetInnerHTML={{ __html: feature }} />
             </li>
@@ -132,14 +124,17 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
         </ul>
         </CardContent>
         <CardFooter>
-           <motion.div 
+           <motion.div
                 className="w-full"
-                whileHover={{ scale: 1.05 }} 
-                transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }} 
+                whileHover={{ scale: 1.02 }} // Inner button can also have a slight hover effect
+                transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
             >
                 <Button
-                    className="w-full rounded-2xl bg-primary text-contrast hover:bg-dark" // Explicitly set bg, text, hover colors
-                    onClick={() => scrollToContactAndSelectPackage(id)} 
+                    variant="default"
+                    size="default"
+                    rounded="2xl"
+                    className="w-full" 
+                    onClick={() => scrollToContactAndSelectPackage(id)}
                     aria-label={`${ctaText} y ver detalles de contacto`}
                 >
                     {ctaText}
@@ -152,9 +147,9 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
 
 
 const PackageSkeleton: React.FC = () => (
-  <Card className="flex flex-col h-full bg-contrast"> {/* Added bg-contrast */}
+  <Card className="flex flex-col h-full bg-card"> {/* Card background White */}
     <CardHeader className="pb-4">
-      <Skeleton className="h-6 w-3/4 mx-auto mb-2 bg-muted" /> {/* Skeletons use bg-muted */}
+      <Skeleton className="h-6 w-3/4 mx-auto mb-2 bg-muted" />
       <Skeleton className="h-4 w-1/2 mx-auto bg-muted" />
     </CardHeader>
     <CardContent className="flex-grow">
@@ -177,17 +172,17 @@ export function Packages() {
    const { packages, loading, error } = usePackages();
 
   return (
-    <motion.section 
-        id="paquetes" 
-        className="bg-background" // Changed from bg-secondary to bg-background
+    <motion.section
+        id="paquetes"
+        className="bg-secondary" // Section background Light Gray
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         viewport={{ once: true }}
     >
-      <div className="container mx-auto"> 
-        <h2 className="text-3xl font-bold tracking-tight text-center text-primary sm:text-4xl mb-4"> {/* Section title text-primary */}
-           Menú de Paquetes 
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold tracking-tight text-center text-primary sm:text-4xl mb-4"> {/* Section title text-primary (Teal) */}
+           Menú de Paquetes
         </h2>
          <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-12 leading-relaxed">
            Elige el plan que mejor se adapte a tus necesidades y empieza a digitalizar tu menú hoy mismo.
@@ -215,4 +210,3 @@ export function Packages() {
     </motion.section>
   );
 }
-

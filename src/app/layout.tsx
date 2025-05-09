@@ -1,9 +1,8 @@
-
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Toaster as ShadToaster } from "@/components/ui/toaster"; // Renamed to avoid conflict
-import { Toaster as HotToaster } from 'react-hot-toast'; // Import react-hot-toast
+import { Toaster as ShadToaster } from "@/components/ui/toaster";
+import { Toaster as HotToaster } from 'react-hot-toast';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
@@ -11,7 +10,6 @@ const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
 const APP_NAME = "TapMenu";
 const APP_DEFAULT_TITLE = "TapMenu - Menú Digital NFC Instantáneo";
 const APP_TITLE_TEMPLATE = "%s | TapMenu";
-// Updated description meta tag
 const APP_DESCRIPTION = "TapMenu: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium.";
 
 export const metadata: Metadata = {
@@ -21,7 +19,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
-  manifest: "/manifest.json", // Assuming manifest exists or will be added
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -39,9 +37,9 @@ export const metadata: Metadata = {
     },
     description: APP_DESCRIPTION,
     // url: "YOUR_APP_URL", // Replace with your actual URL
-    images: [ // Keep OG image
+    images: [
       {
-        url: "/og-image.png", // Assuming image is in public folder
+        url: "/og-image.png", // Ensure this image exists in /public
         width: 1200,
         height: 630,
         alt: "TapMenu Open Graph Image",
@@ -55,15 +53,15 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: ["/og-image.png"], // Assuming same image for Twitter
+    images: ["/og-image.png"], // Ensure this image exists in /public
     // creator: "@your_twitter_handle", // Replace with your Twitter handle
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: [ // Provide theme colors for light and dark mode
-    { media: "(prefers-color-scheme: light)", color: "#E1ECF4" }, // Light theme background
-    { media: "(prefers-color-scheme: dark)", color: "#1C1C1C" },  // Dark theme background
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" }, // White for light theme
+    { media: "(prefers-color-scheme: dark)", color: "#1A1A1A" },  // Very Dark Gray for dark theme
   ],
 };
 
@@ -82,8 +80,8 @@ export default function RootLayout({
         )}
       >
         {children}
-        <ShadToaster /> {/* ShadCN Toaster */}
-        <HotToaster /> {/* React Hot Toast Toaster */}
+        <ShadToaster />
+        <HotToaster />
       </body>
     </html>
   );
