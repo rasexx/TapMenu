@@ -1,12 +1,11 @@
 
 "use client";
-import React, { useRef } from "react"; // Removed useEffect, useState as Framer Motion handles visibility
+import React, { useRef } from "react"; 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react"; // Keep icons
+import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react"; 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion"; // Import motion
+import { motion } from "framer-motion"; 
 
-// Updated steps data
 const stepsData = [
   {
     icon: <Smartphone className="h-10 w-10 text-primary" aria-hidden="true" />,
@@ -33,17 +32,16 @@ interface StepCardProps {
   title: string;
   description: string;
   ariaLabel: string;
-  index: number; // Index for staggering animation
+  index: number; 
 }
 
-// Define animation variants - Keep sequential delay
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
-  visible: (index: number) => ({ // Pass index to stagger
+  visible: (index: number) => ({ 
     opacity: 1,
     y: 0,
     transition: {
-      delay: index * 0.2, // Sequential delay of 0.2s
+      delay: index * 0.2, 
       duration: 0.5,
       ease: "easeInOut",
     },
@@ -52,27 +50,28 @@ const cardVariants = {
 
 const StepCard: React.FC<StepCardProps> = ({ icon, title, description, ariaLabel, index }) => (
    <motion.div
-    custom={index} // Pass index to variants
+    custom={index} 
     initial="hidden"
-    whileInView="visible" // Trigger animation when in view
-    viewport={{ once: true, amount: 0.3 }} // Adjust viewport settings as needed
-    variants={cardVariants} // Apply variants
-    className="h-full" // Ensure motion div takes full height for layout
+    whileInView="visible" 
+    viewport={{ once: true, amount: 0.3 }} 
+    variants={cardVariants} 
+    className="h-full" 
    >
        <Card
-        className="text-center shadow-lg h-full flex flex-col" // Ensure card takes full height and uses flex column
+        className="text-center shadow-lg h-full flex flex-col bg-card" // bg-card will be contrast (white)
         aria-labelledby={`step-title-${index + 1}`}
         aria-describedby={`step-desc-${index + 1}`}
-        aria-label={ariaLabel} // Add overall aria-label for the step
+        aria-label={ariaLabel} 
         >
         <CardHeader className="flex flex-col items-center gap-4 pb-4">
-           <div className="bg-primary/10 p-4 rounded-full">
+           {/* Icon's direct parent bg-primary/10 will use the new primary. Icon itself is text-primary. */}
+           <div className="bg-primary/10 p-4 rounded-full"> 
              {icon}
            </div>
-          <CardTitle id={`step-title-${index + 1}`} className="text-xl font-semibold">{title}</CardTitle>
+          <CardTitle id={`step-title-${index + 1}`} className="text-xl font-semibold text-primary">{title}</CardTitle> {/* Title text-primary */}
         </CardHeader>
-        <CardContent className="flex-grow"> {/* Make content grow to push footer down */}
-          <p id={`step-desc-${index + 1}`} className="text-muted-foreground">{description}</p>
+        <CardContent className="flex-grow"> 
+          <p id={`step-desc-${index + 1}`} className="text-foreground">{description}</p> {/* Description text-foreground (dark) */}
         </CardContent>
       </Card>
    </motion.div>
@@ -80,20 +79,19 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, ariaLabel
 
 export function HowItWorks() {
    const sectionRef = useRef<HTMLDivElement>(null);
-   // Removed Intersection Observer logic, Framer Motion handles it
 
   return (
     <motion.section
       id="como-funciona"
       ref={sectionRef}
-      className="bg-background"
+      className="bg-contrast" // Changed from bg-background to bg-contrast (white)
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      viewport={{ once: true }} // Animate section once
+      viewport={{ once: true }} 
     >
-      <div className="container mx-auto"> {/* Use container padding */}
-        <h2 className="text-3xl font-bold tracking-tight text-center text-foreground sm:text-4xl mb-12">
+      <div className="container mx-auto"> 
+        <h2 className="text-3xl font-bold tracking-tight text-center text-primary sm:text-4xl mb-12"> {/* Section title text-primary */}
           Así de fácil funciona
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

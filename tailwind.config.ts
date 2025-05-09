@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
@@ -75,7 +76,10 @@ export default {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+        // New custom colors from the brief
+        dark: 'hsl(var(--custom-dark))',      // Gris antracita #1C1C1C
+        contrast: 'hsl(var(--custom-contrast))', // Blanco puro #FFFFFF
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
