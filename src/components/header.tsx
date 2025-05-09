@@ -3,15 +3,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image"; // Import Image component
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, UtensilsCrossed } from "lucide-react"; // Import UtensilsCrossed icon
+import { Menu, UtensilsCrossed, Sun, Moon } from "lucide-react"; 
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/hooks/use-theme";
 
 // Logo Component using lucide-react icon
 const Logo = () => (
-    <UtensilsCrossed className="h-8 w-8 text-primary" aria-hidden="true" /> // Use UtensilsCrossed icon
+    <UtensilsCrossed className="h-8 w-8 text-primary" aria-hidden="true" /> 
 );
 
 
@@ -36,6 +36,7 @@ const NavLinks = ({ className, onClick }: { className?: string; onClick?: () => 
 export function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,19 +55,40 @@ export function Header() {
         isSticky ? "bg-background/95 shadow-md backdrop-blur-sm" : "bg-transparent"
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between"> {/* Use container padding */}
+      <div className="container mx-auto flex h-16 items-center justify-between"> 
         <Link href="/" className="flex items-center gap-2" aria-label="TapMenu Inicio">
           <Logo />
           <span className="text-lg font-semibold text-foreground">TapMenu</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4">
          <NavLinks />
+          <Button asChild className="rounded-2xl ml-2">
+            <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Cambiar tema"
+            className="ml-2 p-2 rounded-full hover:bg-accent transition text-foreground"
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </Button>
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Cambiar tema"
+            className="p-2 rounded-full hover:bg-accent transition text-foreground"
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </Button>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Abrir menú de navegación móvil">
@@ -82,20 +104,13 @@ export function Header() {
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
                  <Button asChild className="mt-4 rounded-2xl">
-                     {/* Update link to scroll to contact section and set package */}
                      <Link href="/#contacto?paquete=starter" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
                  </Button>
                </div>
             </SheetContent>
           </Sheet>
         </div>
-         <Button asChild className="hidden md:inline-flex rounded-2xl">
-             {/* Update link to scroll to contact section and set package */}
-            <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
-          </Button>
       </div>
     </header>
   );
 }
-
-    
