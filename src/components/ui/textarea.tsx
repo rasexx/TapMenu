@@ -9,6 +9,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'tex
       <textarea
         className={cn(
           'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          // Explicit dark mode styling to ensure metal palette is applied
+          "dark:bg-metal-base dark:text-metal-soft dark:border-metal-accent dark:placeholder:text-metal-soft/60",
           className
         )}
         ref={ref}
@@ -20,4 +22,3 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'tex
 Textarea.displayName = 'Textarea';
 
 export {Textarea};
-

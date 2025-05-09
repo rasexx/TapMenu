@@ -4,104 +4,107 @@
 
 @layer base {
   :root {
-    /* Light Theme: White, Light Gray, Teal */
-    --background: 0 0% 100%;       /* White #FFFFFF */
-    --foreground: 0 0% 20%;       /* Dark Gray #333333 */
+    /* Light Theme (New Palette) */
+    --background: 207 33% 92%;    /* Azul cielo grisáceo (#E1ECF4) */
+    --foreground: 0 0% 11%;       /* Gris antracita (#1C1C1C) */
 
-    --card: 0 0% 100%;             /* White #FFFFFF */
-    --card-foreground: 0 0% 20%;   /* Dark Gray #333333 */
+    --card: 0 0% 100%;             /* Blanco puro (#FFFFFF) */
+    --card-foreground: 0 0% 11%;   /* Gris antracita (#1C1C1C) */
 
-    --popover: 0 0% 100%;          /* White #FFFFFF */
-    --popover-foreground: 0 0% 20%;/* Dark Gray #333333 */
+    --popover: 0 0% 100%;          /* Blanco puro (#FFFFFF) */
+    --popover-foreground: 0 0% 11%;/* Gris antracita (#1C1C1C) */
 
-    --primary: 180 100% 25.1%;     /* Teal #008080 */
-    --primary-foreground: 0 0% 100%;/* White #FFFFFF */
+    --primary: 211 36% 27%;        /* Azul oscuro profesional (#2B405D) */
+    --primary-foreground: 0 0% 100%;/* Blanco puro (#FFFFFF) */
 
-    --secondary: 0 0% 94.1%;      /* Light Gray #F0F0F0 */
-    --secondary-foreground: 0 0% 20%; /* Dark Gray #333333 */
+    --secondary: 210 25% 90%;     /* Lighter version of Azul gris metálico */
+    --secondary-foreground: 211 36% 27%; /* Azul oscuro profesional */
 
-    --muted: 0 0% 96%;             /* Lighter Gray #F5F5F5 */
-    --muted-foreground: 0 0% 41.2%;/* Medium Gray #696969 */
+    --muted: 210 30% 95%;          /* Very light gray/blue */
+    --muted-foreground: 210 20% 45%;/* Medium Gray-Blue */
 
-    --accent: 180 100% 25.1%;      /* Teal #008080 */
-    --accent-foreground: 0 0% 100%;/* White #FFFFFF */
+    --accent: 210 26% 74%;         /* Azul gris metálico (#A9BCCF) */
+    --accent-foreground: 0 0% 11%; /* Gris antracita (#1C1C1C) */
 
     --destructive: 0 84.2% 60.2%;  /* Default Red */
-    --destructive-foreground: 0 0% 98%; /* Default Light text for destructive */
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 86.7%;          /* Border Gray #DDDDDD */
-    --input: 180 100% 25.1%;       /* Teal #008080 for input borders */
-    --ring: 180 100% 25.1%;        /* Teal #008080 for focus rings */
+    --border: 210 26% 65%;         /* Darker Azul gris metálico */
+    --input: 210 26% 65%;          /* Azul gris metálico for input borders */
+    --ring: 211 36% 27%;           /* Azul oscuro profesional for focus rings */
 
-    --custom-dark: 0 0% 10.2%;      /* Very Dark Gray #1A1A1A (for bg-dark elements) */
-    --custom-contrast: 0 0% 100%; /* White #FFFFFF (for text-contrast on dark bg) */
-
-    --chart-1: 180 100% 30%;
-    --chart-2: 180 80% 40%;
-    --chart-3: 180 70% 50%;
-    --chart-4: 180 90% 35%;
-    --chart-5: 180 60% 45%;
+    --custom-dark: 0 0% 11%;      /* Gris antracita (#1C1C1C) */
+    --custom-contrast: 0 0% 100%; /* Blanco puro (#FFFFFF) */
+    
+    /* Chart colors for light theme (can be adjusted) */
+    --chart-1: 211 36% 40%;
+    --chart-2: 210 26% 60%;
+    --chart-3: 175 50% 50%;
+    --chart-4: 267 60% 60%;
+    --chart-5: 151 70% 50%;
 
     --radius: 0.5rem;
 
-    /* Sidebar Colors - Aligned with new palette */
-    --sidebar-background: 180 100% 25.1%; /* Teal */
-    --sidebar-foreground: 0 0% 100%;   /* White */
-    --sidebar-primary: 0 0% 94.1%;    /* Light Gray */
-    --sidebar-primary-foreground: 0 0% 20%; /* Dark Gray */
-    --sidebar-accent: 180 100% 30%;     /* Lighter Teal */
-    --sidebar-accent-foreground: 0 0% 100%; /* White */
-    --sidebar-border: 180 100% 20%;     /* Darker Teal */
-    --sidebar-ring: 0 0% 94.1%;       /* Light Gray */
+    /* Sidebar Colors - Light Theme */
+    --sidebar-background: 211 36% 27%; /* Azul oscuro profesional */
+    --sidebar-foreground: 0 0% 100%;   /* Blanco puro */
+    --sidebar-primary: 210 26% 74%;    /* Azul gris metálico */
+    --sidebar-primary-foreground: 0 0% 11%; /* Gris antracita */
+    --sidebar-accent: 175 58% 57%;     /* Cian eléctrico (metal.glow) */
+    --sidebar-accent-foreground: 0 0% 6%; /* Negro carbón (metal.base) */
+    --sidebar-border: 211 36% 20%;     /* Darker Azul oscuro profesional */
+    --sidebar-ring: 210 26% 74%;       /* Azul gris metálico */
   }
 
   .dark {
-    --background: 0 0% 10.2%;      /* Very Dark Gray #1A1A1A */
-    --foreground: 0 0% 94.1%;     /* Light Gray #F0F0F0 */
+    /* Dark Theme (3D Metal Palette) */
+    --background: 0 0% 6%;        /* metal.base (#0F0F0F) */
+    --foreground: 216 25% 88%;    /* metal.soft (#D9DEE5) */
 
-    --card: 0 0% 17.3%;           /* Darker Card #2C2C2C */
-    --card-foreground: 0 0% 94.1%;/* Light Gray #F0F0F0 */
+    --card: 0 0% 10%;              /* Slightly lighter than metal.base */
+    --card-foreground: 216 25% 88%;/* metal.soft (#D9DEE5) */
 
-    --popover: 0 0% 17.3%;
-    --popover-foreground: 0 0% 94.1%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 216 25% 88%;
 
-    --primary: 180 100% 31.4%;      /* Lighter Teal #00A0A0 */
-    --primary-foreground: 0 0% 10.2%; /* Very Dark Gray #1A1A1A for text on lighter teal */
+    --primary: 175 58% 57%;        /* metal.glow (#4FD1C5) - For Hero CTA */
+    --primary-foreground: 0 0% 6%; /* metal.base (#0F0F0F) - Text on metal.glow */
 
-    --secondary: 0 0% 22.7%;   /* Medium Dark Gray #3A3A3A */
-    --secondary-foreground: 0 0% 94.1%;
+    --secondary: 212 47% 30%;     /* metal.steel (#274D70) */
+    --secondary-foreground: 216 25% 88%; /* metal.soft (#D9DEE5) */
 
-    --muted: 0 0% 20%;           /* Dark Gray #333333 */
-    --muted-foreground: 0 0% 60%;/* Lighter gray for text on muted */
+    --muted: 212 47% 20%;          /* Darker metal.steel */
+    --muted-foreground: 216 25% 70%;/* Dimmer metal.soft */
 
-    --accent: 180 100% 31.4%;       /* Lighter Teal #00A0A0 */
-    --accent-foreground: 0 0% 10.2%; /* Very Dark Gray #1A1A1A */
+    --accent: 205 65% 75%;         /* metal.accent (#99C8E5) */
+    --accent-foreground: 0 0% 6%;  /* metal.base (#0F0F0F) */
 
-    --destructive: 0 72.2% 50.6%; /* Adjusted destructive for dark */
+    --destructive: 0 72.2% 50.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 26.7%;          /* Darker Border Gray #444444 */
-    --input: 180 100% 31.4%;       /* Lighter Teal #00A0A0 for input borders */
-    --ring: 180 100% 31.4%;         /* Lighter Teal #00A0A0 */
+    --border: 212 47% 25%;         /* Dimmer metal.steel for general borders */
+    --input: 205 65% 75%;          /* metal.accent (#99C8E5) for input borders */
+    --ring: 175 58% 57%;           /* metal.glow (#4FD1C5) for focus rings */
+    
+    --custom-dark: 0 0% 6%;        /* metal.base (#0F0F0F) */
+    --custom-contrast: 216 25% 88%;/* metal.soft (#D9DEE5) */
 
-    --custom-dark: 0 0% 10.2%;
-    --custom-contrast: 0 0% 100%;
-
-    --chart-1: 180 100% 35%;
-    --chart-2: 180 80% 45%;
-    --chart-3: 180 70% 55%;
-    --chart-4: 180 90% 40%;
-    --chart-5: 180 60% 50%;
-
-    /* Sidebar Dark Colors */
-    --sidebar-background: 0 0% 10.2%; /* Very Dark Gray */
-    --sidebar-foreground: 0 0% 94.1%;   /* Light Gray */
-    --sidebar-primary: 180 100% 31.4%;    /* Lighter Teal */
-    --sidebar-primary-foreground: 0 0% 10.2%; /* Very Dark Gray */
-    --sidebar-accent: 180 100% 35%;     /* Even Lighter Teal */
-    --sidebar-accent-foreground: 0 0% 10.2%; /* Very Dark Gray */
-    --sidebar-border: 0 0% 20%;     /* Dark Gray */
-    --sidebar-ring: 180 100% 31.4%;       /* Lighter Teal */
+    /* Chart colors for dark theme */
+    --chart-1: 175 58% 50%; /* metal.glow */
+    --chart-2: 205 65% 65%; /* metal.accent */
+    --chart-3: 267 70% 64%; /* metal.pulse */
+    --chart-4: 151 82% 60%; /* metal.chrome */
+    --chart-5: 212 47% 40%; /* metal.steel */
+    
+    /* Sidebar Colors - Dark Theme */
+    --sidebar-background: 0 0% 6%;    /* metal.base */
+    --sidebar-foreground: 216 25% 88%;/* metal.soft */
+    --sidebar-primary: 175 58% 57%;   /* metal.glow */
+    --sidebar-primary-foreground: 0 0% 6%; /* metal.base */
+    --sidebar-accent: 205 65% 75%;    /* metal.accent */
+    --sidebar-accent-foreground: 0 0% 6%; /* metal.base */
+    --sidebar-border: 0 0% 12%;       /* Darker metal.base */
+    --sidebar-ring: 175 58% 57%;      /* metal.glow */
   }
 }
 
@@ -117,25 +120,24 @@
     scroll-behavior: smooth;
   }
   section {
-     @apply py-8 md:py-16; /* py-16 desktop, py-8 mobile */
+     @apply py-8 md:py-16;
   }
   h1, h2, h3, h4, h5, h6 {
-      /* font-sans, text-4xl desktop, text-3xl tablet, text-2xl mobile */
       @apply font-sans text-2xl md:text-3xl lg:text-4xl font-bold;
   }
   p, li, span, label, input, textarea, button, a {
-       @apply text-base leading-relaxed; /* text-base, leading-relaxed */
+       @apply text-base leading-relaxed;
   }
 }
 
 @layer components {
     .container {
-        @apply px-4 md:px-8 lg:px-16; /* px-4 md:px-8 lg:px-16 */
+        @apply px-4 md:px-8 lg:px-16;
     }
     .btn-whatsapp {
-       @apply bg-[#25D366] text-white hover:bg-green-600 focus-visible:ring-[#25D366];
+       @apply bg-metal-chrome text-metal-base hover:bg-metal-glow focus-visible:ring-metal-chrome;
     }
     .btn-whatsapp:disabled {
-       @apply bg-[#25D366]/50 cursor-not-allowed hover:bg-[#25D366]/50;
+       @apply bg-metal-chrome/50 cursor-not-allowed hover:bg-metal-chrome/50;
     }
 }

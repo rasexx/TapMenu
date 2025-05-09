@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
@@ -25,8 +26,21 @@ export default {
            sans: ["var(--font-sans)", ...fontFamily.sans],
         },
   		colors: {
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
+        primary: '#2B405D',       // Azul oscuro profesional (Used for Light Mode Primary)
+        accent: '#A9BCCF',        // Azul gris metálico (Used for Light Mode Accent)
+        background: 'hsl(var(--background))', // Uses CSS variable
+        foreground: 'hsl(var(--foreground))', // Uses CSS variable
+        contrast: '#FFFFFF',      // Blanco puro (Mainly for Light Mode text on dark primary)
+        dark: '#1C1C1C',          // Gris antracita (Used for Light Mode text, or Dark Mode alternative background)
+        metal: {
+          base: '#0F0F0F',       // Fondo general (negro carbón) - Dark Mode BG
+          accent: '#99C8E5',     // Azul hielo metalizado - Dark Mode Accent
+          glow: '#4FD1C5',       // Cian eléctrico (hover, detalles) - Dark Mode Primary
+          pulse: '#9C63E5',      // Púrpura iridiscente - Dark Mode Hover/Special Accent
+          soft: '#D9DEE5',       // Gris claro metálico (textos) - Dark Mode Foreground
+          chrome: '#5AF5A6',     // Verde cromo (acciones/estados) - WhatsApp Button
+          steel: '#274D70',      // Azul acero profundo (estructura) - Dark Mode Secondary/Structural
+        },
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -35,11 +49,17 @@ export default {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
   			},
-  			primary: {
+  			// Primary, Secondary, Muted, Accent for ShadCN theme variables will be set in globals.css
+        // to use the new palette. We keep these HSL based definitions for ShadCN.
+        // The direct primary/accent above are more for Tailwind class usage if needed outside ShadCN context.
+        
+        // ShadCN themed primary (will be mapped to metal.glow for dark, #2B405D for light)
+  			'theme-primary': {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
-  			secondary: {
+        // ShadCN themed secondary (will be mapped to metal.steel for dark)
+  			'theme-secondary': {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
   			},
@@ -47,7 +67,8 @@ export default {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
   			},
-  			accent: {
+        // ShadCN themed accent (will be mapped to metal.accent for dark, #A9BCCF for light)
+  			'theme-accent': {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
@@ -56,7 +77,7 @@ export default {
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
   			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))', // This will use the --input HSL variable (Teal)
+  			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
   			chart: {
   				'1': 'hsl(var(--chart-1))',
@@ -76,8 +97,9 @@ export default {
   				ring: 'hsl(var(--sidebar-ring))'
   			},
         // Custom colors map to CSS variables
-        dark: 'hsl(var(--custom-dark))',      // For elements like footer background
-        contrast: 'hsl(var(--custom-contrast))', // For text on dark backgrounds
+        // These were from a previous theme, might be overridden or adjusted by new globals.
+        'custom-dark': 'hsl(var(--custom-dark))',
+        'custom-contrast': 'hsl(var(--custom-contrast))',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -88,7 +110,7 @@ export default {
   		},
         minHeight: {
             '60vh': '60vh',
-            'screen': '100vh', // ensure min-h-screen is available
+            'screen': '100vh',
         },
   		keyframes: {
   			'accordion-down': {

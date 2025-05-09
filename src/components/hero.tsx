@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -10,9 +11,10 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[60vh] md:min-h-screen flex items-center justify-center text-center overflow-hidden bg-background"
+      className="relative min-h-[60vh] md:min-h-screen flex items-center justify-center text-center overflow-hidden bg-background dark:bg-gradient-to-br dark:from-metal-base dark:via-metal-steel dark:to-metal-accent"
     >
-        <div className="absolute inset-0 bg-primary/5 z-10"></div>
+        {/* Overlay for light mode, dark mode uses gradient above */}
+        <div className="absolute inset-0 bg-primary/5 dark:bg-transparent z-10"></div>
 
         <motion.div
             className="container relative z-20 flex flex-col items-center"
@@ -20,10 +22,10 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <h1 className="font-bold tracking-tight text-primary mb-6">
+            <h1 className="font-bold tracking-tight text-primary dark:text-metal-accent mb-6">
                 Menú digital al instante con solo un tap
             </h1>
-            <p className="max-w-2xl text-lg text-primary/90 md:text-xl lg:text-xl mb-10 leading-relaxed">
+            <p className="max-w-2xl text-lg text-primary/90 dark:text-metal-soft md:text-xl lg:text-xl mb-10 leading-relaxed">
                 Olvídate de los códigos QR y las cartas físicas. Con nuestras tarjetas NFC tus clientes acceden al menú en un segundo, sin apps ni descargas.
             </p>
             <motion.div
@@ -35,7 +37,7 @@ export function Hero() {
                   asChild
                   variant="default"
                   rounded="2xl"
-                  className="hover:ring-2 hover:ring-accent hover:ring-offset-2 hover:ring-offset-background"
+                  className="hover:ring-2 hover:ring-accent dark:ring-metal-pulse hover:ring-offset-2 hover:ring-offset-background dark:bg-metal-glow dark:text-metal-base dark:hover:bg-metal-pulse"
                 >
                     <Link href="/#paquetes" className="flex items-center gap-2" aria-label="Ver paquetes y precios de TapMenu">
                         Ver paquetes y precios
@@ -55,7 +57,7 @@ export function Hero() {
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
              >
-                <ArrowDown className="h-6 w-6 text-primary/70" aria-hidden="true"/>
+                <ArrowDown className="h-6 w-6 text-primary/70 dark:text-metal-accent/70" aria-hidden="true"/>
             </motion.div>
          </motion.div>
     </section>
