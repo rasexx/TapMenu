@@ -1,17 +1,15 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, UtensilsCrossed, Sun, Moon } from "lucide-react"; 
+import { Menu, UtensilsCrossed, Sun, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
 
-// Logo Component using lucide-react icon
 const Logo = () => (
-    <UtensilsCrossed className="h-8 w-8 text-primary" aria-hidden="true" /> 
+    <UtensilsCrossed className="h-10 w-10 text-primary" aria-hidden="true" />
 );
 
 
@@ -55,7 +53,7 @@ export function Header() {
         isSticky ? "bg-background/95 shadow-md backdrop-blur-sm" : "bg-transparent"
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between"> 
+      <div className="container mx-auto flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2" aria-label="TapMenu Inicio">
           <Logo />
           <span className="text-lg font-semibold text-foreground">TapMenu</span>
@@ -64,15 +62,16 @@ export function Header() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-4">
          <NavLinks />
-          <Button asChild className="rounded-2xl ml-2">
+          <Button asChild variant="default" size="default" rounded="2xl" className="ml-2">
             <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
           </Button>
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
+            title="Cambiar tema"
             aria-label="Cambiar tema"
-            className="ml-2 p-2 rounded-full hover:bg-accent transition text-foreground"
+            className="ml-2 p-2 rounded-full hover:bg-accent/20 dark:hover:bg-accent/30 transition text-foreground"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </Button>
@@ -84,8 +83,9 @@ export function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
+            title="Cambiar tema"
             aria-label="Cambiar tema"
-            className="p-2 rounded-full hover:bg-accent transition text-foreground"
+            className="p-2 rounded-full hover:bg-accent/20 dark:hover:bg-accent/30 transition text-foreground"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </Button>
@@ -96,14 +96,14 @@ export function Header() {
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <SheetContent side="right" className="bg-background">
                <div className="flex flex-col gap-6 p-6">
                  <Link href="/" className="flex items-center gap-2 mb-4" onClick={closeMobileMenu} aria-label="TapMenu Inicio">
                     <Logo />
                     <span className="text-lg font-semibold text-foreground">TapMenu</span>
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
-                 <Button asChild className="mt-4 rounded-2xl">
+                 <Button asChild variant="default" size="default" rounded="2xl" className="mt-4">
                      <Link href="/#contacto?paquete=starter" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
                  </Button>
                </div>
