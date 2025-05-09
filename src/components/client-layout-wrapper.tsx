@@ -20,7 +20,7 @@ const ClientLayoutWrapper: FC<ClientLayoutWrapperProps> = ({ children }) => {
 
   useEffect(() => {
     // Simulate loading time
-    const timer = setTimeout(() => setIsLoading(false), 2000); // Adjust duration as needed
+    const timer = setTimeout(() => setIsLoading(false), 3500); // Updated duration to 3500ms
     return () => clearTimeout(timer);
   }, []);
 
