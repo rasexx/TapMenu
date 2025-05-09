@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -43,7 +44,7 @@ const availablePackages = [
 export function Footer() {
   const searchParams = useSearchParams();
   const formRef = useRef<HTMLFormElement>(null);
-  const footerRef = useRef<HTMLElement>(null); // Used for id="contacto"
+  const footerRef = useRef<HTMLElement>(null); 
 
   const selectedPackageFromUrl = searchParams?.get('paquete') || '';
 
@@ -59,8 +60,8 @@ export function Footer() {
       quantity: 1,
       message: "",
     },
-    mode: "onBlur", // Changed to onBlur
-    reValidateMode: "onChange", // Or 'onBlur'
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   useEffect(() => {
@@ -114,7 +115,6 @@ Quedo atento a los siguientes pasos. Gracias.
   const onError = (errors: any) => {
      console.error("Form validation errors:", errors);
      if (Object.keys(errors).length > 0) {
-        // Toast on error is now more selective, tied to form state and submit attempt
         if (form.formState.isSubmitted) {
            toast.error('Por favor completa todos los campos requeridos correctamente.');
         }
@@ -123,9 +123,9 @@ Quedo atento a los siguientes pasos. Gracias.
 
   return (
     <motion.footer
-        id="contacto" // This ID is used for scrolling
+        id="contacto" 
         ref={footerRef}
-        className="bg-dark text-contrast" // Footer bg Dark Gray, text White
+        className="bg-custom-dark dark:bg-metal-base text-custom-contrast dark:text-metal-soft"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -133,16 +133,16 @@ Quedo atento a los siguientes pasos. Gracias.
     >
       <div className="container mx-auto py-16 md:py-24 grid md:grid-cols-2 gap-12 lg:gap-16">
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-contrast">Ponte en Contacto</h2>
-          <p className="text-contrast/80 max-w-md">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-custom-contrast dark:text-metal-soft">Ponte en Contacto</h2>
+          <p className="text-custom-contrast/80 dark:text-metal-soft/80 max-w-md">
             ¿Listo para empezar? Completa el formulario y te contactaremos por WhatsApp para finalizar detalles.
           </p>
            <nav className="flex flex-wrap gap-x-6 gap-y-2">
-             <Link href="/" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Inicio">Inicio</Link>
-             <Link href="#beneficios" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Beneficios">Beneficios</Link>
-             <Link href="#como-funciona" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Cómo funciona">Cómo funciona</Link>
-             <Link href="#paquetes" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Paquetes">Paquetes</Link>
-             <Link href="#contacto" className="text-sm text-contrast hover:text-accent transition-colors" aria-label="Ir a Contacto">Contacto</Link>
+             <Link href="/" className="text-sm text-custom-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Inicio">Inicio</Link>
+             <Link href="#beneficios" className="text-sm text-custom-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Beneficios">Beneficios</Link>
+             <Link href="#como-funciona" className="text-sm text-custom-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Cómo funciona">Cómo funciona</Link>
+             <Link href="#paquetes" className="text-sm text-custom-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Paquetes">Paquetes</Link>
+             <Link href="#contacto" className="text-sm text-custom-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Contacto">Contacto</Link>
            </nav>
         </div>
 
@@ -155,9 +155,9 @@ Quedo atento a los siguientes pasos. Gracias.
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="name" className="text-contrast">Nombre *</FormLabel>
+                      <FormLabel htmlFor="name" className="text-custom-contrast dark:text-metal-soft">Nombre *</FormLabel>
                       <FormControl>
-                        <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-contrast text-foreground border-input rounded-md"/>
+                        <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -168,9 +168,9 @@ Quedo atento a los siguientes pasos. Gracias.
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel htmlFor="email" className="text-contrast">Correo Electrónico *</FormLabel>
+                        <FormLabel htmlFor="email" className="text-custom-contrast dark:text-metal-soft">Correo Electrónico *</FormLabel>
                         <FormControl>
-                            <Input id="email" type="email" aria-required="true" aria-label="Campo de entrada para correo electrónico" placeholder="tu@email.com" {...field} className="bg-contrast text-foreground border-input rounded-md"/>
+                            <Input id="email" type="email" aria-required="true" aria-label="Campo de entrada para correo electrónico" placeholder="tu@email.com" {...field} className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -184,9 +184,9 @@ Quedo atento a los siguientes pasos. Gracias.
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor="phone" className="text-contrast">Teléfono *</FormLabel>
+                        <FormLabel htmlFor="phone" className="text-custom-contrast dark:text-metal-soft">Teléfono *</FormLabel>
                         <FormControl>
-                          <Input id="phone" type="tel" aria-required="true" aria-label="Campo de entrada para número de teléfono" placeholder="Tu número de teléfono" {...field} className="bg-contrast text-foreground border-input rounded-md"/>
+                          <Input id="phone" type="tel" aria-required="true" aria-label="Campo de entrada para número de teléfono" placeholder="Tu número de teléfono" {...field} className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -197,9 +197,9 @@ Quedo atento a los siguientes pasos. Gracias.
                     name="city"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor="city" className="text-contrast">Ciudad *</FormLabel>
+                        <FormLabel htmlFor="city" className="text-custom-contrast dark:text-metal-soft">Ciudad *</FormLabel>
                         <FormControl>
-                          <Input id="city" aria-required="true" aria-label="Campo de entrada para ciudad" placeholder="Ciudad de tu restaurante" {...field} className="bg-contrast text-foreground border-input rounded-md"/>
+                          <Input id="city" aria-required="true" aria-label="Campo de entrada para ciudad" placeholder="Ciudad de tu restaurante" {...field} className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -212,9 +212,9 @@ Quedo atento a los siguientes pasos. Gracias.
                 name="restaurant"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel htmlFor="restaurant" className="text-contrast">Nombre del Restaurante *</FormLabel>
+                    <FormLabel htmlFor="restaurant" className="text-custom-contrast dark:text-metal-soft">Nombre del Restaurante *</FormLabel>
                     <FormControl>
-                        <Input id="restaurant" aria-required="true" aria-label="Campo de entrada para nombre del restaurante" placeholder="Nombre de tu negocio" {...field} className="bg-contrast text-foreground border-input rounded-md"/>
+                        <Input id="restaurant" aria-required="true" aria-label="Campo de entrada para nombre del restaurante" placeholder="Nombre de tu negocio" {...field} className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -227,16 +227,16 @@ Quedo atento a los siguientes pasos. Gracias.
                     name="package"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel htmlFor="package" className="text-contrast">Paquete Deseado *</FormLabel>
+                        <FormLabel htmlFor="package" className="text-custom-contrast dark:text-metal-soft">Paquete Deseado *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value} required>
                             <FormControl>
-                            <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-contrast text-foreground border-input rounded-md">
+                            <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md">
                                 <SelectValue placeholder="Selecciona un paquete" />
                             </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="dark:bg-metal-steel dark:text-metal-soft dark:border-metal-accent">
                             {availablePackages.map((pkg) => (
-                                <SelectItem key={pkg.id} value={pkg.id} aria-label={`Opción de paquete ${pkg.name}`}>
+                                <SelectItem key={pkg.id} value={pkg.id} aria-label={`Opción de paquete ${pkg.name}`} className="dark:focus:bg-metal-pulse">
                                 {pkg.name}
                                 </SelectItem>
                             ))}
@@ -252,7 +252,7 @@ Quedo atento a los siguientes pasos. Gracias.
                   name="quantity"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="quantity" className="text-contrast">Cantidad de Tarjetas *</FormLabel>
+                      <FormLabel htmlFor="quantity" className="text-custom-contrast dark:text-metal-soft">Cantidad de Tarjetas *</FormLabel>
                       <FormControl>
                         <Input
                           id="quantity"
@@ -262,7 +262,7 @@ Quedo atento a los siguientes pasos. Gracias.
                           aria-label="Campo de entrada para cantidad de tarjetas NFC"
                           placeholder="Ej: 5"
                           {...field}
-                          className="bg-contrast text-foreground border-input rounded-md"
+                          className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md"
                           onChange={event => field.onChange(event.target.value === '' ? '' : Number(event.target.value))}
                         />
                       </FormControl>
@@ -277,14 +277,14 @@ Quedo atento a los siguientes pasos. Gracias.
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="message" className="text-contrast">Mensaje Adicional (Opcional)</FormLabel>
+                      <FormLabel htmlFor="message" className="text-custom-contrast dark:text-metal-soft">Mensaje Adicional (Opcional)</FormLabel>
                       <FormControl>
                         <Textarea
                           id="message"
                           aria-label="Campo de texto para mensaje adicional"
                           placeholder="¿Alguna pregunta o detalle extra?"
                           {...field}
-                          className="bg-contrast text-foreground border-input rounded-md" 
+                          className="bg-custom-contrast dark:bg-metal-base text-foreground dark:text-metal-soft border-input dark:border-metal-accent rounded-md" 
                           rows={3}
                         />
                       </FormControl>
@@ -299,9 +299,9 @@ Quedo atento a los siguientes pasos. Gracias.
               >
                  <Button
                    type="submit"
-                   disabled={form.formState.isSubmitting || (form.formState.isSubmitted && !form.formState.isValid)} // Adjusted disabled state
+                   disabled={form.formState.isSubmitting || (form.formState.isSubmitted && !form.formState.isValid)}
                    aria-label="Enviar mensaje por WhatsApp"
-                   className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3"
+                   className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3" // btn-whatsapp already styled in globals.css
                   >
                     {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <WhatsappIcon className="w-6 h-6" aria-hidden="true" />}
                     Enviar mensaje
@@ -312,7 +312,7 @@ Quedo atento a los siguientes pasos. Gracias.
         </div>
       </div>
 
-      <div className="border-t border-contrast/20 mt-12 py-6 text-center text-xs text-contrast/70 space-y-2">
+      <div className="border-t border-custom-contrast/20 dark:border-metal-soft/20 mt-12 py-6 text-center text-xs text-custom-contrast/70 dark:text-metal-soft/70 space-y-2">
         © 2025 TapMenu. Todos los derechos reservados.<br />
         Diseñado con ❤️ para la industria gastronómica.<br />
         Creado y mantenido por{' '}
@@ -320,7 +320,7 @@ Quedo atento a los siguientes pasos. Gracias.
           href="https://linktr.ee/jseramn"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-accent hover:text-accent/80 hover:underline" // Link text-accent (Teal), hover lighter teal or underline
+          className="text-accent dark:text-metal-glow hover:text-accent/80 dark:hover:text-metal-pulse hover:underline"
           aria-label="Visitar perfil de José Ramón en Linktree"
         >
           José Ramón

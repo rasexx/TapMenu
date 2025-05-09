@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -9,22 +10,22 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
 
 const Logo = () => (
-    <UtensilsCrossed className="h-10 w-10 text-primary" aria-hidden="true" />
+    <UtensilsCrossed className="h-10 w-10 text-primary dark:text-metal-accent" aria-hidden="true" />
 );
 
 
 const NavLinks = ({ className, onClick }: { className?: string; onClick?: () => void }) => (
   <nav className={cn("flex flex-col md:flex-row md:items-center gap-4 md:gap-6 lg:gap-8", className)}>
-    <Link href="#beneficios" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Beneficios">
+    <Link href="#beneficios" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary dark:text-metal-soft dark:hover:text-metal-accent transition-colors" aria-label="Ir a la sección Beneficios">
       Beneficios
     </Link>
-    <Link href="#como-funciona" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Cómo Funciona">
+    <Link href="#como-funciona" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary dark:text-metal-soft dark:hover:text-metal-accent transition-colors" aria-label="Ir a la sección Cómo Funciona">
       Cómo Funciona
     </Link>
-    <Link href="#paquetes" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Paquetes">
+    <Link href="#paquetes" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary dark:text-metal-soft dark:hover:text-metal-accent transition-colors" aria-label="Ir a la sección Paquetes">
       Paquetes
     </Link>
-    <Link href="#contacto" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary transition-colors" aria-label="Ir a la sección Contacto">
+    <Link href="#contacto" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary dark:text-metal-soft dark:hover:text-metal-accent transition-colors" aria-label="Ir a la sección Contacto">
       Contacto
     </Link>
   </nav>
@@ -50,19 +51,19 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isSticky ? "bg-background/95 shadow-md backdrop-blur-sm" : "bg-transparent"
+        isSticky ? "bg-background/95 dark:bg-metal-base/95 shadow-md backdrop-blur-sm" : "bg-transparent dark:bg-metal-base/50" // Ensure dark mode bg even when not sticky if transparent
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2" aria-label="TapMenu Inicio">
           <Logo />
-          <span className="text-lg font-semibold text-foreground">TapMenu</span>
+          <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TapMenu</span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-4">
          <NavLinks />
-          <Button asChild variant="default" size="default" rounded="2xl" className="ml-2">
+          <Button asChild variant="default" size="default" rounded="2xl" className="ml-2 dark:bg-metal-glow dark:text-metal-base dark:hover:bg-metal-pulse">
             <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
           </Button>
           <Button
@@ -71,7 +72,7 @@ export function Header() {
             onClick={toggleTheme}
             title="Cambiar tema"
             aria-label="Cambiar tema"
-            className="ml-2 p-2 rounded-full hover:bg-accent/20 dark:hover:bg-accent/30 transition text-foreground"
+            className="ml-2 p-2 rounded-full hover:bg-accent/20 dark:text-metal-glow dark:hover:text-metal-pulse dark:hover:bg-transparent transition text-foreground"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </Button>
@@ -85,25 +86,25 @@ export function Header() {
             onClick={toggleTheme}
             title="Cambiar tema"
             aria-label="Cambiar tema"
-            className="p-2 rounded-full hover:bg-accent/20 dark:hover:bg-accent/30 transition text-foreground"
+            className="p-2 rounded-full hover:bg-accent/20 dark:text-metal-glow dark:hover:text-metal-pulse dark:hover:bg-transparent transition text-foreground"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </Button>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Abrir menú de navegación móvil">
-                <Menu className="h-6 w-6 text-foreground" aria-hidden="true" />
+                <Menu className="h-6 w-6 text-foreground dark:text-metal-soft" aria-hidden="true" />
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-background">
+            <SheetContent side="right" className="bg-background dark:bg-metal-base">
                <div className="flex flex-col gap-6 p-6">
                  <Link href="/" className="flex items-center gap-2 mb-4" onClick={closeMobileMenu} aria-label="TapMenu Inicio">
                     <Logo />
-                    <span className="text-lg font-semibold text-foreground">TapMenu</span>
+                    <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TapMenu</span>
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
-                 <Button asChild variant="default" size="default" rounded="2xl" className="mt-4">
+                 <Button asChild variant="default" size="default" rounded="2xl" className="mt-4 dark:bg-metal-glow dark:text-metal-base dark:hover:bg-metal-pulse">
                      <Link href="/#contacto?paquete=starter" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
                  </Button>
                </div>

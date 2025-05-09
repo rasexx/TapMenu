@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -6,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
-// import { collection, getDocs, query, orderBy, Firestore, getFirestore } from "firebase/firestore";
-// import { firebaseApp } from "@/lib/firebase";
 
 interface PackageData {
   id: string;
@@ -99,25 +98,25 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
       viewport={{ once: true, amount: 0.2 }}
       className="h-full"
   >
-      <Card className={`flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 h-full ${recommended ? 'border-primary border-2 relative overflow-hidden' : 'border-border'} bg-card`}> {/* Card background White */}
+      <Card className={`flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 h-full ${recommended ? 'border-primary dark:border-metal-glow border-2 relative overflow-hidden' : 'border-border dark:border-metal-glow/30'} bg-card dark:bg-metal-soft/10`}>
         {recommended && (
-            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 transform translate-x-[29%] translate-y-[29%] rotate-45 origin-center whitespace-nowrap z-10" aria-label="Paquete recomendado">
+            <div className="absolute top-0 right-0 bg-primary dark:bg-metal-glow text-primary-foreground dark:text-metal-base text-xs font-semibold px-3 py-1 transform translate-x-[29%] translate-y-[29%] rotate-45 origin-center whitespace-nowrap z-10" aria-label="Paquete recomendado">
             Recomendado
             </div>
         )}
         <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-bold text-center text-primary">{name}</CardTitle> {/* Title text-primary (Teal) */}
-        <CardDescription className="text-center text-muted-foreground">{range}</CardDescription>
+        <CardTitle className="text-2xl font-bold text-center text-primary dark:text-metal-accent">{name}</CardTitle>
+        <CardDescription className="text-center text-muted-foreground dark:text-metal-soft/70">{range}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
         <div className="text-center mb-6">
-            <span className="text-4xl font-extrabold text-primary">{formatPrice(price)}</span> {/* Price text-primary (Teal) */}
-            <span className="text-sm text-muted-foreground">/tarjeta</span>
+            <span className="text-4xl font-extrabold text-primary dark:text-metal-accent">{formatPrice(price)}</span>
+            <span className="text-sm text-muted-foreground dark:text-metal-soft/70">/tarjeta</span>
         </div>
         <ul className="space-y-2">
             {features.map((feature, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-foreground"> {/* Features text-foreground (Dark Gray) */}
-                <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-1" aria-hidden="true" />
+            <li key={index} className="flex items-start gap-2 text-sm text-foreground dark:text-metal-soft">
+                <CheckCircle className="h-4 w-4 text-green-500 dark:text-metal-chrome flex-shrink-0 mt-1" aria-hidden="true" />
                 <span dangerouslySetInnerHTML={{ __html: feature }} />
             </li>
             ))}
@@ -126,14 +125,14 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
         <CardFooter>
            <motion.div
                 className="w-full"
-                whileHover={{ scale: 1.02 }} // Inner button can also have a slight hover effect
+                whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
             >
                 <Button
                     variant="default"
                     size="default"
                     rounded="2xl"
-                    className="w-full" 
+                    className="w-full bg-metal-pulse hover:bg-metal-glow text-metal-base" // Specific styling for package buttons
                     onClick={() => scrollToContactAndSelectPackage(id)}
                     aria-label={`${ctaText} y ver detalles de contacto`}
                 >
@@ -147,22 +146,22 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
 
 
 const PackageSkeleton: React.FC = () => (
-  <Card className="flex flex-col h-full bg-card"> {/* Card background White */}
+  <Card className="flex flex-col h-full bg-card dark:bg-metal-soft/10">
     <CardHeader className="pb-4">
-      <Skeleton className="h-6 w-3/4 mx-auto mb-2 bg-muted" />
-      <Skeleton className="h-4 w-1/2 mx-auto bg-muted" />
+      <Skeleton className="h-6 w-3/4 mx-auto mb-2 bg-muted dark:bg-metal-steel/50" />
+      <Skeleton className="h-4 w-1/2 mx-auto bg-muted dark:bg-metal-steel/50" />
     </CardHeader>
     <CardContent className="flex-grow">
-       <Skeleton className="h-10 w-1/2 mx-auto mb-6 bg-muted" />
+       <Skeleton className="h-10 w-1/2 mx-auto mb-6 bg-muted dark:bg-metal-steel/50" />
       <div className="space-y-3">
-        <Skeleton className="h-4 w-full bg-muted" />
-        <Skeleton className="h-4 w-5/6 bg-muted" />
-         <Skeleton className="h-4 w-full bg-muted" />
-         <Skeleton className="h-4 w-4/5 bg-muted" />
+        <Skeleton className="h-4 w-full bg-muted dark:bg-metal-steel/50" />
+        <Skeleton className="h-4 w-5/6 bg-muted dark:bg-metal-steel/50" />
+         <Skeleton className="h-4 w-full bg-muted dark:bg-metal-steel/50" />
+         <Skeleton className="h-4 w-4/5 bg-muted dark:bg-metal-steel/50" />
       </div>
     </CardContent>
     <CardFooter>
-       <Skeleton className="h-10 w-full rounded-2xl bg-muted" />
+       <Skeleton className="h-10 w-full rounded-2xl bg-muted dark:bg-metal-steel/50" />
     </CardFooter>
   </Card>
 );
@@ -174,17 +173,17 @@ export function Packages() {
   return (
     <motion.section
         id="paquetes"
-        className="bg-secondary" // Section background Light Gray
+        className="bg-secondary dark:bg-metal-base"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         viewport={{ once: true }}
     >
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-primary sm:text-4xl mb-4"> {/* Section title text-primary (Teal) */}
+        <h2 className="text-3xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-4">
            Menú de Paquetes
         </h2>
-         <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-12 leading-relaxed">
+         <p className="text-lg text-muted-foreground dark:text-metal-soft/80 text-center max-w-2xl mx-auto mb-12 leading-relaxed">
            Elige el plan que mejor se adapte a tus necesidades y empieza a digitalizar tu menú hoy mismo.
          </p>
          {error && <p className="text-center text-destructive mb-8">{error}</p>}
@@ -201,7 +200,7 @@ export function Packages() {
             ))
            )}
            {!loading && !error && packages.length === 0 && (
-                <p className="text-center text-muted-foreground md:col-span-2 lg:col-span-3">
+                <p className="text-center text-muted-foreground dark:text-metal-soft/70 md:col-span-2 lg:col-span-3">
                     No se encontraron paquetes disponibles en este momento.
                 </p>
            )}

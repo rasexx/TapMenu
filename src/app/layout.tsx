@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -36,10 +37,9 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    // url: "YOUR_APP_URL", // Replace with your actual URL
     images: [
       {
-        url: "/og-image.png", // Ensure this image exists in /public
+        url: "/og-image.png", 
         width: 1200,
         height: 630,
         alt: "TapMenu Open Graph Image",
@@ -53,15 +53,14 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: ["/og-image.png"], // Ensure this image exists in /public
-    // creator: "@your_twitter_handle", // Replace with your Twitter handle
+    images: ["/og-image.png"],
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" }, // White for light theme
-    { media: "(prefers-color-scheme: dark)", color: "#1A1A1A" },  // Very Dark Gray for dark theme
+    { media: "(prefers-color-scheme: light)", color: "#E1ECF4" }, // metal.background (Azul cielo grisáceo)
+    { media: "(prefers-color-scheme: dark)", color: "#0F0F0F" },  // metal.base (Negro carbón)
   ],
 };
 
@@ -75,7 +74,8 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
        <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background text-foreground font-sans antialiased",
+          "dark:bg-metal-base dark:text-metal-soft", // Apply new metal palette for dark mode
           inter.variable
         )}
       >
