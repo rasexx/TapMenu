@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import { Toaster as ShadToaster } from "@/components/ui/toaster";
 import { Toaster as HotToaster } from 'react-hot-toast';
-import CardLoader from '@/components/ui/CardLoader'; // Updated import
+import CardLoader from '@/components/ui/CardLoader';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
@@ -20,7 +20,7 @@ const ClientLayoutWrapper: FC<ClientLayoutWrapperProps> = ({ children }) => {
 
   useEffect(() => {
     // Simulate loading time
-    const timer = setTimeout(() => setIsLoading(false), 2000); // Updated duration to 2000ms
+    const timer = setTimeout(() => setIsLoading(false), 3500); // Updated duration to 3500ms
     return () => clearTimeout(timer);
   }, []);
 
