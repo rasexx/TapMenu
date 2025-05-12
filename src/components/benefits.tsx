@@ -65,7 +65,7 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description, ari
         className="h-full"
     >
       <Card
-        className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-border hover:border-primary/20 dark:border-metal-glow/30 dark:bg-metal-soft/10 h-full flex flex-col bg-accent text-accent-foreground dark:text-metal-soft"
+        className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 border border-border hover:border-primary/20 dark:border-metal-glow/30 dark:bg-metal-soft/10 h-full flex flex-col bg-accent text-primary dark:text-metal-soft" // Applied new palette
         aria-label={ariaLabel}
         aria-labelledby={`benefit-title-${title.toLowerCase().replace(/\s+/g, '-')}`}
         aria-describedby={`benefit-desc-${title.toLowerCase().replace(/\s+/g, '-')}`}>
@@ -73,10 +73,10 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description, ari
            <div className="bg-accent-foreground/10 dark:bg-metal-glow/10 p-3 rounded-full">
              {icon}
            </div>
-          <CardTitle id={`benefit-title-${title.toLowerCase().replace(/\s+/g, '-')}`} className="text-xl font-semibold text-accent-foreground dark:text-metal-soft">{title}</CardTitle>
+          <CardTitle id={`benefit-title-${title.toLowerCase().replace(/\s+/g, '-')}`} className="text-xl font-semibold text-primary dark:text-metal-soft">{title}</CardTitle>
         </CardHeader>
         <CardContent className="flex-grow">
-          <p id={`benefit-desc-${title.toLowerCase().replace(/\s+/g, '-')}`} className="text-accent-foreground/80 dark:text-metal-soft/80 leading-relaxed">{description}</p>
+          <p id={`benefit-desc-${title.toLowerCase().replace(/\s+/g, '-')}`} className="text-primary/80 dark:text-metal-soft/80 leading-relaxed">{description}</p>
         </CardContent>
       </Card>
     </motion.div>
@@ -86,14 +86,14 @@ export function Benefits() {
   return (
     <motion.section
         id="beneficios"
-        className="bg-secondary dark:bg-metal-base" 
+        className="bg-secondary dark:bg-metal-base py-8 md:py-16" // Adjusted padding
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         viewport={{ once: true }}
     >
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-12">
+      <div className="container mx-auto px-4 md:px-8 lg:px-16"> {/* Added container padding */}
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-12"> {/* Adjusted heading size */}
            ¿Por qué NFC?
         </h2>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

@@ -7,14 +7,14 @@ import { motion } from 'framer-motion';
 export function EmbeddedPresentation() {
   return (
     <section className="bg-background dark:bg-metal-base py-8 md:py-16">
-      <div className="container mx-auto max-w-5xl px-4">
+      <div className="container mx-auto max-w-5xl px-4 md:px-8 lg:px-16"> {/* Adjusted padding */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-4 text-primary dark:text-metal-accent">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-4 text-primary dark:text-metal-accent"> {/* Adjusted heading size */}
             Descubre el Poder del NFC
           </h2>
           <p className="text-center text-base text-muted-foreground dark:text-metal-soft/80 mb-6 leading-relaxed">
@@ -56,4 +56,3 @@ export function EmbeddedPresentation() {
     </section>
   );
 }
-

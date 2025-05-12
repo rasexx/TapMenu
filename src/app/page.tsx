@@ -18,7 +18,7 @@ export default function Home() {
             <Benefits />
             <EmbeddedPresentation />
             <HowItWorks />
-             {/* Wrap Packages and Footer in Suspense for searchParams usage */}
+             {/* Wrap Packages and Footer in Suspense because they use useSearchParams */}
              <Suspense fallback={<div>Cargando...</div>}>
                 <Packages />
                 <Footer />
