@@ -18,7 +18,7 @@ export function EmbeddedPresentation() {
             Descubre el Poder del NFC
           </h2>
           <p className="text-center text-base text-muted-foreground dark:text-metal-soft/80 mb-6 leading-relaxed">
-            Explora en esta presentación interactiva cómo la tecnología NFC está transformando la industria gastronómica en Colombia.
+            Explora en esta presentación interactiva cómo la tecnología NFC va a transformar la industria gastronómica en Colombia.
           </p>
           <div
             style={{
@@ -56,3 +56,4 @@ export function EmbeddedPresentation() {
     </section>
   );
 }
+
