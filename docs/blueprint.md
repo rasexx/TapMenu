@@ -2,8 +2,8 @@
 
 ## Core Features:
 
-- Menu Display: Display the digital menu with an engaging user interface using data fetched from Firestore.
-- Contact Form Submission: Enable users to submit contact form data (name, email, restaurant, and package) which triggers a Firebase Function to send the data.
+- Menu Display: Display the digital menu with an engaging user interface.
+- Contact Form Submission: Enable users to submit contact form data (name, email, restaurant, and package).
 - Package Presentation: Showcase available packages with details like name, range, price, features, and a call-to-action, formatted appropriately for the locale.
 
 ## Style Guidelines:
