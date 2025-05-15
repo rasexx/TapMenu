@@ -1,0 +1,29 @@
+[
+  {
+    "id": "starter",
+    "name": "Starter",
+    "range": "1 – 3 tarjetas NFC",
+    "price": 70000,
+    "features": ["Programación básica del enlace (PDF o web simple)", "Código QR de respaldo"],
+    "ctaText": "Seleccionar Starter",
+    "recommended": false
+  },
+  {
+    "id": "pyme",
+    "name": "Pyme",
+    "range": "5 – 15 tarjetas NFC",
+    "price": 65000,
+    "features": ["Todo lo de Starter", "Diseño personalizado (logo y colores)", "Menú web responsivo"],
+    "ctaText": "Seleccionar Pyme",
+    "recommended": true
+  },
+  {
+    "id": "premium",
+    "name": "Premium",
+    "range": "Más de 15 tarjetas",
+    "price": 60000,
+    "features": ["Todo lo de Pyme", "Desarrollo de web app de menú con panel administrador", "Actualizaciones ilimitadas"],
+    "ctaText": "Seleccionar Premium",
+    "recommended": false
+  }
+]

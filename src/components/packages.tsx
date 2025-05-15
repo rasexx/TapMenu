@@ -1,12 +1,13 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
+import packagesDataFromJson from '@/data/packages.json'; // Import local JSON
 
 interface PackageData {
   id: string;
@@ -19,48 +20,10 @@ interface PackageData {
 }
 
 const usePackages = () => {
-  const [packages, setPackages] = useState<PackageData[]>([]);
-  const [loading, setLoading] = useState(true);
-   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-        const mockPackagesData: PackageData[] = [
-           {
-             id: "starter",
-             name: "Starter",
-             range: "1 – 3 tarjetas NFC",
-             price: 70000,
-             features: ["Programación básica del enlace (PDF o web simple)", "Código QR de respaldo"],
-             ctaText: "Seleccionar Starter",
-             recommended: false,
-           },
-           {
-             id: "pyme",
-             name: "Pyme",
-             range: "5 – 15 tarjetas NFC",
-             price: 65000,
-             features: ["Todo lo de Starter", "Diseño personalizado (logo y colores)", "Menú web responsivo"],
-             ctaText: "Seleccionar Pyme",
-             recommended: true,
-           },
-           {
-             id: "premium",
-             name: "Premium",
-             range: "Más de 15 tarjetas",
-             price: 60000,
-             features: ["Todo lo de Pyme", "Desarrollo de web app de menú con panel administrador", "Actualizaciones ilimitadas"],
-             ctaText: "Seleccionar Premium",
-             recommended: false,
-           },
-        ];
-      setPackages(mockPackagesData);
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return { packages, loading, error };
+  // Directly return the imported data.
+  // The 'loading' and 'error' states are for when data is fetched asynchronously.
+  // For static JSON, loading is always false and error is null.
+  return { packages: packagesDataFromJson as PackageData[], loading: false, error: null };
 };
 
 const formatPrice = (price: number): string => {
@@ -79,7 +42,15 @@ const scrollToContactAndSelectPackage = (packageId: string) => {
     const params = new URLSearchParams(window.location.search);
     params.set('paquete', packageId);
     const newUrl = `${window.location.pathname}?${params.toString()}#contacto`;
-    window.history.pushState({ path: newUrl }, '', newUrl);
+    // window.history.pushState({ path: newUrl }, '', newUrl); // Causes issues in some environments if window is not fully available
+
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ path: newUrl }, '', newUrl);
+      // Trigger a custom event or update state that Footer can listen to,
+      // as direct DOM scroll might happen before Footer's useEffect for searchParams runs.
+      // For simplicity, we rely on Footer's existing useEffect for now.
+    }
+
 
     if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -188,7 +159,7 @@ export function Packages() {
          </p>
          {error && <p className="text-center text-destructive mb-8">{error}</p>}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-           {loading ? (
+           {loading ? ( // This will likely not show skeletons anymore as loading is immediately false
             <>
               <PackageSkeleton />
               <PackageSkeleton />
