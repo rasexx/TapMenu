@@ -55,7 +55,8 @@
     "react-lottie-player": "^2.1.0",
     "recharts": "^2.15.1",
     "superstruct": "^2.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.27.1",

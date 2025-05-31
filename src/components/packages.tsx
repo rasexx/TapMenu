@@ -31,7 +31,7 @@ const usePackages = () => {
              id: "starter",
              name: "Starter",
              range: "1 – 3 tarjetas NFC",
-             price: 70000,
+             price: 39999,
              features: ["Programación básica del enlace (PDF o web simple)", "Código QR de respaldo"],
              ctaText: "Seleccionar Starter",
              recommended: false,
@@ -40,7 +40,7 @@ const usePackages = () => {
              id: "pyme",
              name: "Pyme",
              range: "5 – 15 tarjetas NFC",
-             price: 65000,
+             price: 34999,
              features: ["Todo lo de Starter", "Diseño personalizado (logo y colores)", "Menú web responsivo"],
              ctaText: "Seleccionar Pyme",
              recommended: true, // Marking Pyme as recommended
@@ -49,7 +49,7 @@ const usePackages = () => {
              id: "premium",
              name: "Premium",
              range: "Más de 15 tarjetas",
-             price: 60000,
+             price: 29999,
              features: ["Todo lo de Pyme", "Desarrollo de web app de menú con panel administrador", "Actualizaciones ilimitadas"],
              ctaText: "Seleccionar Premium",
              recommended: false,
@@ -110,7 +110,7 @@ const PackageCard: React.FC<PackageData> = ({ id, name, range, price, features, 
   >
       <Card className={`flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 h-full ${recommended ? 'border-primary dark:border-metal-glow border-2 relative overflow-hidden' : 'border-border dark:border-metal-glow/30'} bg-contrast dark:bg-metal-soft/10`}> {/* Applied new palette, bg-contrast for light mode */}
         {recommended && (
-            <div className="absolute top-0 right-0 bg-primary dark:bg-metal-glow text-primary-foreground dark:text-metal-base text-xs font-semibold px-3 py-1 transform translate-x-[29%] translate-y-[29%] rotate-45 origin-center whitespace-nowrap z-10" aria-label="Paquete recomendado">
+            <div className="absolute top-0 right-0 bg-primary dark:bg-metal-glow text-primary-foreground dark:text-metal-base text-xs font-semibold px-3 py-1 transform translate-x-[29%] translate-y-[29%] rotate-45 origin-center whitespace-nowrap z-10" aria-label="Recomendado">
             Recomendado
             </div>
         )}
