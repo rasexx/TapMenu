@@ -47,77 +47,79 @@ interface StepCardProps {
 
 function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isActive, onClick }: StepCardProps) {
 	return (
-		<motion.div
-			className="relative flex flex-col items-center"
-			initial={false}
-			animate={isActive ? "flipped" : "default"}
-			variants={{
-				default: { rotateY: 0 },
-				flipped: { rotateY: 180 },
-			}}
-			transition={{ duration: 0.6, ease: [0.4, 0.2, 0.2, 1] }}
-			style={{ perspective: "1200px" }}
-		>
-			{/* Card front/back */}
-			<div className="relative w-full h-64 card-perspective">
-				{/* Front */}
-				<motion.button
-					type="button"
-					aria-label={ariaLabel}
-					className={
-						"absolute inset-0 w-full h-full bg-contrast dark:bg-metal-soft/10 border border-metal-glow/20 rounded-xl flex flex-col items-center justify-center cursor-pointer select-none card-face-front"
-					}
-					style={{ zIndex: isActive ? 0 : 2 }}
-					onClick={onClick}
-					tabIndex={0}
-					whileTap={{ scale: 0.97 }}
-				>
-					<motion.div
+		<div className="relative flex flex-col items-center">
+			{/* Card front/back (rotating) */}
+			<motion.div
+				initial={false}
+				animate={isActive ? "flipped" : "default"}
+				variants={{
+					default: { rotateY: 0 },
+					flipped: { rotateY: 180 },
+				}}
+				transition={{ duration: 0.6, ease: [0.4, 0.2, 0.2, 1] }}
+				style={{ perspective: "1200px" }}
+				className="w-full"
+			>
+				<div className="relative w-full h-64 card-perspective">
+					{/* Front */}
+					<motion.button
+						type="button"
+						aria-label={ariaLabel}
 						className={
-							"flex items-center justify-center rounded-full bg-white dark:bg-metal-base mb-4 shadow-lg icon-glow"
+							"absolute inset-0 w-full h-full bg-contrast dark:bg-metal-soft/10 border border-metal-glow/20 rounded-xl flex flex-col items-center justify-center cursor-pointer select-none card-face-front"
 						}
-						animate={{
-							boxShadow: [
-								"0 0 0 0 rgba(0,180,255,0.4)",
-								"0 0 32px 12px rgba(0,180,255,0.6)",
-								"0 0 0 0 rgba(0,180,255,0.4)",
-							],
-							scale: [1, 1.13, 1],
-						}}
-						transition={{
-							duration: 1.6,
-							repeat: Infinity,
-							repeatType: "loop",
-							ease: "easeInOut",
-						}}
-						style={{ width: 72, height: 72 }}
-					>
-						<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" />
-					</motion.div>
-					<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
-						{title.replace(/^\d+\. /, "")}
-					</span>
-				</motion.button>
-				{/* Back (video) */}
-				{isActive && (
-					<div
-						className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/90 rounded-xl card-face-back card-face-back-active"
+						style={{ zIndex: isActive ? 0 : 2 }}
 						onClick={onClick}
+						tabIndex={0}
+						whileTap={{ scale: 0.97 }}
 					>
-						<video
-							key={video}
-							src={video}
-							autoPlay
-							loop
-							muted
-							playsInline
-							className="w-full h-full object-cover rounded-xl video-maxheight video-unflip"
-							style={{ transform: 'scaleX(1)' }}
-						/>
-					</div>
-				)}
-			</div>
-			{/* Description below, only if active */}
+						<motion.div
+							className={
+								"flex items-center justify-center rounded-full bg-white dark:bg-metal-base mb-4 shadow-lg icon-glow"
+							}
+							animate={{
+								boxShadow: [
+									"0 0 0 0 rgba(0,180,255,0.4)",
+									"0 0 32px 12px rgba(0,180,255,0.6)",
+									"0 0 0 0 rgba(0,180,255,0.4)",
+								],
+								scale: [1, 1.13, 1],
+							}}
+							transition={{
+								duration: 1.6,
+								repeat: Infinity,
+								repeatType: "loop",
+								ease: "easeInOut",
+							}}
+							style={{ width: 72, height: 72 }}
+						>
+							<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" />
+						</motion.div>
+						<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
+							{title.replace(/^\d+\. /, "")}
+						</span>
+					</motion.button>
+					{/* Back (video) */}
+					{isActive && (
+						<div
+							className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/90 rounded-xl card-face-back card-face-back-active"
+							onClick={onClick}
+						>
+							<video
+								key={video}
+								src={video}
+								autoPlay
+								loop
+								muted
+								playsInline
+								className="w-full h-full object-cover rounded-xl video-maxheight"
+								style={{ transform: 'scaleX(-1)' }} // Invierte horizontalmente para compensar el flip
+							/>
+						</div>
+					)}
+				</div>
+			</motion.div>
+			{/* Description below, only if active, OUTSIDE the rotating container */}
 			<motion.div
 				initial={false}
 				animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
@@ -131,7 +133,7 @@ function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isA
 					</div>
 				)}
 			</motion.div>
-		</motion.div>
+		</div>
 	);
 }
 
