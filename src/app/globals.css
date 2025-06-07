@@ -140,4 +140,27 @@
     .btn-whatsapp:disabled {
        @apply bg-metal-chrome/50 cursor-not-allowed hover:bg-metal-chrome/50;
     }
+    .card-face-front {
+      backface-visibility: hidden;
+      /* NO transform aquí, la rotación la maneja el contenedor padre con Framer Motion */
+    }
+    .card-face-back {
+      backface-visibility: hidden;
+      /* NO transform aquí, la rotación la maneja el contenedor padre con Framer Motion */
+    }
+    .card-perspective {
+      perspective: 1200px;
+    }
+    .video-maxheight {
+      max-height: 220px;
+    }
+    .icon-glow {
+      /* El glow animado se maneja con Framer Motion, pero aquí puedes ajustar fallback si lo deseas */
+    }
+    .card-face-back-active {
+      z-index: 2;
+    }
+    .video-unflip {
+      transform: scaleX(1) !important;
+    }
 }

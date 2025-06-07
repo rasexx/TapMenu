@@ -47,12 +47,12 @@ const CLIENTS = [
 
 // Utilidad para tamaño proporcional
 const LOGO_SIZES = {
-	"Bioverde SAS": 1,
-	"Grupo la Movida": 1,
-	"La Movida Cartagena": 0.5,
-	"La Jugada Club House": 1,
-	"Barra 7 Cartagena": 1,
-	"Mamas Pizza Cartagena": 1,
+	"Bioverde SAS": 1.5,
+	"Grupo la Movida": 1.25,
+	"La Movida Cartagena": 0.8,
+	"La Jugada Club House": 1.5,
+	"Barra 7 Cartagena": 1.25,
+	"Mamas Pizza Cartagena": 1.75,
 	"Lobo de Mar Cartagena": 1,
 };
 
@@ -81,13 +81,18 @@ export function ClientLogos() {
 										className="flex flex-col items-center group h-40 justify-end"
 										aria-label={`Visitar Instagram de ${client.name}`}
 									>
-										<div className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110 w-36 h-28">
+										<div
+											className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+											style={{
+												width: `${144 * scale}px`,
+												height: `${112 * scale}px`,
+											}}
+										>
 											<Image
 												src={client.image}
 												alt={client.name}
-												width={160}
-												height={110}
-												style={{ transform: `scale(${scale})` }}
+												width={160 * scale}
+												height={110 * scale}
 												className="object-contain"
 												loading="lazy"
 											/>
@@ -113,13 +118,18 @@ export function ClientLogos() {
 										className="flex flex-col items-center group h-40 justify-end"
 										aria-label={`Visitar Instagram de ${client.name}`}
 									>
-										<div className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110 w-36 h-28">
+										<div
+											className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+											style={{
+												width: `${144 * scale}px`,
+												height: `${112 * scale}px`,
+											}}
+										>
 											<Image
 												src={client.image}
 												alt={client.name}
-												width={160}
-												height={110}
-												style={{ transform: `scale(${scale})` }}
+												width={160 * scale}
+												height={110 * scale}
 												className="object-contain"
 												loading="lazy"
 											/>
