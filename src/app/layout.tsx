@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -53,6 +52,7 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     images: ["/og-image.png"],
   },
+  metadataBase: new URL('http://localhost:9002'),
 };
 
 export const viewport: Viewport = {

@@ -59,89 +59,45 @@ const LOGO_SIZES = {
 export function ClientLogos() {
 	return (
 		<section className="py-16 bg-white dark:bg-metal-base border-t border-contrast/10 dark:border-metal-soft/10">
-			<div className="container mx-auto px-4">
+			<div className="container mx-auto px-2 xs:px-4 md:px-8 lg:px-16">
 				<h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-contrast dark:text-metal-glow">
 					Clientes que confían en TapMenu
 				</h2>
 				<p className="text-center text-contrast/70 dark:text-metal-soft/70 mb-10">
 					Diversidad comercial en nuestro portafolio
 				</p>
-				<div className="flex flex-col items-center w-full">
-					<div className="flex flex-wrap justify-center gap-y-12 gap-x-8 w-full max-w-5xl">
-						{/* Primera fila: 4 logos */}
-						<div className="flex flex-row justify-center gap-x-8 w-full mb-[-24px] z-10 items-end">
-							{CLIENTS.slice(0, 4).map((client) => {
-								const scale = LOGO_SIZES[client.name] || 1;
-								return (
-									<a
-										key={client.name}
-										href={client.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="flex flex-col items-center group h-40 justify-end"
-										aria-label={`Visitar Instagram de ${client.name}`}
+				<div className="w-full flex justify-center">
+					<div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-8 w-full max-w-4xl mx-auto items-center">
+						{CLIENTS.map((client) => {
+							const scale = LOGO_SIZES[client.name] || 1;
+							return (
+								<a
+									key={client.name}
+									href={client.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex flex-col items-center group h-32 xs:h-36 sm:h-40 justify-end w-full"
+									aria-label={`Visitar Instagram de ${client.name}`}
+								>
+									<div
+										className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110 w-full"
+										style={{ maxWidth: `${144 * scale}px`, maxHeight: `${112 * scale}px` }}
 									>
-										<div
-											className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-											style={{
-												width: `${144 * scale}px`,
-												height: `${112 * scale}px`,
-											}}
-										>
-											<Image
-												src={client.image}
-												alt={client.name}
-												width={160 * scale}
-												height={110 * scale}
-												className="object-contain"
-												loading="lazy"
-											/>
-										</div>
-										<span className="mt-2 text-xs text-center text-contrast/60 dark:text-metal-soft/60 min-h-5 flex items-end">
-											{client.category}
-										</span>
-									</a>
-								);
-							})}
-						</div>
-						{/* Segunda fila: 3 logos, intercalados */}
-						<div className="flex flex-row justify-center gap-x-8 w-full mt-4 z-0 items-end">
-							<div className="flex-1" />
-							{CLIENTS.slice(4).map((client) => {
-								const scale = LOGO_SIZES[client.name] || 1;
-								return (
-									<a
-										key={client.name}
-										href={client.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="flex flex-col items-center group h-40 justify-end"
-										aria-label={`Visitar Instagram de ${client.name}`}
-									>
-										<div
-											className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-											style={{
-												width: `${144 * scale}px`,
-												height: `${112 * scale}px`,
-											}}
-										>
-											<Image
-												src={client.image}
-												alt={client.name}
-												width={160 * scale}
-												height={110 * scale}
-												className="object-contain"
-												loading="lazy"
-											/>
-										</div>
-										<span className="mt-2 text-xs text-center text-contrast/60 dark:text-metal-soft/60 min-h-5 flex items-end">
-											{client.category}
-										</span>
-									</a>
-								);
-							})}
-							<div className="flex-1" />
-						</div>
+										<Image
+											src={client.image}
+											alt={client.name}
+											width={160 * scale}
+											height={110 * scale}
+											className="object-contain w-full h-auto max-h-20 xs:max-h-24"
+											loading="lazy"
+										/>
+									</div>
+									<span className="mt-2 text-xs text-center text-contrast/60 dark:text-metal-soft/60 min-h-5 flex items-end w-full break-words">
+										{client.category}
+									</span>
+								</a>
+							);
+						})}
 					</div>
 				</div>
 			</div>

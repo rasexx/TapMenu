@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -178,27 +177,15 @@ const PackageSkeleton: React.FC = () => (
 
 
 export function Packages() {
-   const { packages, loading, error } = usePackages();
-
+  const { packages, loading, error } = usePackages();
   return (
-    <motion.section
-        id="paquetes" // Keep this ID for scrolling
-        className="bg-secondary dark:bg-metal-base py-8 md:py-16" // Adjusted padding
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        viewport={{ once: true }}
-    >
-      <div className="container mx-auto px-4 md:px-8 lg:px-16"> {/* Added container padding */}
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-4"> {/* Adjusted heading size */}
-           Menú de Paquetes
+    <section id="paquetes" className="bg-background dark:bg-metal-base py-8 md:py-16 px-2 sm:px-4 md:px-8 lg:px-16">
+      <div className="container mx-auto">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent mb-8 sm:mb-12">
+          Paquetes y precios
         </h2>
-         <p className="text-lg text-muted-foreground dark:text-metal-soft/80 text-center max-w-2xl mx-auto mb-12 leading-relaxed">
-           Elige el plan que mejor se adapte a tus necesidades y empieza a digitalizar tu menú hoy mismo.
-         </p>
-         {error && <p className="text-center text-destructive mb-8">{error}</p>}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"> {/* Responsive grid */}
-           {loading ? (
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {loading ? (
             <>
               <PackageSkeleton />
               <PackageSkeleton />
@@ -216,6 +203,6 @@ export function Packages() {
            )}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

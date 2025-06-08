@@ -47,7 +47,7 @@ interface StepCardProps {
 
 function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isActive, onClick }: StepCardProps) {
 	return (
-		<div className="relative flex flex-col items-center">
+		<div className="relative flex flex-col items-center w-full max-w-[95vw] sm:max-w-none px-0 sm:px-2 mx-auto"> {/* mx-auto para centrar siempre */}
 			{/* Card front/back (rotating) */}
 			<motion.div
 				initial={false}
@@ -60,7 +60,7 @@ function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isA
 				style={{ perspective: "1200px" }}
 				className="w-full"
 			>
-				<div className="relative w-full h-64 card-perspective">
+				<div className="relative w-full h-56 xs:h-64 card-perspective max-w-[95vw] sm:max-w-sm md:max-w-md mx-auto flex flex-col items-center justify-center"> {/* flex y mx-auto para centrar contenido vertical y horizontalmente */}
 					{/* Front */}
 					<motion.button
 						type="button"
@@ -91,12 +91,15 @@ function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isA
 								repeatType: "loop",
 								ease: "easeInOut",
 							}}
-							style={{ width: 72, height: 72 }}
+							style={{ width: 64, height: 64 }} // Slightly smaller for mobile
 						>
-							<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" />
+							<Icon className="h-10 w-10 text-primary dark:text-metal-glow" aria-hidden="true" />
 						</motion.div>
-						<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
+						<span className="block text-sm xs:text-base sm:text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2 text-center px-1 xs:px-2">
 							{title.replace(/^\d+\. /, "")}
+						</span>
+						<span className="block text-xs xs:text-sm sm:text-base text-metal-steel/80 dark:text-metal-soft/80 mb-2 text-center px-1 xs:px-2">
+							{description}
 						</span>
 					</motion.button>
 					{/* Back (video) */}
@@ -106,14 +109,13 @@ function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isA
 							onClick={onClick}
 						>
 							<video
-								key={video}
+								className="w-full h-36 xs:h-40 sm:h-48 object-cover rounded-lg shadow-md video-maxheight max-h-[140px] xs:max-h-[160px] sm:max-h-[180px]"
 								src={video}
 								autoPlay
 								loop
 								muted
 								playsInline
-								className="w-full h-full object-cover rounded-xl video-maxheight"
-								style={{ transform: 'scaleX(-1)' }} // Invierte horizontalmente para compensar el flip
+								aria-label={ariaLabel}
 							/>
 						</div>
 					)}
@@ -124,11 +126,11 @@ function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isA
 				initial={false}
 				animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
 				transition={{ duration: 0.4 }}
-				className="absolute left-0 right-0 mx-auto mt-4 px-2"
+				className="absolute left-1/2 -translate-x-1/2 mx-auto mt-4 px-1 xs:px-2" // left-1/2 y -translate-x-1/2 para centrar
 				style={{ top: '100%', minHeight: 0, pointerEvents: 'none' }}
 			>
 				{isActive && (
-					<div className="bg-white/90 dark:bg-metal-base/90 rounded-lg shadow-lg p-4 text-center text-sm text-metal-steel dark:text-metal-soft max-w-xs mx-auto">
+					<div className="bg-white/90 dark:bg-metal-base/90 rounded-lg shadow-lg p-2 xs:p-4 text-center text-xs xs:text-sm text-metal-steel dark:text-metal-soft max-w-[95vw] sm:max-w-xs mx-auto">
 						{description}
 					</div>
 				)}
@@ -151,24 +153,26 @@ export function HowItWorks() {
 			transition={{ duration: 0.5, ease: "easeInOut" }}
 			viewport={{ once: true }}
 		>
-			<div className="container mx-auto px-4 md:px-8 lg:px-16">
+			<div className="container mx-auto px-2 xs:px-4 md:px-8 lg:px-16">
 				<h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-12">
 					Toca una tarjeta para ver como funciona
 				</h2>
-				<div className="grid grid-cols-1 gap-y-8 gap-x-8 md:grid-cols-3 md:gap-8">
-					{stepsData.map((step, idx) => (
-						<StepCard
-							key={step.title}
-							icon={step.icon}
-							title={step.title}
-							description={step.description}
-							video={step.video}
-							ariaLabel={step.ariaLabel}
-							index={idx}
-							isActive={active === idx}
-							onClick={() => setActive(active === idx ? -1 : idx)}
-						/>
-					))}
+				<div className="w-full flex justify-center">
+					<div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-6 xs:gap-8 w-full max-w-4xl mx-auto">
+						{stepsData.map((step, idx) => (
+							<StepCard
+								key={step.title}
+								icon={step.icon}
+								title={step.title}
+								description={step.description}
+								video={step.video}
+								ariaLabel={step.ariaLabel}
+								index={idx}
+								isActive={active === idx}
+								onClick={() => setActive(active === idx ? -1 : idx)}
+							/>
+						))}
+					</div>
 				</div>
 			</div>
 		</motion.section>

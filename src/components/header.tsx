@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -54,10 +53,10 @@ export function Header() {
         isSticky ? "bg-background/95 dark:bg-metal-base/95 shadow-md backdrop-blur-sm" : "bg-transparent dark:bg-metal-base/50" // Ensure dark mode bg even when not sticky if transparent
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="TapMenu Inicio">
+      <div className="container mx-auto flex h-16 items-center justify-between px-2 sm:px-4"> {/* Added px-2 for mobile, sm:px-4 for tablet+ */}
+        <Link href="/" className="flex items-center gap-2 min-w-0" aria-label="TapMenu Inicio">
           <Logo />
-          <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TapMenu</span>
+          <span className="text-base sm:text-lg font-semibold text-foreground dark:text-metal-accent truncate max-w-[120px] sm:max-w-none">TapMenu</span> {/* Prevent overflow */}
         </Link>
 
         {/* Desktop Navigation */}
@@ -97,17 +96,13 @@ export function Header() {
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-background dark:bg-metal-base">
-               <div className="flex flex-col gap-6 p-6">
-                 <Link href="/" className="flex items-center gap-2 mb-4" onClick={closeMobileMenu} aria-label="TapMenu Inicio">
-                    <Logo />
-                    <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TapMenu</span>
-                </Link>
-                <NavLinks className="items-start" onClick={closeMobileMenu} />
-                 <Button asChild variant="default" size="default" rounded="2xl" className="mt-4 dark:bg-metal-glow dark:text-metal-base dark:hover:bg-metal-pulse">
-                     <Link href="/#contacto?paquete=starter" onClick={closeMobileMenu} aria-label="Ver Paquetes desde menú móvil">Ver Paquetes</Link>
-                 </Button>
-               </div>
+            <SheetContent side="right" className="bg-background dark:bg-metal-base w-[90vw] max-w-xs p-6"> {/* Responsive width and padding */}
+              <div className="flex flex-col gap-6 mt-8">
+                <NavLinks onClick={closeMobileMenu} className="gap-6 text-lg" />
+                <Button asChild variant="default" size="lg" rounded="2xl" className="w-full dark:bg-metal-glow dark:text-metal-base dark:hover:bg-metal-pulse">
+                  <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde menú móvil" onClick={closeMobileMenu}>Ver Paquetes</Link>
+                </Button>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
