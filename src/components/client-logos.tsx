@@ -2,46 +2,40 @@ import Image from "next/image";
 
 const CLIENTS = [
 	{
-		name: "Bioverde SAS",
+		name: "Bioverde Consultores SAS",
 		image: "/logos_clientes/Logo_Bioverde-removebg-preview.png",
 		url: "https://www.instagram.com/bioverdesas",
-		category: "Productos orgánicos y saludables",
-	},
-	{
-		name: "Grupo la Movida",
-		image: "/logos_clientes/Grupo_la_Movida-removebg-preview.png",
-		url: "https://www.instagram.com/grupolamovida.co",
-		category: "Grupo empresarial de entretenimiento",
+		category: "Ingenieria Forestal y Paisajismo, Neiva - Huila",
 	},
 	{
 		name: "La Movida Cartagena",
 		image: "/logos_clientes/La_movida-removebg-preview.png",
 		url: "https://www.instagram.com/lamovidacartagena",
-		category: "Bar y discoteca",
+		category: "Food & Drinks | Live Shows, Cartagena - Bolívar",
 	},
 	{
 		name: "La Jugada Club House",
 		image: "/logos_clientes/La_Jugada-removebg-preview.png",
 		url: "https://www.instagram.com/lajugadaclubhouse",
-		category: "Club social y bar",
+		category: "Drinkery House | Cocktails & Parties, Cartagena - Bolívar",
 	},
 	{
 		name: "Barra 7 Cartagena",
 		image: "/logos_clientes/Barra_7-removebg-preview.png",
 		url: "https://www.instagram.com/barra7cartagena",
-		category: "Bar deportivo",
+		category: "Cocktail Bar, Cartagena - Bolívar",
 	},
 	{
 		name: "Mamas Pizza Cartagena",
 		image: "/logos_clientes/Mamas_pizza-removebg-preview.png",
 		url: "https://www.instagram.com/mamaspizzactg",
-		category: "Pizzería y restaurante",
+		category: "Restaurante & Pizzeria, Cartagena - Bolívar",
 	},
 	{
 		name: "Lobo de Mar Cartagena",
 		image: "/logos_clientes/Lobo_de_Mar-removebg-preview.png",
 		url: "https://www.instagram.com/lobodemarcartagena",
-		category: "Restaurante de mariscos",
+		category: "Food & CocktailBar, Cartagena - Bolívar",
 	},
 ];
 
@@ -66,82 +60,38 @@ export function ClientLogos() {
 				<p className="text-center text-contrast/70 dark:text-metal-soft/70 mb-10">
 					Diversidad comercial en nuestro portafolio
 				</p>
-				<div className="flex flex-col items-center w-full">
-					<div className="flex flex-wrap justify-center gap-y-12 gap-x-8 w-full max-w-5xl">
-						{/* Primera fila: 4 logos */}
-						<div className="flex flex-row justify-center gap-x-8 w-full mb-[-24px] z-10 items-end">
-							{CLIENTS.slice(0, 4).map((client) => {
-								const scale = LOGO_SIZES[client.name] || 1;
-								return (
-									<a
-										key={client.name}
-										href={client.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="flex flex-col items-center group h-40 justify-end"
-										aria-label={`Visitar Instagram de ${client.name}`}
+				<div className="flex justify-center w-full">
+					<div className="bg-transparent rounded-xl shadow-none p-6 w-full max-w-2xl flex flex-col gap-6">
+						{CLIENTS.map((client) => {
+							const scale = LOGO_SIZES[client.name] || 1;
+							return (
+								<a
+									key={client.name}
+									href={client.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex flex-col items-center group w-full gap-2 py-4 border-b last:border-b-0 border-contrast/10 dark:border-metal-soft/20 justify-center"
+									aria-label={`Visitar Instagram de ${client.name}`}
+								>
+									<div
+										className="flex items-center justify-center transition-transform duration-300 group-hover:scale-105 rounded-md p-2 bg-transparent"
+										style={{ width: `${120 * scale}px`, height: `${80 * scale}px`, minWidth: '80px', minHeight: '56px' }}
 									>
-										<div
-											className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-											style={{
-												width: `${144 * scale}px`,
-												height: `${112 * scale}px`,
-											}}
-										>
-											<Image
-												src={client.image}
-												alt={client.name}
-												width={160 * scale}
-												height={110 * scale}
-												className="object-contain"
-												loading="lazy"
-											/>
-										</div>
-										<span className="mt-2 text-xs text-center text-contrast/60 dark:text-metal-soft/60 min-h-5 flex items-end">
-											{client.category}
-										</span>
-									</a>
-								);
-							})}
-						</div>
-						{/* Segunda fila: 3 logos, intercalados */}
-						<div className="flex flex-row justify-center gap-x-8 w-full mt-4 z-0 items-end">
-							<div className="flex-1" />
-							{CLIENTS.slice(4).map((client) => {
-								const scale = LOGO_SIZES[client.name] || 1;
-								return (
-									<a
-										key={client.name}
-										href={client.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="flex flex-col items-center group h-40 justify-end"
-										aria-label={`Visitar Instagram de ${client.name}`}
-									>
-										<div
-											className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-											style={{
-												width: `${144 * scale}px`,
-												height: `${112 * scale}px`,
-											}}
-										>
-											<Image
-												src={client.image}
-												alt={client.name}
-												width={160 * scale}
-												height={110 * scale}
-												className="object-contain"
-												loading="lazy"
-											/>
-										</div>
-										<span className="mt-2 text-xs text-center text-contrast/60 dark:text-metal-soft/60 min-h-5 flex items-end">
-											{client.category}
-										</span>
-									</a>
-								);
-							})}
-							<div className="flex-1" />
-						</div>
+										<Image
+											src={client.image}
+											alt={client.name}
+											width={120 * scale}
+											height={80 * scale}
+											className="object-contain w-full h-auto"
+											loading="lazy"
+										/>
+									</div>
+									<span className="text-xs md:text-sm text-contrast/70 dark:text-metal-soft/70 text-center mt-2">
+										{client.category}
+									</span>
+								</a>
+							);
+						})}
 					</div>
 				</div>
 			</div>
