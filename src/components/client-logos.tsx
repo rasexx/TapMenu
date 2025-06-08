@@ -40,9 +40,8 @@ const CLIENTS = [
 ];
 
 // Utilidad para tamaño proporcional
-const LOGO_SIZES = {
-	"Bioverde SAS": 1.5,
-	"Grupo la Movida": 1.25,
+const LOGO_SIZES: Record<string, number> = {
+	"Bioverde Consultores SAS": 1.5,
 	"La Movida Cartagena": 0.8,
 	"La Jugada Club House": 1.5,
 	"Barra 7 Cartagena": 1.25,
@@ -51,6 +50,13 @@ const LOGO_SIZES = {
 };
 
 export function ClientLogos() {
+	// Helper to get width/height classes based on scale
+	function getLogoSizeClasses(scale: number) {
+		const width = 120 * scale;
+		const height = 80 * scale;
+		// Use Tailwind arbitrary values for width/height
+		return `w-[${width}px] h-[${height}px]`;
+	}
 	return (
 		<section className="py-16 bg-white dark:bg-metal-base border-t border-contrast/10 dark:border-metal-soft/10">
 			<div className="container mx-auto px-4">
@@ -64,6 +70,7 @@ export function ClientLogos() {
 					<div className="bg-transparent rounded-xl shadow-none p-6 w-full max-w-2xl flex flex-col gap-6">
 						{CLIENTS.map((client) => {
 							const scale = LOGO_SIZES[client.name] || 1;
+							const sizeClasses = getLogoSizeClasses(scale);
 							return (
 								<a
 									key={client.name}
@@ -74,8 +81,7 @@ export function ClientLogos() {
 									aria-label={`Visitar Instagram de ${client.name}`}
 								>
 									<div
-										className="flex items-center justify-center transition-transform duration-300 group-hover:scale-105 rounded-md p-2 bg-transparent"
-										style={{ width: `${120 * scale}px`, height: `${80 * scale}px`, minWidth: '80px', minHeight: '56px' }}
+										className={`flex items-center justify-center transition-transform duration-300 group-hover:scale-105 rounded-md p-2 bg-transparent client-logo-box ${sizeClasses}`}
 									>
 										<Image
 											src={client.image}

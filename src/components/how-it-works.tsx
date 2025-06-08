@@ -47,91 +47,88 @@ interface StepCardProps {
 
 function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isActive, onClick }: StepCardProps) {
 	return (
-		<motion.div
-			className="relative flex flex-col items-center"
-			initial={false}
-			animate={isActive ? "flipped" : "default"}
-			variants={{
-				default: { rotateY: 0 },
-				flipped: { rotateY: 180 },
-			}}
-			transition={{ duration: 0.6, ease: [0.4, 0.2, 0.2, 1] }}
-			style={{ perspective: "1200px" }}
-		>
-			{/* Card front/back */}
-			<div className="relative w-full h-64 card-perspective">
-				{/* Front */}
-				<motion.button
-					type="button"
-					aria-label={ariaLabel}
-					className={
-						"absolute inset-0 w-full h-full bg-contrast dark:bg-metal-soft/10 border border-metal-glow/20 rounded-xl flex flex-col items-center justify-center cursor-pointer select-none card-face-front"
-					}
-					style={{ zIndex: isActive ? 0 : 2 }}
-					onClick={onClick}
-					tabIndex={0}
-					whileTap={{ scale: 0.97 }}
-				>
-					<motion.div
-						className={
-							"flex items-center justify-center rounded-full bg-white dark:bg-metal-base mb-4 shadow-lg icon-glow"
-						}
-						animate={{
-							boxShadow: [
-								"0 0 0 0 rgba(0,180,255,0.4)",
-								"0 0 32px 12px rgba(0,180,255,0.6)",
-								"0 0 0 0 rgba(0,180,255,0.4)",
-							],
-							scale: [1, 1.13, 1],
-						}}
-						transition={{
-							duration: 1.6,
-							repeat: Infinity,
-							repeatType: "loop",
-							ease: "easeInOut",
-						}}
-						style={{ width: 72, height: 72 }}
-					>
-						<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" />
-					</motion.div>
-					<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
-						{title.replace(/^\d+\. /, "")}
-					</span>
-				</motion.button>
-				{/* Back (video) */}
-				{isActive && (
-					<div
-						className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/90 rounded-xl card-face-back card-face-back-active"
-						onClick={onClick}
-					>
-						<video
-							key={video}
-							src={video}
-							autoPlay
-							loop
-							muted
-							playsInline
-							className="w-full h-full object-cover rounded-xl video-maxheight video-unflip"
-							style={{ transform: 'scaleX(1)' }}
-						/>
-					</div>
-				)}
-			</div>
-			{/* Description below, only if active */}
+		<div className="relative flex flex-col items-center">
 			<motion.div
 				initial={false}
-				animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-				transition={{ duration: 0.4 }}
-				className="absolute left-0 right-0 mx-auto mt-4 px-2"
-				style={{ top: '100%', minHeight: 0, pointerEvents: 'none' }}
+				animate={isActive ? "flipped" : "default"}
+				variants={{
+					default: { rotateY: 0 },
+					flipped: { rotateY: 180 },
+				}}
+				transition={{ duration: 0.6, ease: [0.4, 0.2, 0.2, 1] }}
+				style={{ perspective: "1200px" }}
+				className="w-full"
+			>
+				{/* Card front/back */}
+				<div className="relative w-full h-64 card-perspective">
+					{/* Front */}
+					<motion.button
+						type="button"
+						aria-label={ariaLabel}
+						className={
+							"absolute inset-0 w-full h-full bg-contrast dark:bg-metal-soft/10 border border-metal-glow/20 rounded-xl flex flex-col items-center justify-center cursor-pointer select-none card-face-front"
+						}
+						style={{ zIndex: isActive ? 0 : 2 }}
+						onClick={onClick}
+						tabIndex={0}
+						whileTap={{ scale: 0.97 }}
+					>
+						<motion.div
+							className={
+								"flex items-center justify-center rounded-full bg-white dark:bg-metal-base mb-4 shadow-lg icon-glow"
+							}
+							animate={{
+								boxShadow: [
+									"0 0 0 0 rgba(0,180,255,0.4)",
+									"0 0 32px 12px rgba(0,180,255,0.6)",
+									"0 0 0 0 rgba(0,180,255,0.4)",
+								],
+								scale: [1, 1.13, 1],
+							}}
+							transition={{
+								duration: 1.6,
+								repeat: Infinity,
+								repeatType: "loop",
+								ease: "easeInOut",
+							}}
+							style={{ width: 72, height: 72 }}
+						>
+							<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" />
+						</motion.div>
+						<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
+							{title.replace(/^\d+\. /, "")}
+						</span>
+					</motion.button>
+					{/* Back (video) */}
+					{isActive && (
+						<div
+							className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/90 rounded-xl card-face-back card-face-back-active"
+							onClick={onClick}
+						>
+							<video
+								key={video}
+								src={video}
+								autoPlay
+								loop
+								muted
+								playsInline
+								className="w-full h-full object-cover rounded-xl video-maxheight video-unflip"
+							/>
+						</div>
+					)}
+				</div>
+			</motion.div>
+			{/* Description below, always visible and outside the card */}
+			<div className={`transition-all duration-300 mt-4 w-full ${isActive ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0 overflow-hidden'} flex justify-center`}
+				aria-live="polite"
 			>
 				{isActive && (
 					<div className="bg-white/90 dark:bg-metal-base/90 rounded-lg shadow-lg p-4 text-center text-sm text-metal-steel dark:text-metal-soft max-w-xs mx-auto">
 						{description}
 					</div>
 				)}
-			</motion.div>
-		</motion.div>
+			</div>
+		</div>
 	);
 }
 
@@ -153,7 +150,7 @@ export function HowItWorks() {
 				<h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-12">
 					Toca una tarjeta para ver como funciona
 				</h2>
-				<div className="grid grid-cols-1 gap-y-8 gap-x-8 md:grid-cols-3 md:gap-8">
+				<div className="grid grid-cols-1 gap-y-24 gap-x-8 md:grid-cols-3 md:gap-8">
 					{stepsData.map((step, idx) => (
 						<StepCard
 							key={step.title}

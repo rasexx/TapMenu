@@ -21,30 +21,11 @@ export function EmbeddedPresentation() {
             Explora en esta presentación interactiva cómo la tecnología NFC va a transformar la industria Colombiana.
           </p>
           <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: 0,
-              paddingTop: '56.25%',
-              marginTop: '1.6em',
-              marginBottom: '0.9em',
-              boxShadow: '0 2px 8px 0 rgba(63,69,81,0.16)',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              willChange: 'transform',
-            }}
-            className="bg-card dark:bg-metal-soft/10"
+            className="bg-card dark:bg-metal-soft/10 presentation-embed-box"
           >
             <iframe
               loading="lazy"
-              style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                top: 0,
-                left: 0,
-                border: 'none',
-              }}
+              className="presentation-iframe"
               src="https://www.canva.com/design/DAGnERsj8Lw/ISdlw_1U86AstIOvKuaUyw/view?embed"
               allow="fullscreen"
               title="Presentación sobre el Poder del NFC"
@@ -67,30 +48,11 @@ export function EmbeddedPresentation() {
             Descubre cómo nuestra agencia aliada de IA y Marketing potencia las experiencias digitales y transforma las estrategias de negocio.
           </p>
           <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: 0,
-              paddingTop: '56.25%',
-              marginTop: '1.6em',
-              marginBottom: '0.9em',
-              boxShadow: '0 2px 8px 0 rgba(63,69,81,0.16)',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              willChange: 'transform',
-            }}
-            className="bg-card dark:bg-metal-soft/10"
+            className="bg-card dark:bg-metal-soft/10 presentation-embed-box"
           >
             <iframe
               loading="lazy"
-              style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                top: 0,
-                left: 0,
-                border: 'none',
-              }}
+              className="presentation-iframe"
               src="https://www.canva.com/design/DAGo_M_odCQ/jFJe1_PAHWPlpOXSpTI8zA/view?embed"
               allow="fullscreen"
               title="Presentación de Aliada Marketing"
