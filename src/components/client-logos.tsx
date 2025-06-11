@@ -61,7 +61,7 @@ export function ClientLogos() {
 		<section className="py-16 bg-white dark:bg-metal-base border-t border-contrast/10 dark:border-metal-soft/10">
 			<div className="container mx-auto px-4">
 				<h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-contrast dark:text-metal-glow">
-					Clientes que confían en TapMenu
+					Clientes que confían en TagMe
 				</h2>
 				<p className="text-center text-contrast/70 dark:text-metal-soft/70 mb-10">
 					Diversidad comercial en nuestro portafolio

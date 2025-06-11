@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -105,7 +104,7 @@ export function Footer() {
     const selectedPackageName = availablePackages.find(p => p.id === selectedPackageId)?.name ?? selectedPackageId;
 
     const rawMessage = `
-Hola equipo de TapMenu,
+Hola equipo de TagMe,
 
 Nombre: ${name}
 Restaurante: ${restaurant}
@@ -332,14 +331,14 @@ Quedo atento a los siguientes pasos. Gracias.
 
       {/* Credits Section */}
       <div className="border-t border-contrast/20 dark:border-metal-soft/20 mt-12 py-6 text-center text-xs text-contrast/70 dark:text-metal-soft/70 space-y-2">
-        © 2025 TapMenu. Todos los derechos reservados.<br />
+        © 2025 TagMe. Todos los derechos reservados.<br />
         Diseñado con ❤️ para la industria gastronómica.<br />
         Creado y mantenido por{' '}
         <a
           href="https://linktr.ee/jseramn"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-accent dark:text-metal-glow hover:text-accent/80 dark:hover:text-metal-pulse hover:underline" // Applied palette
+          className="text-accent dark:text-metal-glow hover:text-accent/80 dark:hover:text-metal-pulse hover:underline"
           aria-label="Visitar perfil de José Ramón en Linktree"
         >
           José Ramón

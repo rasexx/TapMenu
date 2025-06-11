@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -6,10 +5,10 @@ import ClientLayoutWrapper from '@/components/client-layout-wrapper';
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
 
-const APP_NAME = "TapMenu";
-const APP_DEFAULT_TITLE = "TapMenu - Menú Digital NFC Instantáneo";
-const APP_TITLE_TEMPLATE = "%s | TapMenu";
-const APP_DESCRIPTION = "TapMenu: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium.";
+const APP_NAME = "TagMe";
+const APP_DEFAULT_TITLE = "TagMe - Menú Digital NFC Instantáneo";
+const APP_TITLE_TEMPLATE = "%s | TagMe";
+const APP_DESCRIPTION = "TagMe: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -40,7 +39,7 @@ export const metadata: Metadata = {
         url: "/og-image.png", 
         width: 1200,
         height: 630,
-        alt: "TapMenu Open Graph Image",
+        alt: "TagMe Open Graph Image",
       },
     ],
   },

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -55,9 +54,9 @@ export function Header() {
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="TapMenu Inicio">
+        <Link href="/" className="flex items-center gap-2" aria-label="TagMe Inicio">
           <Logo />
-          <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TapMenu</span>
+          <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TagMe</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -99,9 +98,9 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="bg-background dark:bg-metal-base">
                <div className="flex flex-col gap-6 p-6">
-                 <Link href="/" className="flex items-center gap-2 mb-4" onClick={closeMobileMenu} aria-label="TapMenu Inicio">
+                 <Link href="/" className="flex items-center gap-2 mb-4" onClick={closeMobileMenu} aria-label="TagMe Inicio">
                     <Logo />
-                    <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TapMenu</span>
+                    <span className="text-lg font-semibold text-foreground dark:text-metal-accent">TagMe</span>
                 </Link>
                 <NavLinks className="items-start" onClick={closeMobileMenu} />
                  <Button asChild variant="default" size="default" rounded="2xl" className="mt-4 dark:bg-metal-glow dark:text-metal-base dark:hover:bg-metal-pulse">
