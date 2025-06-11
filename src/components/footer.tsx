@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -51,8 +51,10 @@ export function Footer() {
 
   const selectedPackageFromUrl = searchParams?.get('paquete') || '';
 
+  const resolver: Resolver<ContactFormSchema> = zodResolver(contactFormSchema) as Resolver<ContactFormSchema>;
+
   const form = useForm<ContactFormSchema>({
-    resolver: zodResolver(contactFormSchema),
+    resolver,
     defaultValues: {
       name: "",
       email: "",
@@ -139,147 +141,129 @@ Quedo atento a los siguientes pasos. Gracias.
 
   return (
     <motion.footer
-        id="contact-section" // Changed ID to contact-section for scroll target
-        ref={footerRef}
-        className="bg-dark dark:bg-metal-base text-contrast dark:text-metal-soft py-8 md:py-16" // Applied new palette, adjusted padding
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        viewport={{ once: true }}
+      id="contact-section"
+      ref={footerRef}
+      className="bg-[#003D73] dark:bg-[#0F0F0F] text-[#E4E9EC] dark:text-[#64FFB3] py-8 md:py-16 transition-colors duration-300"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
     >
-      <div className="container mx-auto px-4 md:px-8 lg:px-16 grid md:grid-cols-2 gap-12 lg:gap-16"> {/* Added container padding */}
+      <div className="container mx-auto px-4 md:px-8 lg:px-16 grid md:grid-cols-2 gap-12 lg:gap-16">
         <div className="space-y-6">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight sm:text-4xl text-contrast dark:text-metal-soft">Ponte en Contacto</h2> {/* Adjusted heading size */}
-          <p className="text-contrast/80 dark:text-metal-soft/80 max-w-md leading-relaxed">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight sm:text-4xl text-[#E4E9EC] dark:text-[#64FFB3]">Ponte en Contacto</h2>
+          <p className="text-[#E4E9EC]/80 dark:text-[#64FFB3]/80 max-w-md leading-relaxed">
             ¿Listo para empezar? Completa el formulario y te contactaremos por WhatsApp para finalizar detalles.
           </p>
-           <nav className="flex flex-wrap gap-x-6 gap-y-2">
-             <Link href="/" className="text-sm text-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Inicio">Inicio</Link>
-             <Link href="#beneficios" className="text-sm text-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Beneficios">Beneficios</Link>
-             <Link href="#como-funciona" className="text-sm text-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Cómo funciona">Cómo funciona</Link>
-             <Link href="#paquetes" className="text-sm text-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Paquetes">Paquetes</Link>
-             <Link href="#contact-section" className="text-sm text-contrast dark:text-metal-soft hover:text-accent dark:hover:text-metal-glow transition-colors" aria-label="Ir a Contacto">Contacto</Link> {/* Updated href */}
-           </nav>
+          <nav className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link href="/" className="text-sm text-[#E4E9EC] dark:text-[#64FFB3] hover:text-[#64FFB3] dark:hover:text-[#E4E9EC] transition-colors" aria-label="Ir a Inicio">Inicio</Link>
+            <Link href="#beneficios" className="text-sm text-[#E4E9EC] dark:text-[#64FFB3] hover:text-[#64FFB3] dark:hover:text-[#E4E9EC] transition-colors" aria-label="Ir a Beneficios">Beneficios</Link>
+            <Link href="#casos-de-uso" className="text-sm text-[#E4E9EC] dark:text-[#64FFB3] hover:text-[#64FFB3] dark:hover:text-[#E4E9EC] transition-colors" aria-label="Ir a Casos de uso">Casos de uso</Link>
+            <Link href="#comparativa" className="text-sm text-[#E4E9EC] dark:text-[#64FFB3] hover:text-[#64FFB3] dark:hover:text-[#E4E9EC] transition-colors" aria-label="Ir a Comparativa">Comparativa</Link>
+            <Link href="#paquetes" className="text-sm text-[#E4E9EC] dark:text-[#64FFB3] hover:text-[#64FFB3] dark:hover:text-[#E4E9EC] transition-colors" aria-label="Ir a Paquetes">Planes y Precios</Link>
+            <Link href="#contact-section" className="text-sm text-[#E4E9EC] dark:text-[#64FFB3] hover:text-[#64FFB3] dark:hover:text-[#E4E9EC] transition-colors" aria-label="Ir a Contacto">Contacto</Link>
+          </nav>
         </div>
-
         <div className="space-y-6">
-          <Form {...form}>
+          <FormProvider {...form}>
             <form ref={formRef} onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-4">
-              {/* Form Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                 <FormField
+                <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="name" className="text-contrast dark:text-metal-soft">Nombre *</FormLabel>
+                      <FormLabel htmlFor="name" className="text-[#E4E9EC] dark:text-[#64FFB3]">Nombre *</FormLabel>
                       <FormControl>
-                        <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
+                        <Input id="name" aria-required="true" aria-label="Campo de entrada para nombre completo" placeholder="Tu nombre completo" {...field} className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"/>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                 <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel htmlFor="email" className="text-contrast dark:text-metal-soft">Correo Electrónico *</FormLabel>
-                        <FormControl>
-                            <Input id="email" type="email" aria-required="true" aria-label="Campo de entrada para correo electrónico" placeholder="tu@email.com" {...field} className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-              </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="phone" className="text-contrast dark:text-metal-soft">Teléfono *</FormLabel>
-                        <FormControl>
-                          <Input id="phone" type="tel" aria-required="true" aria-label="Campo de entrada para número de teléfono" placeholder="Tu número de teléfono" {...field} className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="city" className="text-contrast dark:text-metal-soft">Ciudad *</FormLabel>
-                        <FormControl>
-                          <Input id="city" aria-required="true" aria-label="Campo de entrada para ciudad" placeholder="Ciudad de tu restaurante" {...field} className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-               <FormField
-                control={form.control}
-                name="restaurant"
-                render={({ field }) => (
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
                     <FormItem>
-                    <FormLabel htmlFor="restaurant" className="text-contrast dark:text-metal-soft">Nombre del Restaurante *</FormLabel>
+                      <FormLabel htmlFor="email" className="text-[#E4E9EC] dark:text-[#64FFB3]">Correo Electrónico *</FormLabel>
+                      <FormControl>
+                        <Input id="email" type="email" aria-required="true" aria-label="Campo de entrada para correo electrónico" placeholder="tu@email.com" {...field} className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor="phone" className="text-[#E4E9EC] dark:text-[#64FFB3]">Teléfono *</FormLabel>
+                      <FormControl>
+                        <Input id="phone" type="tel" aria-required="true" aria-label="Campo de entrada para número de teléfono" placeholder="Tu número de teléfono" {...field} className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor="city" className="text-[#E4E9EC] dark:text-[#64FFB3]">Ciudad *</FormLabel>
+                      <FormControl>
+                        <Input id="city" aria-required="true" aria-label="Campo de entrada para ciudad" placeholder="Ciudad" {...field} className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="restaurant"
+                  render={({ field }) => (
+                    <FormItem>
+                    <FormLabel htmlFor="restaurant" className="text-[#E4E9EC] dark:text-[#64FFB3]">Nombre del Restaurante *</FormLabel>
                     <FormControl>
-                        <Input id="restaurant" aria-required="true" aria-label="Campo de entrada para nombre del restaurante" placeholder="Nombre de tu negocio" {...field} className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"/>
+                        <Input id="restaurant" aria-required="true" aria-label="Campo de entrada para nombre del restaurante" placeholder="Nombre de tu negocio" {...field} className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"/>
                     </FormControl>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                 <FormField
-                    control={form.control}
-                    name="package"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel htmlFor="package" className="text-contrast dark:text-metal-soft">Paquete Deseado *</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value} > {/* Removed required as Zod handles it */}
-                            <FormControl>
-                            <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md">
+                <FormField
+                  control={form.control}
+                  name="package"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor="package" className="text-[#E4E9EC] dark:text-[#64FFB3]">Paquete Deseado *</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger id="package" aria-required="true" aria-label="Selector de paquete deseado" className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md">
                                 <SelectValue placeholder="Selecciona un paquete" />
                             </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="dark:bg-metal-steel dark:text-metal-soft dark:border-metal-accent">
-                            {availablePackages.map((pkg) => (
-                                <SelectItem key={pkg.id} value={pkg.id} aria-label={`Opción de paquete ${pkg.name}`} className="dark:focus:bg-metal-pulse">
-                                {pkg.name}
-                                </SelectItem>
-                            ))}
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
+                          </FormControl>
+                          <SelectContent className="dark:bg-[#003D73] dark:text-[#64FFB3] dark:border-[#E4E9EC]">
+                          {availablePackages.map((pkg) => (
+                              <SelectItem key={pkg.id} value={pkg.id}>{pkg.name}</SelectItem>
+                          ))}
+                          </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="quantity" className="text-contrast dark:text-metal-soft">Cantidad de Tarjetas *</FormLabel>
+                      <FormLabel htmlFor="quantity" className="text-[#E4E9EC] dark:text-[#64FFB3]">Cantidad</FormLabel>
                       <FormControl>
-                        <Input
-                          id="quantity"
-                          type="number"
-                          min="1"
-                          aria-required="true"
-                          aria-label="Campo de entrada para cantidad de tarjetas NFC"
-                          placeholder="Ej: 5"
-                          {...field}
-                          className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"
+                        <Input id="quantity" type="number" min={1} aria-label="Campo de entrada para cantidad de tarjetas" placeholder="Cantidad" {...field} className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"
                           onChange={event => field.onChange(event.target.value === '' ? '' : Number(event.target.value))}
                         />
                       </FormControl>
@@ -294,14 +278,14 @@ Quedo atento a los siguientes pasos. Gracias.
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="message" className="text-contrast dark:text-metal-soft">Mensaje Adicional (Opcional)</FormLabel>
+                      <FormLabel htmlFor="message" className="text-[#E4E9EC] dark:text-[#64FFB3]">Mensaje Adicional (Opcional)</FormLabel>
                       <FormControl>
                         <Textarea
                           id="message"
                           aria-label="Campo de texto para mensaje adicional"
                           placeholder="¿Alguna pregunta o detalle extra?"
                           {...field}
-                          className="bg-contrast text-dark dark:bg-metal-base dark:text-metal-soft border-input dark:border-metal-accent rounded-md"
+                          className="bg-[#E4E9EC] text-[#003D73] dark:bg-[#003D73] dark:text-[#64FFB3] border-[#64FFB3] dark:border-[#E4E9EC] rounded-md placeholder:text-[#003D73]/60 dark:placeholder:text-[#64FFB3]/60"
                           rows={3}
                         />
                       </FormControl>
@@ -316,21 +300,19 @@ Quedo atento a los siguientes pasos. Gracias.
               >
                  <Button
                    type="submit"
-                   disabled={form.formState.isSubmitting} // Disable only during submission
+                   disabled={form.formState.isSubmitting}
                    aria-label="Enviar mensaje por WhatsApp"
-                   className="w-full rounded-2xl btn-whatsapp flex items-center justify-center gap-2 p-3" // Using WhatsApp button style from globals
+                   className="w-full rounded-2xl flex items-center justify-center gap-2 p-3 bg-[#64FFB3] text-[#003D73] hover:bg-[#003D73] hover:text-[#64FFB3] dark:bg-[#64FFB3] dark:text-[#003D73] dark:hover:bg-[#003D73] dark:hover:text-[#64FFB3] transition-colors"
                   >
                     {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <WhatsappIcon className="w-6 h-6" aria-hidden="true" />}
                     Enviar mensaje
                  </Button>
              </motion.div>
             </form>
-          </Form>
+          </FormProvider>
         </div>
       </div>
-
-      {/* Credits Section */}
-      <div className="border-t border-contrast/20 dark:border-metal-soft/20 mt-12 py-6 text-center text-xs text-contrast/70 dark:text-metal-soft/70 space-y-2">
+      <div className="border-t border-[#E4E9EC]/20 dark:border-[#64FFB3]/20 mt-12 py-6 text-center text-xs text-[#E4E9EC]/70 dark:text-[#64FFB3]/70 space-y-2">
         © 2025 TagMe. Todos los derechos reservados.<br />
         Diseñado con ❤️ para la industria gastronómica.<br />
         Creado y mantenido por{' '}
@@ -338,7 +320,7 @@ Quedo atento a los siguientes pasos. Gracias.
           href="https://linktr.ee/jseramn"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-accent dark:text-metal-glow hover:text-accent/80 dark:hover:text-metal-pulse hover:underline"
+          className="text-[#64FFB3] dark:text-[#E4E9EC] hover:text-[#E4E9EC] dark:hover:text-[#64FFB3] hover:underline"
           aria-label="Visitar perfil de José Ramón en Linktree"
         >
           José Ramón

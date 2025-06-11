@@ -137,19 +137,12 @@ export function HowItWorks() {
 	const sectionRef = useRef<HTMLDivElement>(null);
 
 	return (
-		<motion.section
-			id="como-funciona"
-			ref={sectionRef}
-			className="bg-contrast dark:bg-metal-base py-8 md:py-16"
-			initial={{ opacity: 0, y: 50 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.5, ease: "easeInOut" }}
-			viewport={{ once: true }}
-		>
-			<div className="container mx-auto px-4 md:px-8 lg:px-16">
-				<h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-12">
-					Toca una tarjeta para ver como funciona
-				</h2>
+		<section className="bg-[#E4E9EC] dark:bg-[#0A1929] py-20 px-4 font-[Poppins,Inter,sans-serif]">
+			<div className="max-w-6xl mx-auto flex flex-col items-center">
+				<h2 className="text-3xl md:text-4xl font-extrabold text-[#003D73] dark:text-[#64FFB3] mb-4 text-center">Casos de uso</h2>
+				<p className="text-lg md:text-xl text-[#003D73] dark:text-[#E4E9EC] mb-12 text-center max-w-2xl">
+					Así es como TagMe transforma el networking, la presentación profesional y la gestión de contactos en distintos escenarios.
+				</p>
 				<div className="grid grid-cols-1 gap-y-24 gap-x-8 md:grid-cols-3 md:gap-8">
 					{stepsData.map((step, idx) => (
 						<StepCard
@@ -166,6 +159,6 @@ export function HowItWorks() {
 					))}
 				</div>
 			</div>
-		</motion.section>
+		</section>
 	);
 }

@@ -1,10 +1,10 @@
-
 "use client";
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, ShieldCheck, RefreshCw, Paintbrush } from 'lucide-react'; // Using Lucide icons
 import { motion } from "framer-motion";
+import { FiZap, FiSmartphone, FiEdit, FiBarChart2, FiShield } from "react-icons/fi";
 
 const benefitsData = [
   {
@@ -30,6 +30,34 @@ const benefitsData = [
     title: "Diseño personalizado",
     description: "Tarjetas con tu logo y colores, integradas al estilo de tu restaurante.",
      ariaLabel: "Beneficio: Diseño de tarjetas NFC personalizado",
+  },
+];
+
+const BENEFITS = [
+  {
+    icon: <FiZap className="text-[#64FFB3]" size={36} />,
+    title: "Un solo toque",
+    desc: "Guarda contacto, abre link o CV con solo acercar el móvil."
+  },
+  {
+    icon: <FiSmartphone className="text-[#64FFB3]" size={36} />,
+    title: "Imagen premium",
+    desc: "Tecnología NFC con diseño metálico profesional."
+  },
+  {
+    icon: <FiEdit className="text-[#64FFB3]" size={36} />,
+    title: "Actualizable en tiempo real",
+    desc: "Cambia tu perfil sin reimprimir nada."
+  },
+  {
+    icon: <FiBarChart2 className="text-[#64FFB3]" size={36} />,
+    title: "Métricas de impacto",
+    desc: "Recibe estadísticas de uso (externas)."
+  },
+  {
+    icon: <FiShield className="text-[#64FFB3]" size={36} />,
+    title: "Seguro por diseño",
+    desc: "Solo funciona por proximidad física (<4 cm)."
   },
 ];
 
@@ -84,24 +112,85 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description, ari
 
 export function Benefits() {
   return (
-    <motion.section
+    <section
         id="beneficios"
-        className="bg-secondary dark:bg-metal-base py-8 md:py-16" // Adjusted padding
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        viewport={{ once: true }}
+        className="bg-[#E4E9EC] dark:bg-[#003D73] py-20 px-4 font-[Poppins,Inter,sans-serif]"
     >
-      <div className="container mx-auto px-4 md:px-8 lg:px-16"> {/* Added container padding */}
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-primary dark:text-metal-accent sm:text-4xl mb-12"> {/* Adjusted heading size */}
-           ¿Por qué NFC?
-        </h2>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {benefitsData.map((benefit, index) => (
-            <BenefitCard key={benefit.title} {...benefit} index={index} />
+      <div className="max-w-6xl mx-auto flex flex-col items-center">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-[#003D73] dark:text-[#64FFB3] mb-4 text-center">¿Por qué TagMe?</h2>
+        <p className="text-lg md:text-xl text-[#003D73] dark:text-[#E4E9EC] mb-12 text-center max-w-2xl">
+          Más rápido que un QR. Más profesional que una tarjeta de papel.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full">
+          {BENEFITS.map((b, i) => (
+            <div key={i} className="flex flex-col items-center text-center p-6 rounded-2xl shadow-sm hover:shadow-lg transition bg-white dark:bg-[#003D73] border border-[#E4E9EC] dark:border-[#64FFB3]">
+              <div className="mb-4">{b.icon}</div>
+              <h3 className="text-xl font-bold text-[#003D73] dark:text-[#64FFB3] mb-2">{b.title}</h3>
+              <p className="text-base text-[#003D73] dark:text-[#E4E9EC] opacity-80">{b.desc}</p>
+            </div>
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
+  );
+}
+
+export function ComparisonTable() {
+  const rows = [
+    {
+      label: "Velocidad",
+      tagme: "1 tap → contacto o link instantáneo",
+      qr: "Abrir cámara + enfocar"
+    },
+    {
+      label: "Imagen",
+      tagme: "Gadget premium, profesional",
+      qr: "Percepción low-cost"
+    },
+    {
+      label: "Actualización",
+      tagme: "Editas el perfil en segundos",
+      qr: "Requiere reimprimir el QR"
+    },
+    {
+      label: "Datos",
+      tagme: "Analytics por lugar/hora (vía integración)",
+      qr: "Difícil rastreo de visitas"
+    },
+    {
+      label: "Seguridad",
+      tagme: "Proximidad física protege la información",
+      qr: "Cualquiera puede copiar el QR"
+    }
+  ];
+  return (
+    <section className="w-full bg-[#E4E9EC] dark:bg-[#003D73] py-16 px-4 font-[Poppins,Inter,sans-serif]">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-[#003D73] dark:text-[#64FFB3] mb-8 text-center">Comparado con los códigos QR…</h2>
+        {/* Desktop/tablet grid */}
+        <div className="hidden md:grid grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-sm border border-[#E4E9EC] dark:border-[#64FFB3] bg-white dark:bg-[#003D73]">
+          <div className="bg-[#E4E9EC] dark:bg-[#003D73] p-4 text-center font-bold text-[#003D73] dark:text-[#64FFB3] text-lg border-b border-[#E4E9EC] dark:border-[#64FFB3]">TagMe (NFC)</div>
+          <div className="bg-[#E4E9EC] dark:bg-[#003D73] p-4 text-center font-bold text-[#003D73] dark:text-[#64FFB3] text-lg border-b border-[#E4E9EC] dark:border-[#64FFB3]">QR tradicional</div>
+          {rows.map((row, i) => (
+            <React.Fragment key={i}>
+              <div className={"p-4 border-b " + (i === rows.length - 1 ? "border-0" : "border-[#E4E9EC] dark:border-[#64FFB3]") + " text-[#003D73] dark:text-[#E4E9EC]"}>{row.tagme}</div>
+              <div className={"p-4 border-b " + (i === rows.length - 1 ? "border-0" : "border-[#E4E9EC] dark:border-[#64FFB3]") + " text-[#003D73] dark:text-[#E4E9EC]"}>{row.qr}</div>
+            </React.Fragment>
+          ))}
+        </div>
+        {/* Mobile stacked version */}
+        <div className="md:hidden flex flex-col gap-6 mt-4">
+          {rows.map((row, i) => (
+            <div key={i} className="bg-white dark:bg-[#003D73] rounded-2xl shadow-sm border border-[#E4E9EC] dark:border-[#64FFB3] p-4 flex flex-col gap-2">
+              <div className="font-bold text-[#003D73] dark:text-[#64FFB3] text-base mb-1">{row.label}</div>
+              <div className="flex flex-col gap-1">
+                <div className="text-[#003D73] dark:text-[#E4E9EC] text-sm"><span className="font-semibold text-[#64FFB3]">TagMe:</span> {row.tagme}</div>
+                <div className="text-[#003D73] dark:text-[#E4E9EC] text-sm"><span className="font-semibold text-[#003D73] dark:text-[#64FFB3]">QR:</span> {row.qr}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
