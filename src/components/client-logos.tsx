@@ -68,9 +68,10 @@ export function ClientLogos() {
 				</p>
 				<div className="flex justify-center w-full">
 					<div className="bg-transparent rounded-xl shadow-none p-6 w-full max-w-2xl flex flex-col gap-6">
-						{CLIENTS.map((client) => {
+						{CLIENTS.map((client, idx) => {
 							const scale = LOGO_SIZES[client.name] || 1;
 							const sizeClasses = getLogoSizeClasses(scale);
+							const isPriority = idx === 0; // Solo el primer logo debe tener priority
 							return (
 								<a
 									key={client.name}
@@ -85,11 +86,11 @@ export function ClientLogos() {
 									>
 										<Image
 											src={client.image}
-											alt={client.name}
+											alt={`Logo de ${client.name}`}
 											width={120 * scale}
 											height={80 * scale}
 											className="object-contain w-full h-auto"
-											loading="lazy"
+											{...(isPriority ? { priority: true } : { loading: "lazy" })}
 										/>
 									</div>
 									<span className="text-xs md:text-sm text-contrast/70 dark:text-metal-soft/70 text-center mt-2">

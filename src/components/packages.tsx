@@ -56,7 +56,7 @@ export function Packages() {
 				<p className="text-lg md:text-xl text-[#003D73] mb-12 text-center max-w-2xl">
 					Elige el paquete que mejor se adapta a tu marca
 				</p>
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 px-2 sm:px-4 md:px-8 py-6 md:py-10 w-full">
 					{PLANS.map((plan, i) => (
 						<motion.div
 							key={plan.name}

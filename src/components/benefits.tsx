@@ -8,25 +8,25 @@ import { FiZap, FiSmartphone, FiEdit, FiBarChart2, FiShield } from "react-icons/
 
 const benefitsData = [
   {
-    icon: <Zap className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" />,
+    icon: <Zap className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />,
     title: "Rápido y fácil",
     description: "Los comensales abren tu menú con solo acercar su teléfono.",
     ariaLabel: "Beneficio: Menú rápido y fácil de acceder con NFC",
   },
   {
-    icon: <ShieldCheck className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" />,
+    icon: <ShieldCheck className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />,
     title: "Mayor seguridad",
     description: "Solo quien está en la mesa puede leer la tarjeta, evitando accesos no deseados.",
      ariaLabel: "Beneficio: Mayor seguridad con tarjetas NFC",
   },
   {
-    icon: <RefreshCw className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" />,
+    icon: <RefreshCw className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />,
     title: "Actualizable al momento",
     description: "Cambia precios, platillos o disponibilidad sin reimprimir nada.",
      ariaLabel: "Beneficio: Menú digital actualizable al momento",
   },
   {
-    icon: <Paintbrush className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" />,
+    icon: <Paintbrush className="h-8 w-8 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />,
     title: "Diseño personalizado",
     description: "Tarjetas con tu logo y colores, integradas al estilo de tu restaurante.",
      ariaLabel: "Beneficio: Diseño de tarjetas NFC personalizado",
@@ -121,9 +121,9 @@ export function Benefits() {
         <p className="text-lg md:text-xl text-[#003D73] dark:text-[#E4E9EC] mb-12 text-center max-w-2xl">
           Más rápido que un QR. Más profesional que una tarjeta de papel.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-2 sm:px-4 md:px-8 py-6 md:py-10 w-full">
           {BENEFITS.map((b, i) => (
-            <div key={i} className="flex flex-col items-center text-center p-6 rounded-2xl shadow-sm hover:shadow-lg transition bg-white dark:bg-[#003D73] border border-[#E4E9EC] dark:border-[#64FFB3]">
+            <div key={i} className="bg-white dark:bg-[#003D73] rounded-xl shadow p-4 md:p-6 flex flex-col items-center text-center gap-4 h-full">
               <div className="mb-4">{b.icon}</div>
               <h3 className="text-xl font-bold text-[#003D73] dark:text-[#64FFB3] mb-2">{b.title}</h3>
               <p className="text-base text-[#003D73] dark:text-[#E4E9EC] opacity-80">{b.desc}</p>

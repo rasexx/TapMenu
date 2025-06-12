@@ -13,14 +13,14 @@ const Logo = () => (
   <FiWifi
     className="h-8 w-8 md:h-10 md:w-10 text-[#003D73] dark:text-[#64FFB3] transition-colors"
     aria-hidden="true"
-    title="TagMe – Tarjeta NFC para networking"
+    role="presentation"
     focusable="false"
-    role="img"
+    title="TagMe – Tarjeta NFC para networking"
   />
 );
 
 const NavLinks = ({ className, onClick }: { className?: string; onClick?: () => void }) => (
-  <nav className={cn("flex flex-col md:flex-row md:items-center gap-4 md:gap-6 lg:gap-8", className)}>
+  <nav className={cn("flex flex-col md:flex-row md:items-center gap-4 md:gap-6 lg:gap-8", className)} role="navigation" aria-label="Navegación principal">
     <Link href="#beneficios" onClick={onClick} className="text-sm font-medium text-foreground hover:text-primary dark:text-metal-soft dark:hover:text-metal-accent transition-colors" aria-label="Ir a la sección Beneficios">
       Beneficios
     </Link>
@@ -60,14 +60,14 @@ export function Header() {
           : "bg-[#E4E9EC] dark:bg-[#0A1929]"
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="TagMe Inicio">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 md:px-8 lg:px-16 gap-2">
+        <Link href="/" className="flex items-center gap-2 min-w-0" aria-label="TagMe Inicio">
           <Logo />
-          <span className="text-lg font-semibold text-[#003D73] dark:text-[#64FFB3]">TagMe</span>
+          <span className="text-lg font-semibold text-[#003D73] dark:text-[#64FFB3] truncate">TagMe</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-2 lg:gap-4">
          <NavLinks />
           <Button asChild variant="default" size="default" rounded="2xl" className="ml-2 bg-[#003D73] text-white hover:bg-[#64FFB3] hover:text-[#003D73] focus:ring-2 focus:ring-[#003D73] dark:bg-[#64FFB3] dark:text-[#003D73] dark:hover:bg-[#003D73] dark:hover:text-[#64FFB3]">
             <Link href="/#contacto?paquete=starter" aria-label="Ver Paquetes desde cabecera">Ver Paquetes</Link>
@@ -77,7 +77,7 @@ export function Header() {
             size="icon"
             onClick={toggleTheme}
             title="Cambiar tema"
-            aria-label="Cambiar tema"
+            aria-label="Cambiar entre modo claro y oscuro"
             className="ml-2 p-2 rounded-full hover:bg-[#64FFB3]/20 dark:text-[#64FFB3] dark:hover:text-[#003D73] dark:hover:bg-[#003D73]/20 transition text-[#003D73]"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
@@ -91,7 +91,7 @@ export function Header() {
             size="icon"
             onClick={toggleTheme}
             title="Cambiar tema"
-            aria-label="Cambiar tema"
+            aria-label="Cambiar entre modo claro y oscuro"
             className="p-2 rounded-full hover:bg-[#64FFB3]/20 dark:text-[#64FFB3] dark:hover:text-[#003D73] dark:hover:bg-[#003D73]/20 transition text-[#003D73]"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
@@ -99,7 +99,7 @@ export function Header() {
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Abrir menú de navegación móvil" className="text-[#003D73] dark:text-[#64FFB3]">
-                <Menu className="h-6 w-6" aria-hidden="true" />
+                <Menu className="h-6 w-6" aria-hidden="true" role="presentation" />
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>

@@ -126,7 +126,7 @@ Quedo atento a los siguientes pasos. Gracias.
 
     const waUrl = `https://wa.me/573241083976?text=${encodeURIComponent(rawMessage)}`;
     toast.success('WhatsApp listo para enviar. ¡Redirigiendo!');
-    window.open(waUrl, '_blank');
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   // onError is called when form validation fails
@@ -148,7 +148,7 @@ Quedo atento a los siguientes pasos. Gracias.
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
-      <div className="container mx-auto px-4 md:px-8 lg:px-16 grid md:grid-cols-2 gap-12 lg:gap-16">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
         <div className="space-y-6">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight sm:text-4xl text-[#E4E9EC] dark:text-[#64FFB3]">Ponte en Contacto</h2>
           <p className="text-[#E4E9EC]/80 dark:text-[#64FFB3]/80 max-w-md leading-relaxed">
@@ -299,12 +299,12 @@ Quedo atento a los siguientes pasos. Gracias.
                 transition={{ type: "spring", stiffness: 400, damping: 17, ease: "easeInOut" }}
               >
                  <Button
-                   type="submit"
-                   disabled={form.formState.isSubmitting}
-                   aria-label="Enviar mensaje por WhatsApp"
-                   className="w-full rounded-2xl flex items-center justify-center gap-2 p-3 bg-[#64FFB3] text-[#003D73] hover:bg-[#003D73] hover:text-[#64FFB3] dark:bg-[#64FFB3] dark:text-[#003D73] dark:hover:bg-[#003D73] dark:hover:text-[#64FFB3] transition-colors"
-                  >
-                    {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <WhatsappIcon className="w-6 h-6" aria-hidden="true" />}
+                  type="submit"
+                  disabled={form.formState.isSubmitting}
+                  aria-label="Solicitar demo por WhatsApp"
+                  className="w-full md:w-auto rounded-2xl flex items-center justify-center gap-2 p-3 bg-[#64FFB3] text-[#003D73] hover:bg-[#003D73] hover:text-[#64FFB3] dark:bg-[#64FFB3] dark:text-[#003D73] dark:hover:bg-[#003D73] dark:hover:text-[#64FFB3] transition-colors"
+                 >
+                    {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <WhatsappIcon className="w-6 h-6" aria-hidden="true" role="presentation" />}
                     Enviar mensaje
                  </Button>
              </motion.div>

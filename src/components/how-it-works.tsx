@@ -93,7 +93,7 @@ function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isA
 							}}
 							style={{ width: 72, height: 72 }}
 						>
-							<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" />
+							<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />
 						</motion.div>
 						<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
 							{title.replace(/^\d+\. /, "")}
@@ -143,7 +143,7 @@ export function HowItWorks() {
 				<p className="text-lg md:text-xl text-[#003D73] dark:text-[#E4E9EC] mb-12 text-center max-w-2xl">
 					Así es como TagMe transforma el networking, la presentación profesional y la gestión de contactos en distintos escenarios.
 				</p>
-				<div className="grid grid-cols-1 gap-y-24 gap-x-8 md:grid-cols-3 md:gap-8">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-2 sm:px-4 md:px-8 py-6 md:py-10">
 					{stepsData.map((step, idx) => (
 						<StepCard
 							key={step.title}

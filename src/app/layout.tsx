@@ -3,14 +3,18 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ClientLayoutWrapper from '@/components/client-layout-wrapper';
 
-const inter = Inter({ subsets: ['latin'], variable: "--font-sans" });
+// Importar solo los pesos necesarios de Inter
+const inter = Inter({ subsets: ['latin'], weight: ['400', '600', '800'], variable: "--font-sans" });
 
 const APP_NAME = "TagMe";
-const APP_DEFAULT_TITLE = "TagMe - Menú Digital NFC Instantáneo";
+const APP_DEFAULT_TITLE = "TagMe – Tu tarjeta NFC para networking profesional";
 const APP_TITLE_TEMPLATE = "%s | TagMe";
-const APP_DESCRIPTION = "TagMe: menús digitales NFC. Acceso instantáneo con un solo tap. Paquetes Starter, Pyme y Premium.";
+const APP_DESCRIPTION = "Conecta con un solo toque. TagMe es la forma moderna de compartir tu contacto, portafolio o marca personal con tecnología NFC.";
+const APP_URL = "https://tagme.app/";
+const APP_IMAGE = "/og-image.png"; // Asegúrate de tener esta imagen en public/
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tagme.app/"),
   applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,
@@ -18,6 +22,11 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -29,28 +38,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: APP_NAME,
-    title: {
-      default: APP_DEFAULT_TITLE,
-      template: APP_TITLE_TEMPLATE,
-    },
+    title: APP_DEFAULT_TITLE,
     description: APP_DESCRIPTION,
-    images: [
+    url: APP_URL,    images: [
       {
-        url: "/og-image.png", 
+        url: APP_IMAGE,
         width: 1200,
         height: 630,
-        alt: "TagMe Open Graph Image",
+        alt: "TagMe – Tarjeta NFC para networking",
       },
     ],
+    url: APP_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: {
-      default: APP_DEFAULT_TITLE,
-      template: APP_TITLE_TEMPLATE,
-    },
+    title: APP_DEFAULT_TITLE,
     description: APP_DESCRIPTION,
-    images: ["/og-image.png"],
+    images: [APP_IMAGE],
+    site: "@tagmeapp", // Cambia por el usuario real si existe
   },
 };
 
@@ -69,6 +74,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={inter.variable}>
+      <head>
+        {/* Preconnect y preload para Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/favicon.svg" type="image/svg+xml" />
+      </head>
       <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
     </html>
   );

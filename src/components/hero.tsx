@@ -5,19 +5,19 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
-import { FaRegIdCard, FaHandPointer } from "react-icons/fa";
+import { FaHandPointer } from "react-icons/fa";
 
 export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center bg-[#E4E9EC] font-[Poppins,Inter,sans-serif] py-20 md:py-32"
+      className="relative flex items-center justify-center bg-[#E4E9EC] font-[Poppins,Inter,sans-serif] py-12 px-4 sm:px-6 md:py-20 md:px-8 lg:px-16"
     >
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between z-20 gap-12">
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12 md:gap-20">
         {/* Columna izquierda: texto */}
-        <div className="flex-1 flex flex-col items-start text-left gap-8">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left gap-8">
           <motion.h1
-            className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-[#003D73] mb-2 font-poppins leading-tight"
+            className="text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold text-[#003D73] mb-2 font-poppins leading-tight"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
@@ -25,27 +25,27 @@ export function Hero() {
             Un toque. Conecta.
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl text-[#003D73] mb-6 font-inter max-w-2xl md:max-w-3xl lg:max-w-4xl"
+            className="text-[clamp(1.1rem,3vw,2rem)] text-[#003D73] mb-6 font-inter max-w-xl md:max-w-2xl lg:max-w-3xl"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
           >
             La tarjeta NFC inteligente para networking y marca personal.
           </motion.p>
-          <motion.a
-            href="#contact-section"
-            className="inline-block bg-[#003D73] text-white font-bold rounded-full px-10 py-4 text-lg shadow-lg transition-colors duration-200 hover:bg-[#64FFB3] hover:text-[#003D73] focus:outline-none focus:ring-2 focus:ring-[#003D73] focus:ring-offset-2"
-            style={{ fontFamily: 'Poppins, Inter, sans-serif' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
+          <Button
+            asChild
+            size="lg"
+            className="w-full md:w-auto mt-6 bg-[#64FFB3] text-[#003D73] hover:bg-[#003D73] hover:text-[#64FFB3] dark:bg-[#64FFB3] dark:text-[#003D73] dark:hover:bg-[#003D73] dark:hover:text-[#64FFB3] font-bold shadow-lg rounded-2xl px-8 py-4 transition-colors"
+            aria-label="Solicitar demo por WhatsApp"
           >
-            Solicita tu demo
-          </motion.a>
+            <a href="https://wa.me/573241083976?text=Hola%20quiero%20una%20demo%20de%20TagMe" target="_blank" rel="noopener noreferrer" aria-label="Abrir conversación en WhatsApp">
+              Solicita tu demo
+            </a>
+          </Button>
         </div>
         {/* Columna derecha: gráfico animado */}
         <motion.div
-          className="flex-1 flex justify-center items-center mt-12 md:mt-0"
+          className="flex justify-center items-center mt-12 md:mt-0"
           initial={{ opacity: 0, x: -60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}

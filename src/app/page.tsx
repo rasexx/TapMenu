@@ -1,10 +1,13 @@
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
-import { Benefits, ComparisonTable } from "@/components/benefits";
+import { Benefits } from "@/components/benefits";
 import { HowItWorks } from "@/components/how-it-works";
 import { Packages } from "@/components/packages";
 import { Footer } from "@/components/footer";
+import { EmbeddedPresentation } from "@/components/embedded-presentation";
+import { ClientLogos } from "@/components/client-logos";
 import { Suspense } from "react";
+
 
 export default function Home() {
   return (
@@ -12,13 +15,25 @@ export default function Home() {
         <Header />
         <main>
             <Hero />
-            <Benefits />
-            <HowItWorks />
-            <ComparisonTable />
-            <Packages />
-            <Suspense fallback={<div>Cargando...</div>}>
-                <Footer />
-            </Suspense>
+            <section id="beneficios">
+                <Benefits />
+            </section>
+            <section id="presentacion">
+                <EmbeddedPresentation />
+            </section>
+            <section id="casos-de-uso">
+                <HowItWorks />
+            </section>
+            <section id="clientes">
+                <ClientLogos />
+            </section>
+            {/* Wrap Packages and Footer in Suspense because they use useSearchParams */}
+            <section id="paquetes">
+                <Suspense fallback={<div>Cargando...</div>}>
+                    <Packages />
+                </Suspense>
+            </section>
+            <Footer />
         </main>
      </>
   );
