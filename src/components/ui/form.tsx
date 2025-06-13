@@ -41,6 +41,12 @@ const FormField = <
   )
 }
 
+// Wrapper para FieldValues sin tipado estricto
+const FormFieldAny = (props: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  return <FormField {...props} />
+}
+
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -175,4 +181,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  FormFieldAny,
 }

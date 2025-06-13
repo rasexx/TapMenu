@@ -1,9 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Smartphone, ScanLine, UtensilsCrossed } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 const stepsData = [
 	{
@@ -29,133 +30,51 @@ const stepsData = [
 	},
 ];
 
-const glowColors = {
-	light: "shadow-[0_0_24px_8px_rgba(0,180,255,0.4)]",
-	dark: "shadow-[0_0_32px_12px_rgba(0,255,255,0.25)]",
-};
-
-interface StepCardProps {
-	icon: React.ElementType;
-	title: string;
-	description: string;
-	video: string;
-	ariaLabel: string;
-	index: number;
-	isActive: boolean;
-	onClick: () => void;
-}
-
-function StepCard({ icon: Icon, title, description, video, ariaLabel, index, isActive, onClick }: StepCardProps) {
-	return (
-		<div className="relative flex flex-col items-center">
-			<motion.div
-				initial={false}
-				animate={isActive ? "flipped" : "default"}
-				variants={{
-					default: { rotateY: 0 },
-					flipped: { rotateY: 180 },
-				}}
-				transition={{ duration: 0.6, ease: [0.4, 0.2, 0.2, 1] }}
-				style={{ perspective: "1200px" }}
-				className="w-full"
-			>
-				{/* Card front/back */}
-				<div className="relative w-full h-64 card-perspective">
-					{/* Front */}
-					<motion.button
-						type="button"
-						aria-label={ariaLabel}
-						className={
-							"absolute inset-0 w-full h-full bg-contrast dark:bg-metal-soft/10 border border-metal-glow/20 rounded-xl flex flex-col items-center justify-center cursor-pointer select-none card-face-front"
-						}
-						style={{ zIndex: isActive ? 0 : 2 }}
-						onClick={onClick}
-						tabIndex={0}
-						whileTap={{ scale: 0.97 }}
-					>
-						<motion.div
-							className={
-								"flex items-center justify-center rounded-full bg-white dark:bg-metal-base mb-4 shadow-lg icon-glow"
-							}
-							animate={{
-								boxShadow: [
-									"0 0 0 0 rgba(0,180,255,0.4)",
-									"0 0 32px 12px rgba(0,180,255,0.6)",
-									"0 0 0 0 rgba(0,180,255,0.4)",
-								],
-								scale: [1, 1.13, 1],
-							}}
-							transition={{
-								duration: 1.6,
-								repeat: Infinity,
-								repeatType: "loop",
-								ease: "easeInOut",
-							}}
-							style={{ width: 72, height: 72 }}
-						>
-							<Icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />
-						</motion.div>
-						<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
-							{title.replace(/^\d+\. /, "")}
-						</span>
-					</motion.button>
-					{/* Back (video) */}
-					{isActive && (
-						<div
-							className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/90 rounded-xl card-face-back card-face-back-active"
-							onClick={onClick}
-						>
-							<video
-								key={video}
-								src={video}
-								autoPlay
-								loop
-								muted
-								playsInline
-								className="w-full h-full object-cover rounded-xl video-maxheight video-unflip"
-							/>
-						</div>
-					)}
-				</div>
-			</motion.div>
-			{/* Description below, always visible and outside the card */}
-			<div className={`transition-all duration-300 mt-4 w-full ${isActive ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0 overflow-hidden'} flex justify-center`}
-				aria-live="polite"
-			>
-				{isActive && (
-					<div className="bg-white/90 dark:bg-metal-base/90 rounded-lg shadow-lg p-4 text-center text-sm text-metal-steel dark:text-metal-soft max-w-xs mx-auto">
-						{description}
-					</div>
-				)}
-			</div>
-		</div>
-	);
-}
-
 export function HowItWorks() {
-	const [active, setActive] = useState(-1);
-	const sectionRef = useRef<HTMLDivElement>(null);
-
+	const [activeStep, setActiveStep] = useState(0);
 	return (
-		<section className="bg-[#E4E9EC] dark:bg-[#0A1929] py-20 px-4 font-[Poppins,Inter,sans-serif]">
+		<section id="como-funciona" className="bg-background dark:bg-background py-16 px-4 font-[Poppins,Inter,sans-serif] transition-colors">
 			<div className="max-w-6xl mx-auto flex flex-col items-center">
-				<h2 className="text-3xl md:text-4xl font-extrabold text-[#003D73] dark:text-[#64FFB3] mb-4 text-center">Casos de uso</h2>
-				<p className="text-lg md:text-xl text-[#003D73] dark:text-[#E4E9EC] mb-12 text-center max-w-2xl">
-					Así es como TagMe transforma el networking, la presentación profesional y la gestión de contactos en distintos escenarios.
+				<h2 className="text-3xl md:text-4xl font-extrabold text-primary dark:text-[#64FFB3] mb-4 text-center transition-colors">
+					¿Cómo funciona?
+				</h2>
+				<p className="text-lg md:text-xl text-primary dark:text-[#E4E9EC] mb-12 text-center max-w-2xl transition-colors">
+					Así de simple es usar TagMe en tu negocio
 				</p>
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-2 sm:px-4 md:px-8 py-6 md:py-10">
+				<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
 					{stepsData.map((step, idx) => (
-						<StepCard
-							key={step.title}
-							icon={step.icon}
-							title={step.title}
-							description={step.description}
-							video={step.video}
-							ariaLabel={step.ariaLabel}
-							index={idx}
-							isActive={active === idx}
-							onClick={() => setActive(active === idx ? -1 : idx)}
-						/>
+						<div key={step.title} className="flex flex-col items-center">
+							<div className="relative w-full h-64 flex flex-col items-center justify-center">
+								<motion.button
+									type="button"
+									aria-label={step.ariaLabel}
+									className="absolute inset-0 w-full h-full bg-contrast dark:bg-metal-soft/10 border border-metal-glow/20 rounded-xl flex flex-col items-center justify-center cursor-pointer select-none card-face-front"
+									style={{ zIndex: activeStep === idx ? 0 : 2 }}
+									onClick={() => setActiveStep(idx)}
+									tabIndex={0}
+									whileTap={{ scale: 0.97 }}
+								>
+									<div className="flex items-center justify-center rounded-full bg-white dark:bg-metal-base mb-4 shadow-lg icon-glow w-[72px] h-[72px]">
+										<step.icon className="h-12 w-12 text-primary dark:text-metal-glow" aria-hidden="true" role="presentation" />
+									</div>
+									<span className="block text-lg font-semibold text-metal-steel dark:text-metal-accent mb-2 mt-2">
+										{step.title.replace(/^\d+\. /, "")}
+									</span>
+								</motion.button>
+								{/* Video */}
+								<video
+									className="rounded-xl shadow-lg w-full h-40 object-cover mt-4 border border-[#E4E9EC] dark:border-[#64FFB3] bg-black"
+									src={step.video}
+									controls
+									aria-label={`Video demostrativo paso ${idx + 1}`}
+									preload="none"
+									poster="/logos_clientes/Logo_Bioverde-removebg-preview.png"
+								/>
+							</div>
+							<p className="mt-4 text-base text-primary dark:text-[#E4E9EC] text-center max-w-xs">
+								{step.description}
+							</p>
+						</div>
 					))}
 				</div>
 			</div>

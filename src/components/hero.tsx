@@ -11,13 +11,13 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center bg-[#E4E9EC] font-[Poppins,Inter,sans-serif] py-12 px-4 sm:px-6 md:py-20 md:px-8 lg:px-16"
+      className="relative flex items-center justify-center bg-background dark:bg-background font-[Poppins,Inter,sans-serif] py-12 px-4 sm:px-6 md:py-20 md:px-8 lg:px-16 transition-colors"
     >
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12 md:gap-20">
         {/* Columna izquierda: texto */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-8">
           <motion.h1
-            className="text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold text-[#003D73] mb-2 font-poppins leading-tight"
+            className="text-[clamp(2.2rem,6vw,4.5rem)] font-extrabold text-primary dark:text-[#64FFB3] mb-2 font-poppins leading-tight transition-colors"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
@@ -25,7 +25,7 @@ export function Hero() {
             Un toque. Conecta.
           </motion.h1>
           <motion.p
-            className="text-[clamp(1.1rem,3vw,2rem)] text-[#003D73] mb-6 font-inter max-w-xl md:max-w-2xl lg:max-w-3xl"
+            className="text-[clamp(1.1rem,3vw,2rem)] text-primary dark:text-[#E4E9EC] mb-6 font-inter max-w-xl md:max-w-2xl lg:max-w-3xl transition-colors"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
@@ -57,7 +57,7 @@ export function Hero() {
             className="relative flex flex-col items-center justify-center"
           >
             <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="90" cy="90" r="80" fill="#003D73" />
+              <circle cx="90" cy="90" r="80" fill="currentColor" className="text-primary dark:text-[#003D73] transition-colors" />
               <rect x="70" y="60" width="40" height="60" rx="8" fill="#64FFB3" stroke="#003D73" strokeWidth="4" />
             </svg>
             <FaHandPointer size={48} color="#003D73" style={{ position: 'absolute', left: 66, top: 110 }} />

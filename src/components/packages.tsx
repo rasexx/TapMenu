@@ -48,12 +48,12 @@ const PLANS = [
 
 export function Packages() {
 	return (
-		<section className="w-full bg-white py-20 px-4 font-[Poppins,Inter,sans-serif]">
+		<section className="w-full bg-background dark:bg-background py-20 px-4 font-[Poppins,Inter,sans-serif] transition-colors">
 			<div className="max-w-7xl mx-auto flex flex-col items-center">
-				<h2 className="text-3xl md:text-4xl font-extrabold text-[#003D73] mb-4 text-center">
+				<h2 className="text-3xl md:text-4xl font-extrabold text-primary dark:text-[#64FFB3] mb-4 text-center transition-colors">
 					Planes y Precios
 				</h2>
-				<p className="text-lg md:text-xl text-[#003D73] mb-12 text-center max-w-2xl">
+				<p className="text-lg md:text-xl text-primary dark:text-[#E4E9EC] mb-12 text-center max-w-2xl transition-colors">
 					Elige el paquete que mejor se adapta a tu marca
 				</p>
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 px-2 sm:px-4 md:px-8 py-6 md:py-10 w-full">
@@ -64,34 +64,34 @@ export function Packages() {
 								y: -12,
 								boxShadow: "0 8px 32px 0 rgba(0,61,115,0.12)",
 							}}
-							className={`relative flex flex-col items-center bg-white border border-[#E4E9EC] rounded-2xl p-8 shadow-sm transition-all duration-200 ${
+							className={`relative flex flex-col items-center bg-card dark:bg-[#003D73] border border-[#E4E9EC] dark:border-[#64FFB3] rounded-2xl p-8 shadow-sm transition-all duration-200 ${
 								plan.highlight
-									? "ring-2 ring-[#003D73] shadow-lg"
+									? "ring-2 ring-primary dark:ring-[#64FFB3] shadow-lg"
 									: ""
 							}`}
 						>
 							{plan.highlight && (
-								<span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#003D73] text-white text-xs font-bold px-4 py-1 rounded-full shadow-md z-10">
+								<span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary dark:bg-[#64FFB3] text-white dark:text-[#003D73] text-xs font-bold px-4 py-1 rounded-full shadow-md z-10 transition-colors">
 									Más popular
 								</span>
 							)}
-							<h3 className="text-2xl font-bold text-[#003D73] mb-2">
+							<h3 className="text-2xl font-bold text-primary dark:text-[#64FFB3] mb-2 transition-colors">
 								{plan.name}
 							</h3>
-							<ul className="mb-4 space-y-1 text-[#003D73] text-base">
+							<ul className="mb-4 space-y-1 text-primary dark:text-[#E4E9EC] text-base transition-colors">
 								{plan.features.map((f, idx) => (
 									<li key={idx}>• {f}</li>
 								))}
 							</ul>
-							<div className="text-2xl font-extrabold mb-2 text-[#64FFB3]">
+							<div className="text-2xl font-extrabold mb-2 text-[#64FFB3] dark:text-[#64FFB3] transition-colors">
 								{plan.price}
 							</div>
-							<div className="text-sm text-[#003D73] mb-6 opacity-80 text-center">
+							<div className="text-sm text-primary dark:text-[#E4E9EC] mb-6 opacity-80 text-center transition-colors">
 								{plan.description}
 							</div>
 							<a
 								href="#contact-section"
-								className="inline-block bg-[#003D73] text-white font-bold rounded-full px-6 py-3 text-base shadow-md transition-colors duration-200 hover:bg-[#64FFB3] hover:text-[#003D73] focus:outline-none focus:ring-2 focus:ring-[#003D73] focus:ring-offset-2"
+								className="inline-block bg-primary dark:bg-[#64FFB3] text-white dark:text-[#003D73] font-bold rounded-full px-6 py-3 text-base shadow-md transition-colors duration-200 hover:bg-[#64FFB3] hover:text-[#003D73] dark:hover:bg-[#003D73] dark:hover:text-[#64FFB3] focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-[#64FFB3] focus:ring-offset-2"
 							>
 								{plan.cta}
 							</a>
